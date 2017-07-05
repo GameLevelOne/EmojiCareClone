@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 439343e9e68899c4eb9862688b221bd4
+timeCreated: 1497952339
+licenseType: Pro
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontName: Domyouji
+  fontNames:
+  - Domyouji
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 35e901da7003a3b4c957c3d2d992905f, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
