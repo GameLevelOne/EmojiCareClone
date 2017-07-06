@@ -12,17 +12,41 @@ public enum AlienNeedCategory{
 public class AlienHUDMeter : MonoBehaviour {
 	public Image imageAmount;
 	public Text textAmount;
+	public TextMod textMod;
 
 	bool isLowStats = false;
 	float t = 0f;
 	float speed = 2f;
 	bool fadingRed = false;
 
-	public void ModHUD(float currentValue, float maxValue)
-	{
-		//print("currentValue = "+currentValue+" maxValue = "+maxValue);
+	float lastValue = 0;
+
+	public void InitHUD(float currentValue, float maxValue){
+		lastValue = currentValue;
 		imageAmount.fillAmount = (float)(currentValue/maxValue);
 		textAmount.text = Mathf.FloorToInt(currentValue).ToString()+"/"+ Mathf.FloorToInt(maxValue).ToString();
+	}
+
+	public void ModHUD(float currentValue, float maxValue)
+	{
+		StartCoroutine(CoroutineModHUD(currentValue,maxValue));
+	}
+		
+	IEnumerator CoroutineModHUD(float currentValue, float maxValue)
+	{
+//		print("LastValue = "+lastValue+", CurrentValue = "+currentValue);
+		int difference = Mathf.CeilToInt(lastValue+currentValue);
+		textMod.Animate(difference);
+
+		float t = 0f;
+		while(t <= 1f){
+			t += (Time.deltaTime * 2f);
+			float tempMod = Mathf.Lerp(lastValue,currentValue,t);
+			imageAmount.fillAmount = tempMod/maxValue;
+			textAmount.text = Mathf.FloorToInt(tempMod).ToString()+"/"+ Mathf.FloorToInt(maxValue).ToString();
+			yield return new WaitForSeconds(Time.deltaTime);
+		}
+		lastValue = currentValue;
 	}
 
 	void Update()

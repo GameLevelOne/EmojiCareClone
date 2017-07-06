@@ -52,7 +52,7 @@ public class GatherSlot : MonoBehaviour {
 
 	public void ImageBlockOnClick()
 	{
-		Debug.Log(blockImage);
+//		Debug.Log(blockImage);
 		StartCoroutine(WaitForAnim(blockImage.gameObject,defaultSprite));
 
 		if(OnRevealSlot != null){

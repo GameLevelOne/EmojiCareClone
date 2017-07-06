@@ -8,6 +8,7 @@ public class PanelGatherResultController : MonoBehaviour {
 	public Text textHunger, textHygene, textHappiness, textHealth;
 
 	public GameObject content, contentHealth;
+	public MainHUDController hudController;
 
 	int positive, negative;
 	int hunger, hygene, happiness, health;
@@ -34,10 +35,7 @@ public class PanelGatherResultController : MonoBehaviour {
 			textHappiness.text = "-"+happiness.ToString();
 			textHealth.text = "+"+health.ToString();
 
-			playerAlien.alienHungerMod -= hunger;
-			playerAlien.alienHygeneMod -= hygene;
-			playerAlien.alienHappinessMod -= happiness;
-			playerAlien.alienHealthMod += health;
+			hudController.StoreGatherData(-1 * hunger,-1 * hygene,-1 * happiness,health);
 
 			content.SetActive(false);
 			contentHealth.SetActive(true);
@@ -55,18 +53,15 @@ public class PanelGatherResultController : MonoBehaviour {
 			imagePositive.sprite = spriteCategory[(int)category];
 			switch(category){
 			case AlienNeedCategory.HUNGER: 
-				playerAlien.alienHungerMod += positive;
-				playerAlien.alienHygeneMod -= negative;
+				hudController.StoreGatherData(positive,-1 * negative,0,0);
 				imageNegative.sprite = spriteCategory[1]; 
 				break;
 			case AlienNeedCategory.HYGENE: 
-				playerAlien.alienHygeneMod += positive;
-				playerAlien.alienHappinessMod -= negative;
+				hudController.StoreGatherData(0,positive,-1 * negative,0);
 				imageNegative.sprite = spriteCategory[2]; 
 				break;
 			case AlienNeedCategory.HAPPINESS:
-				playerAlien.alienHappinessMod += positive;
-				playerAlien.alienHungerMod -= negative;
+				hudController.StoreGatherData(-1 * negative,0,positive,0);
 				imageNegative.sprite = spriteCategory[0];
 				break;
 			default: break;
@@ -74,22 +69,6 @@ public class PanelGatherResultController : MonoBehaviour {
 			content.SetActive(true);
 			contentHealth.SetActive(false);
 		}
-
-		//adjust so the stats will not go over or lower the limit (0 until maximum stats available)
-		if(playerAlien.alienHungerMod >= playerAlien.alienHunger) 
-			playerAlien.alienHungerMod = playerAlien.alienHunger;
-		if(playerAlien.alienHygeneMod >= playerAlien.alienHygene) 
-			playerAlien.alienHygeneMod = playerAlien.alienHygene;
-		if(playerAlien.alienHappinessMod >= playerAlien.alienHappiness) 
-			playerAlien.alienHappinessMod = playerAlien.alienHappiness;
-		if(playerAlien.alienHealthMod >= playerAlien.alienHealth)
-			playerAlien.alienHealthMod = playerAlien.alienHealth;
-
-		if(playerAlien.alienHungerMod <= 0f) playerAlien.alienHungerMod = 0f;
-		if(playerAlien.alienHygeneMod <= 0f) playerAlien.alienHygeneMod = 0f;
-		if(playerAlien.alienHappinessMod <= 0f) playerAlien.alienHappinessMod = 0f;
-		if(playerAlien.alienHealthMod <= 0f) playerAlien.alienHealthMod = 0f;
-
 		gameObject.SetActive(true);
 	}
 

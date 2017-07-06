@@ -144,6 +144,22 @@ public class Alien : MonoBehaviour{
 		if(OnAlienDepleteStats != null) OnAlienDepleteStats();
 	}
 
+	public void AdjustStats(){
+		if(alienHungerMod >= alienHunger) 
+			alienHungerMod = alienHunger;
+		if(alienHygeneMod >= alienHygene) 
+			 alienHygeneMod =  alienHygene;
+		if( alienHappinessMod >=  alienHappiness) 
+			 alienHappinessMod =  alienHappiness;
+		if( alienHealthMod >=  alienHealth)
+			 alienHealthMod =  alienHealth;
+
+		if( alienHungerMod <= 0f)  alienHungerMod = 0f;
+		if( alienHygeneMod <= 0f)  alienHygeneMod = 0f;
+		if( alienHappinessMod <= 0f)  alienHappinessMod = 0f;
+		if( alienHealthMod <= 0f)  alienHealthMod = 0f;
+	}
+
 	public void ResetAlienData()
 	{
 		print("RESET ALIEN DATA");
