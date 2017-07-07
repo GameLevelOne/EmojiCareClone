@@ -75,7 +75,7 @@ public class MainHUDController : MonoBehaviour {
 
 	public void UpdateAlienNameAndType()
 	{
-		textAlienName.text = PlayerData.Instance.PlayerAlien.alienName;
-		textAlienType.text = "Type: "+ PlayerData.Instance.PlayerAlien.alienType.ToString();
+		textAlienName.text = PlayerData.Instance.PlayerAlien.alienName.ToUpper();
+		textAlienType.text = "TYPE: "+ PlayerData.Instance.PlayerAlien.alienType.ToString().ToUpper();
 	}
 }
