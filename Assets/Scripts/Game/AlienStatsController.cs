@@ -54,23 +54,23 @@ public class AlienStatsController : MonoBehaviour {
 					}else{
 						playerAlien.DepleteAlienStats();
 
-						if( playerAlien.alienHungerMod > 0 && playerAlien.alienHygeneMod > 0 && playerAlien.alienHappinessMod > 0){
-							playerAlien.IncreaseGrowth();
-
-							if(playerAlien.alienGrowthMod >= playerAlien.alienGrowth){
-								playerAlien.LevelUp();
-								playerAlien.IncreaseGrowth();
-							}else{
-								playerAlien.IncreaseGrowth();
-							}
-						}
+//						if( playerAlien.alienHungerMod > 0 && playerAlien.alienHygeneMod > 0 && playerAlien.alienHappinessMod > 0){
+//							playerAlien.IncreaseGrowth();
+//
+//							if(playerAlien.alienGrowthMod >= playerAlien.alienGrowth){
+//								playerAlien.LevelUp();
+//								playerAlien.IncreaseGrowth();
+//							}else{
+//								playerAlien.IncreaseGrowth();
+//							}
+//						}
 					}
 				}
 			}
 		}
 
 		if(PlayerData.Instance.playerAlienID != -1 && !isStatsDepletingStats) StartCoroutine(CoroutineStartDepletingStats());
-		if(PlayerData.Instance.playerAlienID != -1 && !isStartIncreasingGrowth) StartCoroutine(CoroutineStartIncreasingGrowth());
+//		if(PlayerData.Instance.playerAlienID != -1 && !isStartIncreasingGrowth) StartCoroutine(CoroutineStartIncreasingGrowth());
 		PlayerPrefs.DeleteKey(KEY_LASTTIMEPLAY);
 	}
 
@@ -102,7 +102,7 @@ public class AlienStatsController : MonoBehaviour {
 			}
 
 			if(PlayerData.Instance.playerAlienID != -1 && !isStatsDepletingStats) StartCoroutine(CoroutineStartDepletingStats());
-			if(PlayerData.Instance.playerAlienID != -1 && !isStartIncreasingGrowth) StartCoroutine(CoroutineStartIncreasingGrowth());
+//			if(PlayerData.Instance.playerAlienID != -1 && !isStartIncreasingGrowth) StartCoroutine(CoroutineStartIncreasingGrowth());
 			PlayerPrefs.DeleteKey(KEY_TIMEONPAUSE);
 		}
 	}
@@ -171,7 +171,7 @@ public class AlienStatsController : MonoBehaviour {
 		isStatsDepletingStats = true;
 		while(true){
 			yield return new WaitForSeconds(PlayerData.Instance.PlayerAlien.alienStatsDepletionDuration);
-			if( PlayerData.Instance.PlayerAlien.alienHungerMod <= 0 && PlayerData.Instance.PlayerAlien.alienHygeneMod <= 0 && PlayerData.Instance.PlayerAlien.alienHappinessMod <= 0){
+			if( PlayerData.Instance.PlayerAlien.alienHungerMod <= 0 || PlayerData.Instance.PlayerAlien.alienHygeneMod <= 0 || PlayerData.Instance.PlayerAlien.alienHappinessMod <= 0){
 				StopCoroutine(CoroutineStartIncreasingGrowth());
 				isStartIncreasingGrowth = false;
 				PlayerData.Instance.PlayerAlien.DepleteAlienHealth();
