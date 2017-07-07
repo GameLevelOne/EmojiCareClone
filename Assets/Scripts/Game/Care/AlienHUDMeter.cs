@@ -13,10 +13,12 @@ public class AlienHUDMeter : MonoBehaviour {
 	public Image imageAmount;
 	public Text textAmount;
 	public TextMod textMod;
+	public bool isHealthHUD;
 
 	bool isLowStats = false;
 	float t = 0f;
 	float speed = 2f;
+	float lowStatsTreshold = 0.25f;
 	bool fadingRed = false;
 
 	float lastValue = 0;
@@ -51,12 +53,15 @@ public class AlienHUDMeter : MonoBehaviour {
 
 	void Update()
 	{
-		if(imageAmount.fillAmount <= 0.25f && isLowStats == false){ 
+		if(isHealthHUD && imageAmount.fillAmount > 0.5f) GetComponent<Button>().interactable = false;
+		else if(isHealthHUD && imageAmount.fillAmount <= 0.5f) GetComponent<Button>().interactable = true;
+
+		if(imageAmount.fillAmount <= lowStatsTreshold && isLowStats == false){ 
 			isLowStats = true;
 			fadingRed = true;
 			t = 0f;
 		}
-		else if(imageAmount.fillAmount > 0.25f && isLowStats == true){ 
+		else if(imageAmount.fillAmount > lowStatsTreshold && isLowStats == true){ 
 			isLowStats = false;
 			fadingRed = false;
 			imageAmount.color = Color.white;
