@@ -21,23 +21,28 @@ public class AlienHUDMeter : MonoBehaviour {
 	float lowStatsTreshold = 0.25f;
 	bool fadingRed = false;
 
-	float lastValue = 0;
+	bool hasInit = false;
+	public float lastValue = 0;
 
 	public void InitHUD(float currentValue, float maxValue){
-		lastValue = currentValue;
-		imageAmount.fillAmount = (float)(currentValue/maxValue);
-		textAmount.text = Mathf.FloorToInt(currentValue).ToString()+"/"+ Mathf.FloorToInt(maxValue).ToString();
+		if(hasInit == false){
+			lastValue = currentValue;
+			imageAmount.fillAmount = (float)(currentValue/maxValue);
+			textAmount.text = Mathf.FloorToInt(currentValue).ToString()+"/"+ Mathf.FloorToInt(maxValue).ToString();
+			hasInit = true;
+		}
 	}
 
 	public void ModHUD(float currentValue, float maxValue)
 	{
+		print("last value = "+lastValue+", currentValue = "+currentValue);
 		StartCoroutine(CoroutineModHUD(currentValue,maxValue));
 	}
 		
 	IEnumerator CoroutineModHUD(float currentValue, float maxValue)
 	{
-//		print("LastValue = "+lastValue+", CurrentValue = "+currentValue);
-		int difference = Mathf.CeilToInt(lastValue+currentValue);
+		int difference = Mathf.CeilToInt(currentValue-lastValue);
+
 		textMod.Animate(difference);
 
 		float t = 0f;

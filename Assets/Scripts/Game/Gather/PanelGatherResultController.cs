@@ -9,9 +9,17 @@ public class PanelGatherResultController : MonoBehaviour {
 
 	public GameObject content, contentHealth;
 	public MainHUDController hudController;
+	public Button buttonOk;
 
 	int positive, negative;
 	int hunger, hygene, happiness, health;
+
+	Animator thisAnim;
+
+	void Awake()
+	{
+		thisAnim = GetComponent<Animator>();
+	}
 
 	public void ShowResult(AlienNeedCategory category, int[] result)
 	{
@@ -35,11 +43,13 @@ public class PanelGatherResultController : MonoBehaviour {
 			textHappiness.text = "-"+happiness.ToString();
 			textHealth.text = "+"+health.ToString();
 
-			hudController.StoreGatherData(-1 * hunger,-1 * hygene,-1 * happiness,health);
+			playerAlien.alienHungerMod -= hunger;
+			playerAlien.alienHygeneMod -= hygene;
+			playerAlien.alienHappinessMod -= happiness;
+			playerAlien.alienHealthMod += health;
 
 			content.SetActive(false);
 			contentHealth.SetActive(true);
-			AlienStatsController.Instance.CheckAlienStatsForGrowth();
 		}else{
 			positive = negative = 0;
 
@@ -53,15 +63,18 @@ public class PanelGatherResultController : MonoBehaviour {
 			imagePositive.sprite = spriteCategory[(int)category];
 			switch(category){
 			case AlienNeedCategory.HUNGER: 
-				hudController.StoreGatherData(positive,-1 * negative,0,0);
-				imageNegative.sprite = spriteCategory[1]; 
+				playerAlien.alienHungerMod += positive;
+				playerAlien.alienHygeneMod -= negative;
+				imageNegative.sprite = spriteCategory[1];
 				break;
 			case AlienNeedCategory.HYGENE: 
-				hudController.StoreGatherData(0,positive,-1 * negative,0);
-				imageNegative.sprite = spriteCategory[2]; 
+				playerAlien.alienHygeneMod += positive;
+				playerAlien.alienHappinessMod -= negative;
+				imageNegative.sprite = spriteCategory[2];
 				break;
 			case AlienNeedCategory.HAPPINESS:
-				hudController.StoreGatherData(-1 * negative,0,positive,0);
+				playerAlien.alienHappinessMod += positive;
+				playerAlien.alienHungerMod -= negative;
 				imageNegative.sprite = spriteCategory[0];
 				break;
 			default: break;
@@ -69,11 +82,8 @@ public class PanelGatherResultController : MonoBehaviour {
 			content.SetActive(true);
 			contentHealth.SetActive(false);
 		}
-		gameObject.SetActive(true);
-	}
-
-	public void Hide()
-	{
-		gameObject.SetActive(false);
+		playerAlien.AdjustStats();
+		buttonOk.interactable = true;
+		thisAnim.SetTrigger("Show");
 	}
 }

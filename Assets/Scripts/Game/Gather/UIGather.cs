@@ -12,5 +12,4 @@ public class UIGather : MonoBehaviour {
 		panelGatherController.InitGatherStats(category);
 		imageCategory.sprite = spriteCategory[(int)category];
 	}
-
 }

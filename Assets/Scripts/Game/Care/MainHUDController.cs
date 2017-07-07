@@ -5,7 +5,6 @@ public class MainHUDController : MonoBehaviour {
 	public AlienHUDMeter hungerMeter, hygeneMeter, happinessMeter, healthMeter;
 	public Image imageGrowth;
 	public Text textAlienName, textAlienType, textAlienLevel, textAlienGrowth;
-	float hunger,hygene,happiness,health;
 
 	public void InitStats()
 	{
@@ -13,15 +12,6 @@ public class MainHUDController : MonoBehaviour {
 		hygeneMeter.InitHUD(PlayerData.Instance.PlayerAlien.alienHygeneMod, PlayerData.Instance.PlayerAlien.alienHygene);
 		happinessMeter.InitHUD(PlayerData.Instance.PlayerAlien.alienHappinessMod, PlayerData.Instance.PlayerAlien.alienHappiness);
 		healthMeter.InitHUD(PlayerData.Instance.PlayerAlien.alienHealthMod, PlayerData.Instance.PlayerAlien.alienHealth);
-	}
-
-	public void StoreGatherData(int hunger, int hygene, int happiness, int health)
-	{
-		this.hunger = (float) hunger;
-		this.hygene = (float) hygene;
-		this.happiness = (float) happiness;
-		this.health = (float) health;
-		print(this.hunger+"/"+this.hygene+"/"+this.happiness+"/"+this.health);
 	}
 
 	void OnEnable()
@@ -50,25 +40,21 @@ public class MainHUDController : MonoBehaviour {
 	public void UpdateStatsMeter()
 	{
 		Alien playerAlien = PlayerData.Instance.PlayerAlien;
-		if(hunger != 0f && playerAlien.alienHungerMod+hunger >= 0f){ 
+		if(playerAlien.alienHungerMod >= 0f){ 
 			print("hungerMod");
-			hungerMeter.ModHUD(playerAlien.alienHungerMod+hunger,playerAlien.alienHunger);
-			playerAlien.alienHungerMod += hunger;
+			hungerMeter.ModHUD(playerAlien.alienHungerMod,playerAlien.alienHunger);
 		}
-		if(hygene != 0f && playerAlien.alienHygeneMod+hygene >= 0f) {
+		if(playerAlien.alienHygeneMod >= 0f) {
 			print("hygeneMod");
-			hygeneMeter.ModHUD(playerAlien.alienHygeneMod+hygene, playerAlien.alienHygene);
-			playerAlien.alienHygeneMod += hygene;
+			hygeneMeter.ModHUD(playerAlien.alienHygeneMod, playerAlien.alienHygene);
 		}
-		if(happiness != 0f && playerAlien.alienHappinessMod+happiness >= 0f) {
+		if(playerAlien.alienHappinessMod >= 0f) {
 			print("happinessMod");
-			happinessMeter.ModHUD(playerAlien.alienHappinessMod+happiness, playerAlien.alienHappiness);
-			playerAlien.alienHappinessMod += happiness;
+			happinessMeter.ModHUD(playerAlien.alienHappinessMod, playerAlien.alienHappiness);
 		}
-		if(health != 0f && playerAlien.alienHealthMod+health >= 0f) {
+		if(playerAlien.alienHealthMod >= 0f) {
 			print("healthMod");
-			healthMeter.ModHUD(playerAlien.alienHealthMod+health, playerAlien.alienHealth);
-			playerAlien.alienHealthMod += health;
+			healthMeter.ModHUD(playerAlien.alienHealthMod, playerAlien.alienHealth);
 		}
 		playerAlien.AdjustStats();
 	}

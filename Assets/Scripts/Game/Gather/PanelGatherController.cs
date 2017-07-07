@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,15 +10,15 @@ public class PanelGatherController : MonoBehaviour {
 	const int MAX_MINUS_HEALTH = 1;
 
 	[Header("HUD")]
-	public Text textAttemp;
+	public TextAttemp textAttemp;
 	public Text[] textScore;
 
 	[Header("Data")]
 	public PanelGatherResultController panelResult;
-	public Sprite spriteFeed;
-	public Sprite spriteClean;
-	public Sprite spritePlay;
-	public Sprite spriteNurse;
+	public Sprite[] spriteFeed;
+	public Sprite[] spriteClean;
+	public Sprite[] spritePlay;
+	public Sprite[] spriteNurse;
 	public GatherSlot[] gatherSlots;
 
 	AlienNeedCategory alienNeedCategory;
@@ -32,9 +33,8 @@ public class PanelGatherController : MonoBehaviour {
 
 	public void InitGatherStats(AlienNeedCategory category)
 	{
-		panelResult.Hide();
 		attemp = MAX_ATTEMP;
-		textAttemp.text = attemp.ToString();
+		textAttemp.SetAttemp(attemp);
 		attempResult = new int[MAX_ATTEMP];
 		gatherScore = new int[4]{0,0,0,0};
 		alienNeedCategory = category;
@@ -42,8 +42,9 @@ public class PanelGatherController : MonoBehaviour {
 		for(int i = 0;i<textScore.Length;i++) textScore[i].enabled = false;
 
 		for(int i = 0;i<gatherSlots.Length;i++){
+			gatherSlots[i].transform.GetChild(1).GetComponent<Button>().interactable = true;
 			gatherSlots[i].OnRevealSlot += OnUseAttemp;
-			gatherSlots[i].InitSlot();
+			gatherSlots[i].InitSlot(category);
 		} 
 
 		InitCategoryItem();
@@ -53,13 +54,13 @@ public class PanelGatherController : MonoBehaviour {
 	{
 		switch(alienNeedCategory){
 		case AlienNeedCategory.HUNGER:
-			SetGatherSlotContents(spriteFeed,spriteClean);
+			SetGatherSlotContents(spriteFeed[0],spriteClean[1]);
 			break;
 		case AlienNeedCategory.HYGENE:
-			SetGatherSlotContents(spriteClean,spritePlay);
+			SetGatherSlotContents(spriteClean[0],spritePlay[1]);
 			break;
 		case AlienNeedCategory.HAPPINESS: 
-			SetGatherSlotContents(spritePlay,spriteFeed);
+			SetGatherSlotContents(spritePlay[0],spriteFeed[1]);
 			break;
 		case AlienNeedCategory.HEALTH:
 			SetGatherSlotContentHealth();
@@ -102,7 +103,7 @@ public class PanelGatherController : MonoBehaviour {
 			int rndSlot = randBoard[rndIndex];
 			randBoard.RemoveAt(rndIndex);
 
-			gatherSlots[rndSlot].SetContent(spriteNurse,4);
+			gatherSlots[rndSlot].SetContent(spriteNurse[0],4);
 		}
 
 		for(int i = 0;i<(MAX_MINUS_ITEM/3);i++){
@@ -110,7 +111,7 @@ public class PanelGatherController : MonoBehaviour {
 			int rndSlot = randBoard[rndIndex];
 			randBoard.RemoveAt(rndIndex);
 
-			gatherSlots[rndSlot].SetContent(spriteFeed,1);
+			gatherSlots[rndSlot].SetContent(spriteFeed[1],1);
 		}
 
 		for(int i = 0;i<(MAX_MINUS_ITEM/3);i++){
@@ -118,7 +119,7 @@ public class PanelGatherController : MonoBehaviour {
 			int rndSlot = randBoard[rndIndex];
 			randBoard.RemoveAt(rndIndex);
 
-			gatherSlots[rndSlot].SetContent(spriteClean,2);
+			gatherSlots[rndSlot].SetContent(spriteClean[1],2);
 		}
 
 		for(int i = 0;i<(MAX_MINUS_ITEM/3);i++){
@@ -126,7 +127,7 @@ public class PanelGatherController : MonoBehaviour {
 			int rndSlot = randBoard[rndIndex];
 			randBoard.RemoveAt(rndIndex);
 
-			gatherSlots[rndSlot].SetContent(spritePlay,3);
+			gatherSlots[rndSlot].SetContent(spritePlay[1],3);
 		}
 	}
 
@@ -135,7 +136,7 @@ public class PanelGatherController : MonoBehaviour {
 		int tempIndex = MAX_ATTEMP - attemp;
 		attempResult[tempIndex] = key;
 		attemp--;
-		textAttemp.text = attemp.ToString();
+		textAttemp.SetAttemp(attemp);
 
 		CheckScores(key);
 
@@ -147,23 +148,17 @@ public class PanelGatherController : MonoBehaviour {
 	void CheckScores(int key)
 	{
 		if(alienNeedCategory == AlienNeedCategory.HUNGER){
-			if(key < 0){// -
-				gatherScore[(int)AlienNeedCategory.HYGENE]--;
-			}else if(key > 0){// +
-				gatherScore[(int)AlienNeedCategory.HUNGER]++;
-			}
+			if(key < 0) 	 gatherScore[(int)AlienNeedCategory.HYGENE]--;
+			else if(key > 0) gatherScore[(int)AlienNeedCategory.HUNGER]++;
+
 		}else if(alienNeedCategory == AlienNeedCategory.HYGENE){
-			if(key < 0){// -
-				gatherScore[(int)AlienNeedCategory.HAPPINESS]--;
-			}else if(key > 0){// +
-				gatherScore[(int)AlienNeedCategory.HYGENE]++;
-			}
+			if(key < 0) 	 gatherScore[(int)AlienNeedCategory.HAPPINESS]--;
+			else if(key > 0) gatherScore[(int)AlienNeedCategory.HYGENE]++;
+
 		}else if(alienNeedCategory == AlienNeedCategory.HAPPINESS){
-			if(key < 0){// -
-				gatherScore[(int)AlienNeedCategory.HUNGER]--;
-			}else if(key > 0){// +
-				gatherScore[(int)AlienNeedCategory.HAPPINESS]++;
-			}
+			if(key < 0) 	 gatherScore[(int)AlienNeedCategory.HUNGER]--;
+			else if(key > 0) gatherScore[(int)AlienNeedCategory.HAPPINESS]++;
+
 		}else if(alienNeedCategory == AlienNeedCategory.HEALTH){
 			switch(key){
 			case 1: gatherScore[(int)AlienNeedCategory.HUNGER]--; break;
@@ -193,12 +188,10 @@ public class PanelGatherController : MonoBehaviour {
 
 	void ShowResult()
 	{
-		for(int i = 0;i<gatherSlots.Length;i++) gatherSlots[i].OnRevealSlot -= OnUseAttemp;
+		for(int i = 0;i<gatherSlots.Length;i++){ 
+			gatherSlots[i].transform.GetChild(1).GetComponent<Button>().interactable = false;
+			gatherSlots[i].OnRevealSlot -= OnUseAttemp;
+		}
 		panelResult.ShowResult(alienNeedCategory,attempResult);
-	}
-
-	public void ResetAnimation()
-	{
-		for(int i = 0;i<gatherSlots.Length;i++) gatherSlots[i].ResetContentAnimation();
 	}
 }
