@@ -9,16 +9,15 @@ public class PanelGatherController : MonoBehaviour {
 	const int MAX_MINUS_ITEM = 5;
 	const int MAX_MINUS_HEALTH = 1;
 
-	[Header("HUD")]
 	public TextAttemp textAttemp;
 	public Text[] textScore;
 
-	[Header("Data")]
 	public PanelGatherResultController panelResult;
 	public Sprite[] spriteFeed;
 	public Sprite[] spriteClean;
 	public Sprite[] spritePlay;
 	public Sprite[] spriteNurse;
+	public Sprite spriteCoin;
 	public GatherSlot[] gatherSlots;
 
 	AlienNeedCategory alienNeedCategory;
