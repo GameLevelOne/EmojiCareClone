@@ -25,11 +25,21 @@ public class SceneMainManager : MonoBehaviour {
 	{
 		foreach(GameObject UIObj in uiSubScenes) UIObj.SetActive(false); 
 		uiSubScenes[(int)tempSubScene].SetActive(true);
+		if(tempSubScene == SubScene.UI_MAIN && PlayerData.Instance.playerAlienID != -1){
+			fader.OnFadeInFinished += UpdateStatsAfterGather;
+		}
 
 		if(tempSubScene == SubScene.UI_GATHER) uiSubScenes[(int)SubScene.UI_GATHER].GetComponent<UIGather>().InitUIGather((AlienNeedCategory)gatherCategory);
 
 		fader.OnFadeOutFinished -= ShowSubScene;
 		fader.FadeIn();
+	}
+
+	void UpdateStatsAfterGather()
+	{
+		fader.OnFadeInFinished -= UpdateStatsAfterGather;
+		MainHUDController hudController = uiSubScenes[0].GetComponent<UIMain>().mainHUD;
+		hudController.UpdateStatsMeter();
 	}
 
 	public void ChangeSubScene(int subScene)

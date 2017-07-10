@@ -16,11 +16,12 @@ public class GatherSlot : MonoBehaviour {
 		get{return key;}
 	}
 
-	public void InitSlot()
+	public void InitSlot(AlienNeedCategory category)
 	{
+		contentImage.gameObject.GetComponent<Animator>().SetInteger("State",0);
 		blockImage.gameObject.SetActive(true);
 		defaultSprite=blockImage.sprite;
-		SetEmpty();
+		SetEmpty(category);
 	}
 
 	/// <summary>
@@ -41,18 +42,24 @@ public class GatherSlot : MonoBehaviour {
 		contentImage.enabled = true;
 		this.key = key;
 		isEmpty = false;
+
 	}
 
-	void SetEmpty()
+	public void SetEmpty(AlienNeedCategory category)
 	{
 		contentImage.sprite = null;
 		contentImage.enabled = false;
 		isEmpty = true;
+		if(category == AlienNeedCategory.HEALTH){
+			key = -1;
+		}else{
+			key = 0;
+		}
 	}
 
 	public void ImageBlockOnClick()
 	{
-		Debug.Log(blockImage);
+//		Debug.Log(blockImage);
 		StartCoroutine(WaitForAnim(blockImage.gameObject,defaultSprite));
 
 		if(OnRevealSlot != null){
@@ -61,11 +68,6 @@ public class GatherSlot : MonoBehaviour {
 		if(!isEmpty){
 			contentImage.gameObject.GetComponent<Animator>().SetInteger("State",1);
 		}
-	}
-
-	public void ResetContentAnimation()
-	{
-		contentImage.gameObject.GetComponent<Animator>().SetInteger("State",0);
 	}
 
 	IEnumerator WaitForAnim(GameObject obj,Sprite spr){

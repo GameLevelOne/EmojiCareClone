@@ -38,6 +38,17 @@ public class AlienStatsController : MonoBehaviour {
 		}
 	}
 
+	void Start()
+	{
+		for (int i = 1; i <= 4; i++) {
+			try {
+				LocalNotification.CancelNotification(i);
+			} catch (Exception e) {
+				Debug.LogWarning("Caught an exception from LocalNotification."+e.ToString());
+			}
+		}	
+	}
+
 	void CalculateAlienStatsData()
 	{
 		if(PlayerPrefs.HasKey(KEY_LASTTIMEPLAY)){
@@ -54,23 +65,23 @@ public class AlienStatsController : MonoBehaviour {
 					}else{
 						playerAlien.DepleteAlienStats();
 
-						if( playerAlien.alienHungerMod > 0 && playerAlien.alienHygeneMod > 0 && playerAlien.alienHappinessMod > 0){
-							playerAlien.IncreaseGrowth();
-
-							if(playerAlien.alienGrowthMod >= playerAlien.alienGrowth){
-								playerAlien.LevelUp();
-								playerAlien.IncreaseGrowth();
-							}else{
-								playerAlien.IncreaseGrowth();
-							}
-						}
+//						if( playerAlien.alienHungerMod > 0 && playerAlien.alienHygeneMod > 0 && playerAlien.alienHappinessMod > 0){
+//							playerAlien.IncreaseGrowth();
+//
+//							if(playerAlien.alienGrowthMod >= playerAlien.alienGrowth){
+//								playerAlien.LevelUp();
+//								playerAlien.IncreaseGrowth();
+//							}else{
+//								playerAlien.IncreaseGrowth();
+//							}
+//						}
 					}
 				}
 			}
 		}
 
 		if(PlayerData.Instance.playerAlienID != -1 && !isStatsDepletingStats) StartCoroutine(CoroutineStartDepletingStats());
-		if(PlayerData.Instance.playerAlienID != -1 && !isStartIncreasingGrowth) StartCoroutine(CoroutineStartIncreasingGrowth());
+//		if(PlayerData.Instance.playerAlienID != -1 && !isStartIncreasingGrowth) StartCoroutine(CoroutineStartIncreasingGrowth());
 		PlayerPrefs.DeleteKey(KEY_LASTTIMEPLAY);
 	}
 
@@ -102,7 +113,7 @@ public class AlienStatsController : MonoBehaviour {
 			}
 
 			if(PlayerData.Instance.playerAlienID != -1 && !isStatsDepletingStats) StartCoroutine(CoroutineStartDepletingStats());
-			if(PlayerData.Instance.playerAlienID != -1 && !isStartIncreasingGrowth) StartCoroutine(CoroutineStartIncreasingGrowth());
+//			if(PlayerData.Instance.playerAlienID != -1 && !isStartIncreasingGrowth) StartCoroutine(CoroutineStartIncreasingGrowth());
 			PlayerPrefs.DeleteKey(KEY_TIMEONPAUSE);
 		}
 	}
@@ -171,7 +182,7 @@ public class AlienStatsController : MonoBehaviour {
 		isStatsDepletingStats = true;
 		while(true){
 			yield return new WaitForSeconds(PlayerData.Instance.PlayerAlien.alienStatsDepletionDuration);
-			if( PlayerData.Instance.PlayerAlien.alienHungerMod <= 0 && PlayerData.Instance.PlayerAlien.alienHygeneMod <= 0 && PlayerData.Instance.PlayerAlien.alienHappinessMod <= 0){
+			if( PlayerData.Instance.PlayerAlien.alienHungerMod <= 0 || PlayerData.Instance.PlayerAlien.alienHygeneMod <= 0 || PlayerData.Instance.PlayerAlien.alienHappinessMod <= 0){
 				StopCoroutine(CoroutineStartIncreasingGrowth());
 				isStartIncreasingGrowth = false;
 				PlayerData.Instance.PlayerAlien.DepleteAlienHealth();
@@ -199,6 +210,34 @@ public class AlienStatsController : MonoBehaviour {
 		isStatsDepletingStats = false;
 		isStartIncreasingGrowth = false;
 		if(PlayerData.Instance.playerAlienID != -1) LastTimePlay = DateTime.Now;
+		FireNotifications();
 		PlayerPrefs.Save();
+	}
+
+	void FireNotifications ()
+	{
+		long statDurMS = PlayerData.Instance.PlayerAlien.alienStatsDepletionDuration * 1000;
+		float threshold = 0.25f;
+		float happinessTimer = PlayerData.Instance.PlayerAlien.alienHappinessMod - PlayerData.Instance.PlayerAlien.alienHappiness * threshold;
+		float healthTimer = PlayerData.Instance.PlayerAlien.alienHealthMod - PlayerData.Instance.PlayerAlien.alienHealth * threshold;
+		float hungerTimer = PlayerData.Instance.PlayerAlien.alienHungerMod - PlayerData.Instance.PlayerAlien.alienHunger * threshold;
+		float hygieneTimer = PlayerData.Instance.PlayerAlien.alienHygeneMod - PlayerData.Instance.PlayerAlien.alienHygene * threshold;
+		float deathTimer = PlayerData.Instance.PlayerAlien.alienHealthMod*statDurMS;
+
+		if (happinessTimer > 0) {
+			LocalNotification.SendNotification (1, (long)happinessTimer * statDurMS, "Emoji Care", "Come play with your emoji!", new Color32 (0xff, 0x44, 0x44, 255));
+		}
+		if (hungerTimer > 0) {
+			LocalNotification.SendNotification (2,  (long)hungerTimer * statDurMS, "Emoji Care", "Come feed your emoji!", new Color32 (0xff, 0x44, 0x44, 255));
+		}
+		if (hygieneTimer > 0) {
+			LocalNotification.SendNotification (3,  (long)hungerTimer * statDurMS, "Emoji Care", "Come clean your emoji!", new Color32 (0xff, 0x44, 0x44, 255));
+		}
+		if (healthTimer > 0) {
+			LocalNotification.SendNotification (4,  (long)healthTimer * statDurMS, "Emoji Care", "Your emoji is dying!", new Color32 (0xff, 0x44, 0x44, 255));
+		} else if (healthTimer <= 0) {
+			LocalNotification.SendNotification (5,  (long)deathTimer, "Emoji Care", "Your emoji is dead!", new Color32 (0xff, 0x44, 0x44, 255));
+		}
+
 	}
 }
