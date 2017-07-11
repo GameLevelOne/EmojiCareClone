@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PanelGatherController : MonoBehaviour {
 	const int MAX_ATTEMP = 10;
 	const int MAX_PLUS_ITEM = 10;
-	const int MAX_MINUS_ITEM = 5;
+	const int MAX_MINUS_ITEM = 6;
 	const int MAX_MINUS_HEALTH = 1;
 
 	public TextAttemp textAttemp;
@@ -74,7 +74,7 @@ public class PanelGatherController : MonoBehaviour {
 
 		for (int i=0; i<gatherSlots.Length;i++) randBoard.Add(i);
 
-		for(int i = 0;i<MAX_PLUS_ITEM;i++){
+		for(int i = 0;i<MAX_PLUS_ITEM;i++){ //setup positive need items
 			int rndIndex = Random.Range(0,randBoard.Count);
 			int rndSlot = randBoard[rndIndex];
 			randBoard.RemoveAt(rndIndex);
@@ -82,13 +82,15 @@ public class PanelGatherController : MonoBehaviour {
 			gatherSlots[rndSlot].SetContent(positiveSprite,1);
 		}
 
-		for(int i = 0;i<MAX_MINUS_ITEM;i++){
+		for(int i = 0;i<MAX_MINUS_ITEM;i++){ //setup negative need items
 			int rndIndex = Random.Range(0,randBoard.Count);
 			int rndSlot = randBoard[rndIndex];
 			randBoard.RemoveAt(rndIndex);
 
 			gatherSlots[rndSlot].SetContent(negativeSprite,-1);
 		}
+
+		GenerateCoin(randBoard);
 	}
 
 	void SetGatherSlotContentHealth()
@@ -97,7 +99,7 @@ public class PanelGatherController : MonoBehaviour {
 
 		for (int i=0; i<gatherSlots.Length;i++) randBoard.Add(i);
 
-		for(int i = 0;i<MAX_PLUS_ITEM;i++){
+		for(int i = 0;i<MAX_PLUS_ITEM;i++){ //setup positive health item
 			int rndIndex = Random.Range(0,randBoard.Count);
 			int rndSlot = randBoard[rndIndex];
 			randBoard.RemoveAt(rndIndex);
@@ -105,28 +107,38 @@ public class PanelGatherController : MonoBehaviour {
 			gatherSlots[rndSlot].SetContent(spriteNurse[0],4);
 		}
 
-		for(int i = 0;i<(MAX_MINUS_ITEM/3);i++){
+		for(int i = 0;i<(MAX_MINUS_ITEM/3);i++){ //setup negative items (feed, clean, play)
 			int rndIndex = Random.Range(0,randBoard.Count);
 			int rndSlot = randBoard[rndIndex];
 			randBoard.RemoveAt(rndIndex);
 
 			gatherSlots[rndSlot].SetContent(spriteFeed[1],1);
-		}
 
-		for(int i = 0;i<(MAX_MINUS_ITEM/3);i++){
-			int rndIndex = Random.Range(0,randBoard.Count);
-			int rndSlot = randBoard[rndIndex];
+			rndIndex = Random.Range(0,randBoard.Count);
+			rndSlot = randBoard[rndIndex];
 			randBoard.RemoveAt(rndIndex);
 
 			gatherSlots[rndSlot].SetContent(spriteClean[1],2);
+
+			rndIndex = Random.Range(0,randBoard.Count);
+			rndSlot = randBoard[rndIndex];
+			randBoard.RemoveAt(rndIndex);
+
+			gatherSlots[rndSlot].SetContent(spritePlay[1],3);
 		}
 
-		for(int i = 0;i<(MAX_MINUS_ITEM/3);i++){
+		GenerateCoin(randBoard);
+	}
+
+	void GenerateCoin(List<int> randBoard)
+	{
+		int rndCoinAmount = Random.Range(0,6); //random between 0 - 5 coins
+		for(int i = 0;i < rndCoinAmount; i++){
 			int rndIndex = Random.Range(0,randBoard.Count);
 			int rndSlot = randBoard[rndIndex];
 			randBoard.RemoveAt(rndIndex);
 
-			gatherSlots[rndSlot].SetContent(spritePlay[1],3);
+			gatherSlots[rndSlot].SetContent(spriteCoin,5);
 		}
 	}
 

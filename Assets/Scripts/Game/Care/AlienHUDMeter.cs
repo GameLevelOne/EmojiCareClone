@@ -35,7 +35,7 @@ public class AlienHUDMeter : MonoBehaviour {
 
 	public void ModHUD(float currentValue, float maxValue)
 	{
-		print("last value = "+lastValue+", currentValue = "+currentValue);
+//		print("last value = "+lastValue+", currentValue = "+currentValue);
 		StartCoroutine(CoroutineModHUD(currentValue,maxValue));
 	}
 		

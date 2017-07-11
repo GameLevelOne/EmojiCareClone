@@ -57,11 +57,13 @@ public class PlayerData : MonoBehaviour {
 	}
 
 	//Setter Getter -------------------------------------------------------------------------------
+	[HideInInspector] public int AlienClickCount = 5;
 	const string KEYPREF_PLAYERCOIN = "PlayerCoin";
 	const string KEYPREF_PLAYERALIEN_ID = "PlayerAlien/ID";
 
+
 	public int playerCoin{
-		get{return PlayerPrefs.GetInt(KEYPREF_PLAYERCOIN,0);}
+		get{return PlayerPrefs.GetInt(KEYPREF_PLAYERCOIN,1000);}
 		set{PlayerPrefs.SetInt(KEYPREF_PLAYERCOIN,value);}
 	}
 

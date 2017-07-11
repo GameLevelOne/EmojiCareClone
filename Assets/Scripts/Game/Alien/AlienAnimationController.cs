@@ -20,4 +20,19 @@ public class AlienAnimationController : MonoBehaviour {
 		alienAnimState = state;
 		alienAnim.SetInteger("State",(int)alienAnimState);
 	}
+	//------------------------------------------------
+	const string KEYPREF_HIT = "AlienHit";
+	int AlienHit{
+		get{return PlayerPrefs.GetInt(KEYPREF_HIT,0);}
+		set{PlayerPrefs.SetInt(KEYPREF_HIT,value);}
+	}
+
+	public void OnAlienClicked()
+	{
+		if(AlienHit >= PlayerData.Instance.AlienClickCount)
+		{
+			AlienHit = 0;
+			//muncul coin
+		}else AlienHit++;
+	}
 }

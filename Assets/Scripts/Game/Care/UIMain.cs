@@ -31,6 +31,7 @@ public class UIMain : MonoBehaviour {
 			mainHUD.gameObject.SetActive(true);
 			mainHUD.UpdateAlienNameAndType();
 			mainHUD.UpdateAlienLevelAndGrowth();
+			mainHUD.UpdatePlayerCoin();
 			mainHUD.InitStats();
 		}
 	}

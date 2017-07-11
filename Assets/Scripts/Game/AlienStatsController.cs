@@ -210,7 +210,7 @@ public class AlienStatsController : MonoBehaviour {
 		isStatsDepletingStats = false;
 		isStartIncreasingGrowth = false;
 		if(PlayerData.Instance.playerAlienID != -1) LastTimePlay = DateTime.Now;
-		FireNotifications();
+		if(PlayerData.Instance.playerAlienID != -1) FireNotifications();
 		PlayerPrefs.Save();
 	}
 
@@ -238,6 +238,6 @@ public class AlienStatsController : MonoBehaviour {
 		} else if (healthTimer <= 0) {
 			LocalNotification.SendNotification (5,  (long)deathTimer, "Emoji Care", "Your emoji is dead!", new Color32 (0xff, 0x44, 0x44, 255));
 		}
-
+		
 	}
 }
