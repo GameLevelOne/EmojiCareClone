@@ -5,6 +5,7 @@ public class MainHUDController : MonoBehaviour {
 	public AlienHUDMeter hungerMeter, hygeneMeter, happinessMeter, healthMeter;
 	public Image imageGrowth;
 	public Text textAlienName, textAlienType, textAlienLevel, textAlienGrowth;
+	public Text textCoin;
 
 	public void InitStats()
 	{
@@ -63,5 +64,10 @@ public class MainHUDController : MonoBehaviour {
 	{
 		textAlienName.text = PlayerData.Instance.PlayerAlien.alienName.ToUpper();
 		textAlienType.text = "TYPE: "+ PlayerData.Instance.PlayerAlien.alienType.ToString().ToUpper();
+	}
+
+	public void UpdatePlayerCoin()
+	{
+		textCoin.text = PlayerData.Instance.playerCoin.ToString();
 	}
 }

@@ -6,6 +6,7 @@ public class PanelGatherResultController : MonoBehaviour {
 	public Image imagePositive, imageNegative;
 	public Text textPositive, textNegative;
 	public Text textHunger, textHygene, textHappiness, textHealth;
+	public Text textCoin;
 
 	public GameObject content, contentHealth;
 	public MainHUDController hudController;
@@ -13,6 +14,7 @@ public class PanelGatherResultController : MonoBehaviour {
 
 	int positive, negative;
 	int hunger, hygene, happiness, health;
+	int coin;
 
 	Animator thisAnim;
 
@@ -24,7 +26,7 @@ public class PanelGatherResultController : MonoBehaviour {
 	public void ShowResult(AlienNeedCategory category, int[] result)
 	{
 		Alien playerAlien = PlayerData.Instance.PlayerAlien;
-
+		coin = 0;
 		if(category == AlienNeedCategory.HEALTH){
 			hunger = hygene = happiness = health = 0;
 
@@ -36,6 +38,8 @@ public class PanelGatherResultController : MonoBehaviour {
 				case 4: health++; break;
 				default: break;
 				}
+
+				if(result[i] == 5) coin++;
 			}
 
 			textHunger.text = "-"+hunger.ToString();
@@ -54,8 +58,10 @@ public class PanelGatherResultController : MonoBehaviour {
 			positive = negative = 0;
 
 			for(int i = 0;i<result.Length;i++){
-				if(result[i] > 0) positive++;
-				else if(result[i] < 0) negative++;
+				if(result[i] == 1) positive++;
+				else if(result[i] == -1) negative++;
+
+				if(result[i] == 5) coin++;
 			}
 			textPositive.text = "+"+positive.ToString();
 			textNegative.text = "-"+negative.ToString();
@@ -82,6 +88,10 @@ public class PanelGatherResultController : MonoBehaviour {
 			content.SetActive(true);
 			contentHealth.SetActive(false);
 		}
+		int playerGetCoin = coin*10;
+		PlayerData.Instance.playerCoin += playerGetCoin;
+		textCoin.text = playerGetCoin.ToString();
+
 		playerAlien.AdjustStats();
 		buttonOk.interactable = true;
 		thisAnim.SetTrigger("Show");

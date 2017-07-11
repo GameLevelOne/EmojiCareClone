@@ -35,6 +35,7 @@ public class GatherSlot : MonoBehaviour {
 	/// <para>2 = hygene</para>
 	/// <para>3 = happiness</para>
 	/// <para>4 = health</para>
+	/// <para>5 = coin (for all category)</para>
 	/// </summary>
 	public void SetContent(Sprite sprite, int key)
 	{
