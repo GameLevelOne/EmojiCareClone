@@ -40,13 +40,14 @@ public class AlienStatsController : MonoBehaviour {
 
 	void Start()
 	{
-		for (int i = 1; i <= 4; i++) {
-			try {
-				LocalNotification.CancelNotification(i);
-			} catch (Exception e) {
-				Debug.LogWarning("Caught an exception from LocalNotification."+e.ToString());
-			}
-		}	
+		//LocalNotification.SendNotification (6,5000,"Emoji Care", "Come play with your emoji!", new Color32 (0xff, 0x44, 0x44, 255));
+//		for (int i = 1; i <= 5; i++) {
+//			try {
+//				LocalNotification.CancelNotification(i);
+//			} catch (Exception e) {
+//				Debug.LogWarning("Caught an exception from LocalNotification."+e.ToString());
+//			}
+//		}	
 	}
 
 	void CalculateAlienStatsData()
@@ -195,6 +196,7 @@ public class AlienStatsController : MonoBehaviour {
 	void OnApplicationPause(bool pauseStatus)
 	{
 		if(pauseStatus){
+			FireNotifications();
 			StopAllCoroutines();
 			isStatsDepletingStats = false;
 			isStartIncreasingGrowth = false;
@@ -210,34 +212,51 @@ public class AlienStatsController : MonoBehaviour {
 		isStatsDepletingStats = false;
 		isStartIncreasingGrowth = false;
 		if(PlayerData.Instance.playerAlienID != -1) LastTimePlay = DateTime.Now;
-		FireNotifications();
 		PlayerPrefs.Save();
 	}
 
 	void FireNotifications ()
 	{
-		long statDurMS = PlayerData.Instance.PlayerAlien.alienStatsDepletionDuration * 1000;
-		float threshold = 0.25f;
-		float happinessTimer = PlayerData.Instance.PlayerAlien.alienHappinessMod - PlayerData.Instance.PlayerAlien.alienHappiness * threshold;
-		float healthTimer = PlayerData.Instance.PlayerAlien.alienHealthMod - PlayerData.Instance.PlayerAlien.alienHealth * threshold;
-		float hungerTimer = PlayerData.Instance.PlayerAlien.alienHungerMod - PlayerData.Instance.PlayerAlien.alienHunger * threshold;
-		float hygieneTimer = PlayerData.Instance.PlayerAlien.alienHygeneMod - PlayerData.Instance.PlayerAlien.alienHygene * threshold;
-		float deathTimer = PlayerData.Instance.PlayerAlien.alienHealthMod*statDurMS;
+		if (PlayerData.Instance.playerAlienID != -1) {
+			long statDurMS = PlayerData.Instance.PlayerAlien.alienStatsDepletionDuration * 1000;
+			float threshold = 0.25f;
+			float happinessTimer = PlayerData.Instance.PlayerAlien.alienHappinessMod - PlayerData.Instance.PlayerAlien.alienHappiness * threshold;
+			float healthTimer = PlayerData.Instance.PlayerAlien.alienHealthMod - PlayerData.Instance.PlayerAlien.alienHealth * threshold;
+			float hungerTimer = PlayerData.Instance.PlayerAlien.alienHungerMod - PlayerData.Instance.PlayerAlien.alienHunger * threshold;
+			float hygieneTimer = PlayerData.Instance.PlayerAlien.alienHygeneMod - PlayerData.Instance.PlayerAlien.alienHygene * threshold;
+			float deathTimer = PlayerData.Instance.PlayerAlien.alienHealthMod * statDurMS;
 
-		if (happinessTimer > 0) {
-			LocalNotification.SendNotification (1, (long)happinessTimer * statDurMS, "Emoji Care", "Come play with your emoji!", new Color32 (0xff, 0x44, 0x44, 255));
-		}
-		if (hungerTimer > 0) {
-			LocalNotification.SendNotification (2,  (long)hungerTimer * statDurMS, "Emoji Care", "Come feed your emoji!", new Color32 (0xff, 0x44, 0x44, 255));
-		}
-		if (hygieneTimer > 0) {
-			LocalNotification.SendNotification (3,  (long)hungerTimer * statDurMS, "Emoji Care", "Come clean your emoji!", new Color32 (0xff, 0x44, 0x44, 255));
-		}
-		if (healthTimer > 0) {
-			LocalNotification.SendNotification (4,  (long)healthTimer * statDurMS, "Emoji Care", "Your emoji is dying!", new Color32 (0xff, 0x44, 0x44, 255));
-		} else if (healthTimer <= 0) {
-			LocalNotification.SendNotification (5,  (long)deathTimer, "Emoji Care", "Your emoji is dead!", new Color32 (0xff, 0x44, 0x44, 255));
-		}
+			if (PlayerData.Instance.PlayerAlien.alienType == AlienType.Active) {
+				if (hygieneTimer > 0) {
+					LocalNotification.SendNotification (3, (long)(hygieneTimer * statDurMS + 2000), "Emoji Care", "Come clean your emoji!", new Color32 (0xff, 0x44, 0x44, 255));
+					//LocalNotification.SendNotification (3, 7000, "Emoji Care", "Come clean with your emoji!", new Color32 (0xff, 0x44, 0x44, 255));
+				} else if (hygieneTimer <= 0) {
+					LocalNotification.SendNotification (3, 7000, "Emoji Care", "Come clean your emoji!", new Color32 (0xff, 0x44, 0x44, 255));
+				}
+			} else if (PlayerData.Instance.PlayerAlien.alienType == AlienType.Greedy) {
+				if (hungerTimer > 0) {
+					LocalNotification.SendNotification (2, (long)(hungerTimer * statDurMS + 1000), "Emoji Care", "Come feed your emoji!", new Color32 (0xff, 0x44, 0x44, 255));
+					//LocalNotification.SendNotification (2, 6000, "Emoji Care", "Come feed your emoji!", new Color32 (0xff, 0x44, 0x44, 255));
+				} else if (hungerTimer <= 0) {
+					LocalNotification.SendNotification (2, 6000, "Emoji Care", "Come feed your emoji!", new Color32 (0xff, 0x44, 0x44, 255));
+				}
+			} else if (PlayerData.Instance.PlayerAlien.alienType == AlienType.Sad) {
+				if (happinessTimer > 0) {
+					LocalNotification.SendNotification (1, (long)(happinessTimer * statDurMS), "Emoji Care", "Come play with your emoji!", new Color32 (0xff, 0x44, 0x44, 255));
+					//LocalNotification.SendNotification (1, 5000, "Emoji Care", "Come play with your emoji!", new Color32 (0xff, 0x44, 0x44, 255));
+				} else if (happinessTimer <= 0) {
+					LocalNotification.SendNotification (1, 5000, "Emoji Care", "Come play with your emoji!", new Color32 (0xff, 0x44, 0x44, 255));
+				}
+			}
 
+			if (healthTimer > 0) {
+				Debug.Log ("health1");
+				LocalNotification.SendNotification (4, (long)(healthTimer * statDurMS + 3000), "Emoji Care", "Your emoji is dying!", new Color32 (0xff, 0x44, 0x44, 255));
+				//LocalNotification.SendNotification (4, 8000, "Emoji Care", "Your emoji is dying!", new Color32 (0xff, 0x44, 0x44, 255));
+			} else if (healthTimer <= 0) {
+				Debug.Log ("health2");
+				LocalNotification.SendNotification (5, (long)(deathTimer+4000), "Emoji Care", "Your emoji is dead!", new Color32 (0xff, 0x44, 0x44, 255));
+			}
+		}
 	}
 }
