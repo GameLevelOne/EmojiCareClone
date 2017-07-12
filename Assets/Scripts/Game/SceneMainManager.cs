@@ -28,8 +28,9 @@ public class SceneMainManager : MonoBehaviour {
 		if(tempSubScene == SubScene.UI_MAIN && PlayerData.Instance.playerAlienID != -1){
 			fader.OnFadeInFinished += UpdateStatsAfterGather;
 		}
-
-		if(tempSubScene == SubScene.UI_GATHER) uiSubScenes[(int)SubScene.UI_GATHER].GetComponent<UIGather>().InitUIGather((AlienNeedCategory)gatherCategory);
+		else if(tempSubScene == SubScene.UI_GATHER){
+			uiSubScenes[(int)SubScene.UI_GATHER].GetComponent<UIGather>().InitUIGather((AlienNeedCategory)gatherCategory);
+		} 
 
 		fader.OnFadeOutFinished -= ShowSubScene;
 		fader.FadeIn();

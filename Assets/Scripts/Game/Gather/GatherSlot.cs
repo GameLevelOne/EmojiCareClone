@@ -8,19 +8,25 @@ public class GatherSlot : MonoBehaviour {
 
 	public Image contentImage;
 	public Image blockImage;
+
 	int key = 0; 
 	bool isEmpty = true;
-	Sprite defaultSprite;
+
+	Button slotButton;
 
 	public int Key{
 		get{return key;}
 	}
 
+	void Awake()
+	{
+		slotButton = GetComponent<RectTransform>().GetChild(1).GetComponent<Button>();
+	}
+
 	public void InitSlot(AlienNeedCategory category)
 	{
+		slotButton.interactable = true;
 		contentImage.gameObject.GetComponent<Animator>().SetInteger("State",0);
-		blockImage.gameObject.SetActive(true);
-		defaultSprite=blockImage.sprite;
 		SetEmpty(category);
 	}
 
@@ -60,20 +66,19 @@ public class GatherSlot : MonoBehaviour {
 
 	public void ImageBlockOnClick()
 	{
-//		Debug.Log(blockImage);
-		StartCoroutine(WaitForAnim(blockImage.gameObject,defaultSprite));
-
-		if(OnRevealSlot != null){
-			OnRevealSlot(key);
-		}
-		if(!isEmpty){
-			contentImage.gameObject.GetComponent<Animator>().SetInteger("State",1);
-		}
+		slotButton.interactable = false;
+		ShowContent();
+		if(OnRevealSlot != null) OnRevealSlot(key);
 	}
 
-	IEnumerator WaitForAnim(GameObject obj,Sprite spr){
-		yield return new WaitForSeconds(0.3f);
-		obj.SetActive(false);
-		blockImage.sprite=spr;
+	public void ShowContent(Color clr = default(Color))
+	{
+		Animator contentAnimator = contentImage.gameObject.GetComponent<Animator>();
+		AnimatorStateInfo info = contentAnimator.GetCurrentAnimatorStateInfo(0);
+		if(!isEmpty && info.IsName("Small (0)")){
+			if(clr == default(Color)) clr = Color.white;
+			contentImage.color = clr;
+			contentAnimator.SetInteger("State",1);
+		}
 	}
 }

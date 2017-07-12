@@ -33,7 +33,7 @@ public class PanelGatherController : MonoBehaviour {
 	public void InitGatherStats(AlienNeedCategory category)
 	{
 		attemp = MAX_ATTEMP;
-		textAttemp.SetAttemp(attemp);
+		textAttemp.SetAttemp(MAX_ATTEMP);
 		attempResult = new int[MAX_ATTEMP];
 		gatherScore = new int[4]{0,0,0,0};
 		alienNeedCategory = category;
@@ -41,12 +41,12 @@ public class PanelGatherController : MonoBehaviour {
 		for(int i = 0;i<textScore.Length;i++) textScore[i].enabled = false;
 
 		for(int i = 0;i<gatherSlots.Length;i++){
-			gatherSlots[i].transform.GetChild(1).GetComponent<Button>().interactable = true;
 			gatherSlots[i].OnRevealSlot += OnUseAttemp;
 			gatherSlots[i].InitSlot(category);
 		} 
 
 		InitCategoryItem();
+		GetComponent<Animator>().SetTrigger("Animate");
 	}
 
 	void InitCategoryItem()
@@ -67,7 +67,7 @@ public class PanelGatherController : MonoBehaviour {
 		default: break;
 		}
 	}
-
+		
 	void SetGatherSlotContents(Sprite positiveSprite, Sprite negativeSprite)
 	{
 		List<int> randBoard = new List<int>();
@@ -201,6 +201,7 @@ public class PanelGatherController : MonoBehaviour {
 	{
 		for(int i = 0;i<gatherSlots.Length;i++){ 
 			gatherSlots[i].transform.GetChild(1).GetComponent<Button>().interactable = false;
+			gatherSlots[i].ShowContent();
 			gatherSlots[i].OnRevealSlot -= OnUseAttemp;
 		}
 		panelResult.ShowResult(alienNeedCategory,attempResult);
