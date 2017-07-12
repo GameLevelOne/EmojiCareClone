@@ -40,14 +40,13 @@ public class AlienStatsController : MonoBehaviour {
 
 	void Start()
 	{
-		//LocalNotification.SendNotification (6,5000,"Emoji Care", "Come play with your emoji!", new Color32 (0xff, 0x44, 0x44, 255));
-//		for (int i = 1; i <= 5; i++) {
-//			try {
-//				LocalNotification.CancelNotification(i);
-//			} catch (Exception e) {
-//				Debug.LogWarning("Caught an exception from LocalNotification."+e.ToString());
-//			}
-//		}	
+		for (int i = 1; i <= 5; i++) {
+			try {
+				LocalNotification.CancelNotification(i);
+			} catch (Exception e) {
+				Debug.LogWarning("Caught an exception from LocalNotification."+e.ToString());
+			}
+		}	
 	}
 
 	void CalculateAlienStatsData()
