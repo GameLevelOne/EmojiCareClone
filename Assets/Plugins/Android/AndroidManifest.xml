@@ -28,4 +28,8 @@
 
         <receiver android:name="net.agasper.unitynotification.UnityNotificationManager"></receiver>
     </application>
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="com.android.vending.BILLING" />
+
 </manifest>
