@@ -17,7 +17,6 @@ public class PlayerData : MonoBehaviour {
 
 	void Awake()
 	{
-//		PlayerPrefs.DeleteAll();
 		//singleton
 		if(instance != null && instance != this) { 
 			Destroy(gameObject);
@@ -57,7 +56,7 @@ public class PlayerData : MonoBehaviour {
 	}
 
 	//Setter Getter -------------------------------------------------------------------------------
-	[HideInInspector] public int AlienClickCount = 5;
+	[HideInInspector] public int AlienClickCount{ get{return 5;} }
 	const string KEYPREF_PLAYERCOIN = "PlayerCoin";
 	const string KEYPREF_PLAYERALIEN_ID = "PlayerAlien/ID";
 
@@ -80,8 +79,7 @@ public class PlayerData : MonoBehaviour {
 		AlienStatsController.Instance.isStartIncreasingGrowth = false;
 		AlienStatsController.Instance.isStatsDepletingStats = false;
 	}
-
-
+		
 	public void RestoreAlienStats()
 	{
 		if(PlayerAlien != null){
