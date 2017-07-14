@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CoinObj : MonoBehaviour {
-	RectTransform CoinUI;
+	public Vector2 coinDestination = new Vector2(-313f,406f);
+	public delegate void CoinDestroyed(GameObject obj);
+	public event CoinDestroyed OnCoinDestroyed;
 
 	Rigidbody2D rigidBody;
 	RectTransform coinTransform;
@@ -21,7 +23,7 @@ public class CoinObj : MonoBehaviour {
 
 	public void OnPointerClick()
 	{
-		
+		StartCoroutine(PlayerGetCoin());
 	}
 
 	IEnumerator PlayerGetCoin()
@@ -33,12 +35,13 @@ public class CoinObj : MonoBehaviour {
 		float x,y;
 		while (t <= 1f){
 			t += Time.deltaTime;
-			x = Mathf.Lerp(coinTransform.anchoredPosition.x,CoinUI.anchoredPosition.x,t);
-			y = Mathf.Lerp(coinTransform.anchoredPosition.y,CoinUI.anchoredPosition.y,t);
+			x = Mathf.Lerp(coinTransform.anchoredPosition.x,coinDestination.x,t);
+			y = Mathf.Lerp(coinTransform.anchoredPosition.y,coinDestination.y,t);
 			GetComponent<RectTransform>().anchoredPosition = new Vector2(x,y);
 			yield return new WaitForSeconds(Time.deltaTime);
 		}
-		
+
+		if(OnCoinDestroyed != null) OnCoinDestroyed(gameObject);
 		Destroy(gameObject);
 	}
 }
