@@ -32,7 +32,7 @@ public class AlienAnimationController : MonoBehaviour {
 		if(AlienHit >= PlayerData.Instance.AlienClickCount)
 		{
 			AlienHit = 0;
-			UICoin.Instance.GenerateCoinObject();
+			CoinSpawner.Instance.GenerateCoinObject();
 		}else AlienHit++;
 	}
 }

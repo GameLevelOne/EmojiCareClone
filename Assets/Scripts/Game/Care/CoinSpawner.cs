@@ -2,15 +2,14 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UICoin : MonoBehaviour {
-	private static UICoin instance = null;
-	public static UICoin Instance{
+public class CoinSpawner : MonoBehaviour {
+	private static CoinSpawner instance = null;
+	public static CoinSpawner Instance{
 		get{return instance;}
 	}
 
 	public MainHUDController hudController;
 	public GameObject coinObject;
-	List<GameObject> coinInstances;
 
 	void Awake()
 	{
@@ -34,7 +33,6 @@ public class UICoin : MonoBehaviour {
 	void OnCoinDestroyed(GameObject obj)
 	{
 		obj.GetComponent<CoinObj>().OnCoinDestroyed -= OnCoinDestroyed;
-		PlayerData.Instance.playerCoin += 10;
-		hudController.UpdatePlayerCoin();
+		hudController.ModCoin(10);
 	}
 }

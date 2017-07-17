@@ -29,10 +29,7 @@ public class UIMain : MonoBehaviour {
 				
 			panelCaptureAlien.SetActive(false);
 			mainHUD.gameObject.SetActive(true);
-			mainHUD.UpdateAlienNameAndType();
-			mainHUD.UpdateAlienLevelAndGrowth();
-			mainHUD.UpdatePlayerCoin();
-			mainHUD.InitStats();
+			mainHUD.Init();
 		}
 	}
 
