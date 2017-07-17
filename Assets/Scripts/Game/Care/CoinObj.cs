@@ -10,6 +10,8 @@ public class CoinObj : MonoBehaviour {
 	Rigidbody2D rigidBody;
 	RectTransform coinTransform;
 
+	bool isClicked = false;
+
 	void Awake()
 	{
 		rigidBody = GetComponent<Rigidbody2D>();
@@ -19,14 +21,26 @@ public class CoinObj : MonoBehaviour {
 	void Start ()
 	{
 		rigidBody.AddForce(new Vector2(Random.Range(-2500f,2500f),50000f));
+		StartCoroutine(CoinAutoCollect());
 	}
 
 	public void OnPointerClick()
 	{
-		StartCoroutine(PlayerGetCoin());
+		if(isClicked == true) return;
+
+		isClicked = true;
+		StopCoroutine(CoinAutoCollect());
+		StartCoroutine(CoinAbsorb());
 	}
 
-	IEnumerator PlayerGetCoin()
+	IEnumerator CoinAutoCollect()
+	{
+		yield return new WaitForSeconds(10f);
+		isClicked = true;
+		StartCoroutine(CoinAbsorb());
+	}
+
+	IEnumerator CoinAbsorb()
 	{
 		rigidBody.gravityScale = 0f;
 		GetComponent<CircleCollider2D>().enabled = false;
@@ -38,6 +52,7 @@ public class CoinObj : MonoBehaviour {
 			x = Mathf.Lerp(coinTransform.anchoredPosition.x,coinDestination.x,t);
 			y = Mathf.Lerp(coinTransform.anchoredPosition.y,coinDestination.y,t);
 			GetComponent<RectTransform>().anchoredPosition = new Vector2(x,y);
+			if(Mathf.Abs(y-coinDestination.y) < 1f || Mathf.Abs(x-coinDestination.x) < 1f) break;
 			yield return new WaitForSeconds(Time.deltaTime);
 		}
 

@@ -18,7 +18,7 @@ public class UISettings : MonoBehaviour {
 
 	public void ButtonCloseOnClick()
 	{
-		gameObject.SetActive(false);
+		GetComponent<Animator>().SetTrigger("Hide");
 	}
 
 	public void ButtonSoundOnClick()

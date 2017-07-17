@@ -1,4 +1,5 @@
 ﻿using UnityEngine.UI;
+using System.Collections;
 using UnityEngine;
 
 public class PanelGatherResultController : MonoBehaviour {
@@ -94,6 +95,12 @@ public class PanelGatherResultController : MonoBehaviour {
 
 		playerAlien.AdjustStats();
 		buttonOk.interactable = true;
+		StartCoroutine(DelayShow());
+	}
+
+	IEnumerator DelayShow()
+	{
+		yield return new WaitForSeconds(1.5f);
 		thisAnim.SetTrigger("Show");
 	}
 }

@@ -38,6 +38,6 @@ public class UIMain : MonoBehaviour {
 
 	public void ButtonSettingsOnClick()
 	{
-		panelSettings.SetActive(true);
+		panelSettings.GetComponent<Animator>().SetTrigger("Show");
 	}
 }
