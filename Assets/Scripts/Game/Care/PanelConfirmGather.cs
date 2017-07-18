@@ -24,6 +24,10 @@ public class PanelConfirmGather : MonoBehaviour {
 		this.category = category;
 		isEnoughGold = PlayerData.Instance.playerCoin >= 50 ? true : false;
 		textWarning.text = isEnoughGold ? WARNING_USE_GOLD : WARNING_NOT_ENOUGH_GOLD;
+
+		SoundManager.Instance.PlaySFX(eSFX.BUTTON);
+		if(!isEnoughGold) SoundManager.Instance.PlaySFX(eSFX.WARNING);
+
 		thisAnim.SetTrigger("Show");
 	}
 
@@ -33,11 +37,14 @@ public class PanelConfirmGather : MonoBehaviour {
 			hudController.ModCoin(-50);
 			sceneMainManager.ChangeToGatherSubScene(category);
 		}
+
+		SoundManager.Instance.PlaySFX(eSFX.BUTTON);
 		thisAnim.SetTrigger("Hide");
 	}
 
 	public void ButtonXOnClick()
 	{
+		SoundManager.Instance.PlaySFX(eSFX.BUTTONX);
 		thisAnim.SetTrigger("Hide");
 	}
 }

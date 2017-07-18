@@ -18,21 +18,26 @@ public class UISettings : MonoBehaviour {
 
 	public void ButtonCloseOnClick()
 	{
+		SoundManager.Instance.PlaySFX(eSFX.BUTTONX);
 		GetComponent<Animator>().SetTrigger("Hide");
 	}
 
 	public void ButtonSoundOnClick()
 	{
-		int tempSound = PlayerPrefs.GetInt("Settings/Sound",0);
-		if(tempSound == 1) tempSound = 0;
-		else tempSound = 1;
+		float tempSound = PlayerPrefs.GetFloat("Settings/Sound",0);
+		if(tempSound == 1f) tempSound = 0f;
+		else tempSound = 1f;
 		
-		imageButtonSound.sprite = sprSound[tempSound];
-		PlayerPrefs.SetInt("Settings/Sound",tempSound);
+		imageButtonSound.sprite = sprSound[(int)tempSound];
+		PlayerPrefs.SetFloat("Settings/Sound",tempSound);
+
+		SoundManager.Instance.SetVolume(tempSound);
+		SoundManager.Instance.PlaySFX(eSFX.BUTTON);
 	}
 
 	public void ButtonCreditOnClick()
 	{
+		SoundManager.Instance.PlaySFX(eSFX.BUTTON);
 		//show credit
 	}
 }

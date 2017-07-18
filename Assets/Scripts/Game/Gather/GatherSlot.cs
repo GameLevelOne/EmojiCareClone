@@ -67,6 +67,7 @@ public class GatherSlot : MonoBehaviour {
 	public void ImageBlockOnClick()
 	{
 		slotButton.interactable = false;
+		SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_BUTTON);
 		ShowContent();
 		if(OnRevealSlot != null) OnRevealSlot(key);
 	}
@@ -75,6 +76,7 @@ public class GatherSlot : MonoBehaviour {
 	{
 		Animator contentAnimator = contentImage.gameObject.GetComponent<Animator>();
 		AnimatorStateInfo info = contentAnimator.GetCurrentAnimatorStateInfo(0);
+
 		if(!isEmpty && info.IsName("Small (0)")){
 			if(clr == default(Color)) clr = Color.white;
 			contentImage.color = clr;

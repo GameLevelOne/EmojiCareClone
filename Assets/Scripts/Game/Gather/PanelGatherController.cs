@@ -159,23 +159,54 @@ public class PanelGatherController : MonoBehaviour {
 	void CheckScores(int key)
 	{
 		if(alienNeedCategory == AlienNeedCategory.HUNGER){
-			if(key < 0) 	 gatherScore[(int)AlienNeedCategory.HYGENE]--;
-			else if(key > 0) gatherScore[(int)AlienNeedCategory.HUNGER]++;
+			if(key < 0){
+				gatherScore[(int)AlienNeedCategory.HYGENE]--;
+				SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_NEGATIVE);
+			}
+			else if(key > 0){
+				gatherScore[(int)AlienNeedCategory.HUNGER]++;
+				SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_POSITIVE);
+			}
 
 		}else if(alienNeedCategory == AlienNeedCategory.HYGENE){
-			if(key < 0) 	 gatherScore[(int)AlienNeedCategory.HAPPINESS]--;
-			else if(key > 0) gatherScore[(int)AlienNeedCategory.HYGENE]++;
+			if(key < 0){ 
+				gatherScore[(int)AlienNeedCategory.HAPPINESS]--;
+				SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_NEGATIVE);
+
+			}
+			else if(key > 0){ 
+				gatherScore[(int)AlienNeedCategory.HYGENE]++;
+				SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_POSITIVE);
+			}
 
 		}else if(alienNeedCategory == AlienNeedCategory.HAPPINESS){
-			if(key < 0) 	 gatherScore[(int)AlienNeedCategory.HUNGER]--;
-			else if(key > 0) gatherScore[(int)AlienNeedCategory.HAPPINESS]++;
+			if(key < 0){
+				gatherScore[(int)AlienNeedCategory.HUNGER]--;
+				SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_NEGATIVE);
+			}
+			else if(key > 0){
+				gatherScore[(int)AlienNeedCategory.HAPPINESS]++;
+				SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_POSITIVE);
+			}
 
 		}else if(alienNeedCategory == AlienNeedCategory.HEALTH){
 			switch(key){
-			case 1: gatherScore[(int)AlienNeedCategory.HUNGER]--; break;
-			case 2: gatherScore[(int)AlienNeedCategory.HYGENE]--; break;
-			case 3: gatherScore[(int)AlienNeedCategory.HAPPINESS]--; break;
-			case 4: gatherScore[(int)AlienNeedCategory.HEALTH]++; break;
+			case 1: gatherScore[(int)AlienNeedCategory.HUNGER]--; 
+					SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_NEGATIVE); 
+					break;
+
+			case 2: gatherScore[(int)AlienNeedCategory.HYGENE]--; 
+					SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_NEGATIVE);
+					break;
+
+			case 3: gatherScore[(int)AlienNeedCategory.HAPPINESS]--; 
+					SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_NEGATIVE);
+					break;
+
+			case 4: gatherScore[(int)AlienNeedCategory.HEALTH]++;
+					SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_POSITIVE);
+					break;
+
 			default: break;
 			}
 		}

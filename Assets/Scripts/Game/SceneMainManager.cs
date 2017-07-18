@@ -16,6 +16,7 @@ public class SceneMainManager : MonoBehaviour {
 	int gatherCategory = -1;
 
 	void Start(){
+		SoundManager.Instance.PlayBGM(eBGM.MAIN);
 		tempSubScene = SubScene.UI_MAIN;
 		ShowSubScene();
 	}
