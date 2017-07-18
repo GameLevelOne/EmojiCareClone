@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PanelGatherController : MonoBehaviour {
 	const int MAX_ATTEMP = 10;
 	const int MAX_PLUS_ITEM = 10;
-	const int MAX_MINUS_ITEM = 6;
+	const int MAX_MINUS_ITEM = 4;
 	const int MAX_MINUS_HEALTH = 1;
 
 	public TextAttemp textAttemp;
@@ -200,8 +200,12 @@ public class PanelGatherController : MonoBehaviour {
 	void ShowResult()
 	{
 		for(int i = 0;i<gatherSlots.Length;i++){ 
-			gatherSlots[i].transform.GetChild(1).GetComponent<Button>().interactable = false;
-			gatherSlots[i].ShowContent();
+			Button tempButton = gatherSlots[i].transform.GetChild(1).GetComponent<Button>();
+			if(tempButton.interactable == true){ 
+				tempButton.interactable = false;
+				gatherSlots[i].ShowContent(new Color(0.5f,0.5f,0.5f));
+			}
+
 			gatherSlots[i].OnRevealSlot -= OnUseAttemp;
 		}
 		panelResult.ShowResult(alienNeedCategory,attempResult);
