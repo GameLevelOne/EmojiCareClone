@@ -1,0 +1,43 @@
+﻿using UnityEngine.UI;
+using UnityEngine;
+
+public class PanelConfirmGather : MonoBehaviour {
+	public MainHUDController hudController;
+	public SceneMainManager sceneMainManager;
+	public Text textWarning;
+
+	const string WARNING_NOT_ENOUGH_GOLD = "NOT ENOUGH GOLD (NEED 50G)";
+	const string WARNING_USE_GOLD = "GATHER COSTS 50G";
+
+	int category;
+	Animator thisAnim;
+
+	bool isEnoughGold = false;
+
+	void Awake()
+	{
+		thisAnim = GetComponent<Animator>();
+	}
+
+	public void ButtonCategoryOnClick(int category)
+	{
+		this.category = category;
+		isEnoughGold = PlayerData.Instance.playerCoin >= 50 ? true : false;
+		textWarning.text = isEnoughGold ? WARNING_USE_GOLD : WARNING_NOT_ENOUGH_GOLD;
+		thisAnim.SetTrigger("Show");
+	}
+
+	public void ButtonOkOnClick()
+	{
+		if(isEnoughGold){
+			hudController.ModCoin(-50);
+			sceneMainManager.ChangeToGatherSubScene(category);
+		}
+		thisAnim.SetTrigger("Hide");
+	}
+
+	public void ButtonXOnClick()
+	{
+		thisAnim.SetTrigger("Hide");
+	}
+}
