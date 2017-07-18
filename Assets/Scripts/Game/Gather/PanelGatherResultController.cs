@@ -100,6 +100,7 @@ public class PanelGatherResultController : MonoBehaviour {
 
 	IEnumerator DelayShow()
 	{
+		SoundManager.Instance.PlaySFX(eSFX.GATHER_RESULT);
 		yield return new WaitForSeconds(1.5f);
 		thisAnim.SetTrigger("Show");
 	}

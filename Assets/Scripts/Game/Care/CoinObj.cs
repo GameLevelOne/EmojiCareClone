@@ -57,6 +57,7 @@ public class CoinObj : MonoBehaviour {
 		}
 
 		if(OnCoinDestroyed != null) OnCoinDestroyed(gameObject);
+		SoundManager.Instance.PlaySFX(eSFX.COIN);
 		Destroy(gameObject);
 	}
 }
