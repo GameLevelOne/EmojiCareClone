@@ -5,11 +5,16 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class CollectionManager : MonoBehaviour {
+	public EmojiData emojiData;
 	public GameObject boxEmojiPrefab;
 	public GameObject boxPetPrefab;
 	public GameObject emojiPanelPrefab;
 	public GameObject emojiParentObj;
 	public GameObject petParentObj;
+
+	public Image currSelectedEmojiIcon;
+	public Text currSelectedEmojiName;
+	public Text currSelectedEmojiUnlockCondition;
 
 	GameObject[] petObjects;
 	GameObject[] emojiPanels;
@@ -45,7 +50,7 @@ public class CollectionManager : MonoBehaviour {
 			panelObj.name = "PanelEmoji"+i;
 			emojiPanels[i]=panelObj;
 
-			int temp = Random.Range(15,25);
+			int temp = Random.Range(15,23);
 			obj.GetComponent<CurrentPetData>().SetTotalEmoji(temp);
 			petObjects[i]=obj;
 
@@ -73,6 +78,7 @@ public class CollectionManager : MonoBehaviour {
 		GameObject currObj = EventSystem.current.currentSelectedGameObject;
 		currSelectedEmojiIdx = currObj.GetComponent<CurrentEmojiData>().GetEmojiIdx();
 		UpdateEmojiDisplay(currTotalEmoji);
+		UpdateEmojiDetails();
 	}
 
 	void GenerateEmojiCollection (int currPet,int emojiCount,GameObject panelObj)
@@ -99,6 +105,7 @@ public class CollectionManager : MonoBehaviour {
 				obj.transform.SetParent (panelObj.transform, false);
 				obj.GetComponent<Button> ().onClick.AddListener (OnSelectEmoji);
 				obj.GetComponent<CurrentEmojiData> ().SetEmojiIdx (idx);
+				obj.transform.GetChild(1).GetComponent<Image>().sprite = emojiData.emojiSprites[idx];
 				emojiObjects [currPet,idx] = obj;
 				idx++;
 			}
@@ -125,6 +132,12 @@ public class CollectionManager : MonoBehaviour {
 				emojiObjects[currSelectedPetIdx,i].transform.GetChild(0).gameObject.SetActive(false);
 			}
 		}
+	}
+
+	void UpdateEmojiDetails(){
+		currSelectedEmojiIcon.sprite = emojiData.emojiSprites[currSelectedEmojiIdx];
+		currSelectedEmojiName.text = emojiData.emojiName[currSelectedEmojiIdx];
+		currSelectedEmojiUnlockCondition.text = emojiData.conditionText[currSelectedEmojiIdx];
 	}
 
 	void UpdateEmojiPanelDisplay ()
