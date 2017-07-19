@@ -10,7 +10,9 @@ public enum SubScene{
 
 public class SceneMainManager : MonoBehaviour {
 	public List<GameObject> uiSubScenes;
+
 	public Fader fader;
+	public CoinSpawner coinSpawner;
 
 	SubScene tempSubScene;
 	int gatherCategory = -1;
@@ -49,6 +51,7 @@ public class SceneMainManager : MonoBehaviour {
 		tempSubScene = (SubScene)subScene;
 		fader.OnFadeOutFinished += ShowSubScene;
 		fader.FadeOut();
+		SoundManager.Instance.PlaySFX(eSFX.BUTTON);
 	}
 
 	public void ChangeToGatherSubScene(int category)
@@ -56,6 +59,7 @@ public class SceneMainManager : MonoBehaviour {
 		tempSubScene = SubScene.UI_GATHER;
 		gatherCategory = category;
 		fader.OnFadeOutFinished += ShowSubScene;
+		coinSpawner.AbsorbAllCoins();
 		fader.FadeOut();
 	}
 }

@@ -10,6 +10,7 @@ public class CoinSpawner : MonoBehaviour {
 
 	public MainHUDController hudController;
 	public GameObject coinObject;
+	public List<GameObject> coinObjects = new List<GameObject>();
 
 	void Awake()
 	{
@@ -28,11 +29,23 @@ public class CoinSpawner : MonoBehaviour {
 		tempTransform.localScale = Vector2.one;
 		tempTransform.localRotation = Quaternion.identity;
 		coinInstance.GetComponent<CoinObj>().OnCoinDestroyed += OnCoinDestroyed;
+		coinObjects.Add(coinInstance);
+		if(coinObjects.Count > 10) coinObjects[0].GetComponent<CoinObj>().OnPointerClick();
+	}
+
+	public void AbsorbAllCoins()
+	{
+		foreach(GameObject coinObject in coinObjects){
+			if(coinObject != null) coinObject.GetComponent<CoinObj>().OnPointerClick();
+		}
 	}
 
 	void OnCoinDestroyed(GameObject obj)
 	{
 		obj.GetComponent<CoinObj>().OnCoinDestroyed -= OnCoinDestroyed;
+		coinObjects.Remove(obj);
 		hudController.ModCoin(10);
-	}
+	}	
+
+	
 }

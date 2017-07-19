@@ -11,17 +11,32 @@ public class CoinObj : MonoBehaviour {
 	RectTransform coinTransform;
 
 	bool isClicked = false;
+	bool bump = false;
 
 	void Awake()
 	{
 		rigidBody = GetComponent<Rigidbody2D>();
 		coinTransform = GetComponent<RectTransform>();
+		SoundManager.Instance.PlaySFX(eSFX.COIN_SPAWN);
 	}
 
 	void Start ()
 	{
 		rigidBody.AddForce(new Vector2(Random.Range(-2500f,2500f),50000f));
 		StartCoroutine(CoinAutoCollect());
+	}
+
+	void OnTriggerEnter2D(Collider2D other)
+	{
+		if(other.tag == "BumpSound") bump = true;
+	}
+
+	void OnCollisionEnter2D(Collision2D col)
+	{
+		if(bump) {
+			bump = false;
+			SoundManager.Instance.PlaySFX(eSFX.COIN_BUMP);
+		}
 	}
 
 	public void OnPointerClick()
