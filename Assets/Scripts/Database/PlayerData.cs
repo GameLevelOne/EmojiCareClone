@@ -58,17 +58,77 @@ public class PlayerData : MonoBehaviour {
 	//Setter Getter -------------------------------------------------------------------------------
 	[HideInInspector] public int AlienClickCount{ get{return 5;} }
 	const string KEYPREF_PLAYERCOIN = "PlayerCoin";
+	const string KEYPREF_PLAYERCOINSPENT = "PlayerCoinSpent";
 	const string KEYPREF_PLAYERALIEN_ID = "PlayerAlien/ID";
 
+	const string KEYPREF_PLAYERALIEN_FEEDPOSCOUNT = "PlayerAlien/FeedPosCount";
+	const string KEYPREF_PLAYERALIEN_CLEANPOSCOUNT = "PlayerAlien/CleanPosCount";
+	const string KEYPREF_PLAYERALIEN_PLAYPOSCOUNT = "PlayerAlien/PlayPosCount";
+	const string KEYPREF_PLAYERALIEN_NURSEPOSCOUNT = "PlayerAlien/NursePosCount";
+	const string KEYPREF_PLAYERALIEN_FEEDNEGCOUNT = "PlayerAlien/FeedNegCount";
+	const string KEYPREF_PLAYERALIEN_CLEANNEGCOUNT = "PlayerAlien/CleanNegCount";
+	const string KEYPREF_PLAYERALIEN_PLAYNEGCOUNT = "PlayerAlien/PlayNegCount";
+	const string KEYPREF_PLAYERALIEN_NURSENEGCOUNT = "PlayerAlien/NurseNegCount";
+	const string KEYPREF_PLAYERALIEN_PETTAPCOUNT = "PlayerAlien/PetTapCount";
 
 	public int playerCoin{
 		get{return PlayerPrefs.GetInt(KEYPREF_PLAYERCOIN,1000);}
 		set{PlayerPrefs.SetInt(KEYPREF_PLAYERCOIN,value);}
 	}
 
+	public int playerSpentCoin {
+		get{ return PlayerPrefs.GetInt (KEYPREF_PLAYERCOINSPENT, 0); }
+		set{ PlayerPrefs.SetInt(KEYPREF_PLAYERCOINSPENT,value);}
+	}
+
 	public int playerAlienID{
 		get{return PlayerPrefs.GetInt(KEYPREF_PLAYERALIEN_ID,-1);}
 		set{PlayerPrefs.SetInt(KEYPREF_PLAYERALIEN_ID,value);}
+	}
+
+	public int petTapCount {
+		get{ return PlayerPrefs.GetInt (KEYPREF_PLAYERALIEN_PETTAPCOUNT, 0); }
+		set{ PlayerPrefs.SetInt(KEYPREF_PLAYERALIEN_PETTAPCOUNT,value);}
+	}
+
+	public int feedPosCount {
+		get{ return PlayerPrefs.GetInt (KEYPREF_PLAYERALIEN_FEEDPOSCOUNT, 0); }
+		set{ PlayerPrefs.SetInt(KEYPREF_PLAYERALIEN_FEEDPOSCOUNT,value);}
+	}
+
+	public int cleanPosCount {
+		get{ return PlayerPrefs.GetInt (KEYPREF_PLAYERALIEN_CLEANPOSCOUNT, 0); }
+		set{ PlayerPrefs.SetInt(KEYPREF_PLAYERALIEN_CLEANPOSCOUNT,value);}
+	}
+
+	public int playPosCount {
+		get{ return PlayerPrefs.GetInt (KEYPREF_PLAYERALIEN_CLEANPOSCOUNT, 0); }
+		set{ PlayerPrefs.SetInt(KEYPREF_PLAYERALIEN_PLAYPOSCOUNT,value);}
+	}
+
+	public int nursePosCount {
+		get{ return PlayerPrefs.GetInt(KEYPREF_PLAYERALIEN_NURSEPOSCOUNT,0);}
+		set{PlayerPrefs.SetInt(KEYPREF_PLAYERALIEN_NURSEPOSCOUNT,value);}
+	}
+
+	public int feedNegCount {
+		get{ return PlayerPrefs.GetInt (KEYPREF_PLAYERALIEN_FEEDNEGCOUNT, 0); }
+		set{ PlayerPrefs.SetInt(KEYPREF_PLAYERALIEN_FEEDNEGCOUNT,value);}
+	}
+
+	public int cleanNegCount {
+		get{ return PlayerPrefs.GetInt (KEYPREF_PLAYERALIEN_CLEANNEGCOUNT, 0); }
+		set{ PlayerPrefs.SetInt(KEYPREF_PLAYERALIEN_CLEANNEGCOUNT,value);}
+	}
+
+	public int playNegCount {
+		get{ return PlayerPrefs.GetInt (KEYPREF_PLAYERALIEN_PLAYNEGCOUNT, 0); }
+		set{ PlayerPrefs.SetInt(KEYPREF_PLAYERALIEN_PLAYNEGCOUNT,value);}
+	}
+
+	public int nurseNegCount {
+		get{ return PlayerPrefs.GetInt (KEYPREF_PLAYERALIEN_NURSENEGCOUNT, 0); }
+		set{ PlayerPrefs.SetInt(KEYPREF_PLAYERALIEN_NURSENEGCOUNT,value);}
 	}
 
 	void OnAlienDies()

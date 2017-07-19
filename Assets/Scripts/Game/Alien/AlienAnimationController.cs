@@ -34,5 +34,7 @@ public class AlienAnimationController : MonoBehaviour {
 			AlienHit = 0;
 			CoinSpawner.Instance.GenerateCoinObject();
 		}else AlienHit++;
+
+		PlayerData.Instance.petTapCount++;
 	}
 }

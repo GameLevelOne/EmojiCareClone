@@ -293,5 +293,8 @@ public class Alien : MonoBehaviour{
 	public int alienHealthDepletionDuration{
 		get{return alienSO.alienHealthDepletionDuration;}
 	}
+	public float GetAlienHappyTreshold(){
+		return ALIEN_HAPPY_TRESHOLD;
+	}
 	#endregion
 }

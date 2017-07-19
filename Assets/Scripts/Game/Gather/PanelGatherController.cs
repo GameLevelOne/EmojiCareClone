@@ -156,58 +156,70 @@ public class PanelGatherController : MonoBehaviour {
 		}
 	}
 
-	void CheckScores(int key)
+	void CheckScores (int key)
 	{
-		if(alienNeedCategory == AlienNeedCategory.HUNGER){
-			if(key < 0){
-				gatherScore[(int)AlienNeedCategory.HYGENE]--;
-				SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_NEGATIVE);
-			}
-			else if(key > 0){
-				gatherScore[(int)AlienNeedCategory.HUNGER]++;
-				SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_POSITIVE);
-			}
-
-		}else if(alienNeedCategory == AlienNeedCategory.HYGENE){
-			if(key < 0){ 
-				gatherScore[(int)AlienNeedCategory.HAPPINESS]--;
-				SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_NEGATIVE);
-
-			}
-			else if(key > 0){ 
-				gatherScore[(int)AlienNeedCategory.HYGENE]++;
-				SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_POSITIVE);
+		if (alienNeedCategory == AlienNeedCategory.HUNGER) {
+			if (key < 0) {
+				gatherScore [(int)AlienNeedCategory.HYGENE]--;
+				PlayerData.Instance.cleanNegCount++;
+				SoundManager.Instance.PlaySFX (eSFX.GATHER_SLOT_NEGATIVE);
+			} else if (key > 0) {
+				gatherScore [(int)AlienNeedCategory.HUNGER]++;
+				PlayerData.Instance.feedPosCount++;
+				SoundManager.Instance.PlaySFX (eSFX.GATHER_SLOT_POSITIVE);
 			}
 
-		}else if(alienNeedCategory == AlienNeedCategory.HAPPINESS){
-			if(key < 0){
-				gatherScore[(int)AlienNeedCategory.HUNGER]--;
-				SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_NEGATIVE);
+		} else if (alienNeedCategory == AlienNeedCategory.HYGENE) {
+			if (key < 0) { 
+				gatherScore [(int)AlienNeedCategory.HAPPINESS]--;
+				PlayerData.Instance.playNegCount++;
+				SoundManager.Instance.PlaySFX (eSFX.GATHER_SLOT_NEGATIVE);
+
+			} else if (key > 0) { 
+				gatherScore [(int)AlienNeedCategory.HYGENE]++;
+				PlayerData.Instance.cleanPosCount++;
+				SoundManager.Instance.PlaySFX (eSFX.GATHER_SLOT_POSITIVE);
 			}
-			else if(key > 0){
-				gatherScore[(int)AlienNeedCategory.HAPPINESS]++;
-				SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_POSITIVE);
+
+		} else if (alienNeedCategory == AlienNeedCategory.HAPPINESS) {
+			if (key < 0) {
+				gatherScore [(int)AlienNeedCategory.HUNGER]--;
+				PlayerData.Instance.feedNegCount++;
+				SoundManager.Instance.PlaySFX (eSFX.GATHER_SLOT_NEGATIVE);
+			} else if (key > 0) {
+				gatherScore [(int)AlienNeedCategory.HAPPINESS]++;
+				PlayerData.Instance.playPosCount++;
+				SoundManager.Instance.PlaySFX (eSFX.GATHER_SLOT_POSITIVE);
 			}
 
-		}else if(alienNeedCategory == AlienNeedCategory.HEALTH){
-			switch(key){
-			case 1: gatherScore[(int)AlienNeedCategory.HUNGER]--; 
-					SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_NEGATIVE); 
-					break;
+		} else if (alienNeedCategory == AlienNeedCategory.HEALTH) {
+			switch (key) {
+			case 1:
+				gatherScore [(int)AlienNeedCategory.HUNGER]--; 
+				PlayerData.Instance.feedNegCount++;
+				SoundManager.Instance.PlaySFX (eSFX.GATHER_SLOT_NEGATIVE); 
+				break;
 
-			case 2: gatherScore[(int)AlienNeedCategory.HYGENE]--; 
-					SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_NEGATIVE);
-					break;
+			case 2:
+				gatherScore [(int)AlienNeedCategory.HYGENE]--; 
+				PlayerData.Instance.cleanNegCount++;
+				SoundManager.Instance.PlaySFX (eSFX.GATHER_SLOT_NEGATIVE);
+				break;
 
-			case 3: gatherScore[(int)AlienNeedCategory.HAPPINESS]--; 
-					SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_NEGATIVE);
-					break;
+			case 3:
+				gatherScore [(int)AlienNeedCategory.HAPPINESS]--; 
+				PlayerData.Instance.playNegCount++;
+				SoundManager.Instance.PlaySFX (eSFX.GATHER_SLOT_NEGATIVE);
+				break;
 
-			case 4: gatherScore[(int)AlienNeedCategory.HEALTH]++;
-					SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_POSITIVE);
-					break;
+			case 4:
+				gatherScore [(int)AlienNeedCategory.HEALTH]++;
+				PlayerData.Instance.nursePosCount++;
+				SoundManager.Instance.PlaySFX (eSFX.GATHER_SLOT_POSITIVE);
+				break;
 
-			default: break;
+			default:
+				break;
 			}
 		}
 
