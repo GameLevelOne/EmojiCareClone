@@ -17,7 +17,9 @@ public enum eSFX{
 	GATHER_SLOT_POSITIVE,
 	LEVELUP,
 	PROLOGUE_GET_EMOJI,
-	WARNING
+	WARNING,
+	COIN_SPAWN,
+	COIN_BUMP
 }
 
 public class SoundManager : MonoBehaviour {
@@ -31,7 +33,6 @@ public class SoundManager : MonoBehaviour {
 
 	void Awake()
 	{
-//		PlayerPrefs.DeleteAll();
 		if(instance != null && instance != this){
 			Destroy(this.gameObject); return;
 		}else instance = this;
@@ -42,11 +43,9 @@ public class SoundManager : MonoBehaviour {
 
 	public void PlayBGM(eBGM bgm)
 	{
-		
 		if(thisSource.clip == BGM[(int)bgm])
 			return;
 		else{
-			print("terpanggil");
 			thisSource.clip = BGM[(int)bgm];
 			thisSource.Play();
 		}
