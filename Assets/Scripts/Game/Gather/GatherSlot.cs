@@ -7,12 +7,11 @@ public class GatherSlot : MonoBehaviour {
 	public event RevealSlot OnRevealSlot;
 
 	public Image contentImage;
-	public Image blockImage;
 
 	int key = 0; 
 	bool isEmpty = true;
 
-	Button slotButton;
+	Animator pickBoxAnim;
 
 	public int Key{
 		get{return key;}
@@ -20,12 +19,11 @@ public class GatherSlot : MonoBehaviour {
 
 	void Awake()
 	{
-		slotButton = GetComponent<RectTransform>().GetChild(1).GetComponent<Button>();
+		pickBoxAnim = GetComponent<RectTransform>().GetChild(1).GetComponent<Animator>();
 	}
 
 	public void InitSlot(AlienNeedCategory category)
 	{
-		slotButton.interactable = true;
 		contentImage.gameObject.GetComponent<Animator>().SetInteger("State",0);
 		SetEmpty(category);
 	}
@@ -66,9 +64,13 @@ public class GatherSlot : MonoBehaviour {
 
 	public void ImageBlockOnClick()
 	{
-		slotButton.interactable = false;
 		SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_BUTTON);
+		pickBoxAnim.transform.GetChild(1).GetComponent<Eyeball>().OnDisable();
+		pickBoxAnim.gameObject.GetComponent<PickBox>().OnDisable();
+		pickBoxAnim.SetTrigger("Click");
+
 		ShowContent();
+
 		if(OnRevealSlot != null) OnRevealSlot(key);
 	}
 

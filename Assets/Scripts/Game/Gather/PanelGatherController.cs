@@ -28,6 +28,7 @@ public class PanelGatherController : MonoBehaviour {
 	void OnDisable()
 	{
 		for(int i = 0;i<gatherSlots.Length;i++) gatherSlots[i].OnRevealSlot -= OnUseAttemp;
+		
 	}
 
 	public void InitGatherStats(AlienNeedCategory category)
@@ -159,32 +160,32 @@ public class PanelGatherController : MonoBehaviour {
 	void CheckScores(int key)
 	{
 		if(alienNeedCategory == AlienNeedCategory.HUNGER){
-			if(key < 0){
+			if(key == -1){
 				gatherScore[(int)AlienNeedCategory.HYGENE]--;
 				SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_NEGATIVE);
 			}
-			else if(key > 0){
+			else if(key == 1){
 				gatherScore[(int)AlienNeedCategory.HUNGER]++;
 				SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_POSITIVE);
 			}
 
 		}else if(alienNeedCategory == AlienNeedCategory.HYGENE){
-			if(key < 0){ 
+			if(key == -1){ 
 				gatherScore[(int)AlienNeedCategory.HAPPINESS]--;
 				SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_NEGATIVE);
 
 			}
-			else if(key > 0){ 
+			else if(key == 1){ 
 				gatherScore[(int)AlienNeedCategory.HYGENE]++;
 				SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_POSITIVE);
 			}
 
 		}else if(alienNeedCategory == AlienNeedCategory.HAPPINESS){
-			if(key < 0){
+			if(key == -1){
 				gatherScore[(int)AlienNeedCategory.HUNGER]--;
 				SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_NEGATIVE);
 			}
-			else if(key > 0){
+			else if(key == 1){
 				gatherScore[(int)AlienNeedCategory.HAPPINESS]++;
 				SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_POSITIVE);
 			}
@@ -232,12 +233,10 @@ public class PanelGatherController : MonoBehaviour {
 	{
 		for(int i = 0;i<gatherSlots.Length;i++){ 
 			Button tempButton = gatherSlots[i].transform.GetChild(1).GetComponent<Button>();
-			if(tempButton.interactable == true){ 
-				tempButton.interactable = false;
+			if(tempButton.interactable == true){
+				tempButton.gameObject.GetComponent<Animator>().SetTrigger("Click");
 				gatherSlots[i].ShowContent(new Color(0.5f,0.5f,0.5f));
 			}
-
-			gatherSlots[i].OnRevealSlot -= OnUseAttemp;
 		}
 		panelResult.ShowResult(alienNeedCategory,attempResult);
 	}
