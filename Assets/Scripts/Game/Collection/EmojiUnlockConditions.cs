@@ -4,15 +4,14 @@ using UnityEngine;
 
 public class EmojiUnlockConditions : MonoBehaviour {
 	public CollectionManager collectionManager;
-	public EmojiUnlockConditions instance;
+	private static EmojiUnlockConditions instance;
+	public static EmojiUnlockConditions Instance {
+		get{ return instance;}
+	}
 
 	const int gatherIconTarget = 250;
-	const int tapCountTarget1 = 100;
-	const int tapCountTarget2 = 500;
-	const int tapCountTarget3 = 1000;
 	const int saveCoinTarget = 25000;
 	const int spentCoinTarget = 10000;
-	const int levelTarget = 10;
 
 	bool[,] emojiUnlockValue = new bool[1,40];
 
@@ -134,19 +133,13 @@ public class EmojiUnlockConditions : MonoBehaviour {
 			}
 
 		} else if (condition == UnlockCondition.TapCount1) {
-			if (instance.petTapCount == tapCountTarget1) {
-				conditionFulfilled = true;
-			}
+			conditionFulfilled=true;
 
 		} else if (condition == UnlockCondition.TapCount2) {
-			if (instance.petTapCount == tapCountTarget2) {
-				conditionFulfilled = true;
-			}
+			conditionFulfilled=true;
 
 		} else if (condition == UnlockCondition.TapCount3) {
-			if (instance.petTapCount == tapCountTarget3) {
-				conditionFulfilled = true;
-			}
+			conditionFulfilled=true;
 
 		} else if (condition == UnlockCondition.CoinCount) {
 			if (instance.playerCoin == saveCoinTarget) {
@@ -160,11 +153,6 @@ public class EmojiUnlockConditions : MonoBehaviour {
 
 		} else if (condition == UnlockCondition.GoToSettings) {
 			conditionFulfilled = true;
-
-		} else if (condition == UnlockCondition.ReachLevel) {
-			if (currPet.alienLevel == levelTarget) {
-				conditionFulfilled = true;
-			}
 
 		} else if (condition == UnlockCondition.LongPlay) {
 

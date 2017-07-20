@@ -26,7 +26,7 @@ public enum UnlockCondition{
 	CleanNegIconCount,
 	PlayNegIconCount,
 
-	//8
+	//7
 	NurseNegIconCount,
 	TapCount1,
 	TapCount2,
@@ -34,7 +34,6 @@ public enum UnlockCondition{
 	CoinCount,
 	SpendCoin,
 	GoToSettings,
-	ReachLevel,
 
 	//8
 	LongPlay,

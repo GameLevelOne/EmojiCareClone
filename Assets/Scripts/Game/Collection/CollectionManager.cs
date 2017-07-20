@@ -16,6 +16,8 @@ public class CollectionManager : MonoBehaviour {
 	public Image currSelectedEmojiIcon;
 	public Text currSelectedEmojiName;
 	public Text currSelectedEmojiUnlockCondition;
+	public Text currSelectedPetDate;
+	public Text currSelectedPetStatus;
 
 	GameObject[] petObjects;
 	GameObject[] emojiPanels;
@@ -52,6 +54,7 @@ public class CollectionManager : MonoBehaviour {
 			emojiPanels[i]=panelObj;
 
 			int temp = Random.Range(15,23);
+			temp=36;
 			obj.GetComponent<CurrentPetData>().SetTotalEmoji(temp);
 			petObjects[i]=obj;
 
@@ -72,6 +75,7 @@ public class CollectionManager : MonoBehaviour {
 		int currCollection = currObj.GetComponent<CurrentPetData>().GetTotalEmoji();
 		petDetailPanel.SetActive(true);
 		UpdatePetDisplay();
+		UpdatePetDetails();
 		UpdateEmojiDisplay(currTotalEmoji);
 		UpdateEmojiPanelDisplay();
 	}
@@ -103,7 +107,7 @@ public class CollectionManager : MonoBehaviour {
 				Debug.Log(idx);
 				GameObject obj = Instantiate (boxEmojiPrefab) as GameObject;
 				obj.name = "Emoji" + idx;
-				obj.transform.position = new Vector3 ((-245f + (j * 100f)), (170f - (i * 100f)), 0);
+				obj.transform.position = new Vector3 ((-220f + (j * 90f)), (92f - (i * 90f)), 0);
 				obj.transform.SetParent (panelObj.transform, false);
 
 				obj.GetComponent<Button> ().onClick.AddListener (OnSelectEmoji);
@@ -125,6 +129,12 @@ public class CollectionManager : MonoBehaviour {
 		for (int i = 1; i <= 3; i++) {
 			obj.transform.GetChild(i).GetComponent<Image>().color = color;
 		}
+	}
+
+	void UpdatePetDetails(){
+		//replace contents later
+		currSelectedPetDate.text = "First met: "+"temp";
+		currSelectedPetStatus.text = "Status: "+"alive";
 	}
 
 	void UpdatePetDisplay ()
