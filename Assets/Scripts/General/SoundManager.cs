@@ -4,7 +4,6 @@ using UnityEngine;
 
 public enum eBGM{
 	MAIN = 0,
-	PROLOGUE
 }
 
 public enum eSFX{

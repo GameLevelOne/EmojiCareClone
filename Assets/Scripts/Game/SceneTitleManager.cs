@@ -7,6 +7,7 @@ public class SceneTitleManager : MonoBehaviour {
 	void Start()
 	{
 //		PlayerPrefs.DeleteAll();
+		SoundManager.Instance.PlayBGM(eBGM.MAIN);
 		fader.OnFadeOutFinished += LoadSceneMain;
 	}
 
@@ -17,6 +18,7 @@ public class SceneTitleManager : MonoBehaviour {
 	}
 
 	public void ButtonPlayOnClick(){
+		SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_POSITIVE);
 		fader.FadeOut();
 	}
 }
