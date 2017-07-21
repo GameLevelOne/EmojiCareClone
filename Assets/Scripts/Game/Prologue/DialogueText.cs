@@ -13,10 +13,17 @@ public class DialogueText : MonoBehaviour {
 		thisText = GetComponent<Text>();
 	}
 
-	public void Show(string content)
+	public void Show (string content, int clickCount)
 	{
-		textContent = content;
-		StartCoroutine(CoroutineAnimateText());
+		//textContent = content;
+		thisText.text=content;
+//		if (clickCount == 0) {
+//			StartCoroutine (CoroutineAnimateText ());
+//		} else {
+//			Debug.Log("stop");
+//			StopCoroutine(CoroutineAnimateText());
+//			thisText.text = textContent;
+//		}
 	}
 
 	IEnumerator CoroutineAnimateText()

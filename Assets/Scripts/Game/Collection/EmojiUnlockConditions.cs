@@ -96,7 +96,8 @@ public class EmojiUnlockConditions : MonoBehaviour {
 				}
 
 			} else if (condition == UnlockCondition.FullAll) {
-				if (currPet.alienHunger == currPet.alienHungerMod) {
+				if ((currPet.alienHunger == currPet.alienHungerMod) && (currPet.alienHygene == currPet.alienHygeneMod) && 
+				(currPet.alienHappiness == currPet.alienHappinessMod) && (currPet.alienHealth == currPet.alienHealthMod)) {
 					conditionFulfilled = true;
 				}
 
@@ -154,10 +155,7 @@ public class EmojiUnlockConditions : MonoBehaviour {
 				if (CountSettings ()) {
 					conditionFulfilled = true;
 				}
-			} else if (condition == UnlockCondition.SendOff) {
-				//TODO later
-
-			} else {
+			}  else {
 				conditionFulfilled = true;
 			} 
 

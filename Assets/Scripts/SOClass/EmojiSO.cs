@@ -39,7 +39,7 @@ public enum UnlockCondition{
 	LongPlay,//total playtime
 	LoginCount,
 	Comeback, 
-	GameIdle,
+	GameIdle, //TODO pending
 	SendOff, 
 	Collection1,
 	CollectionAll,
