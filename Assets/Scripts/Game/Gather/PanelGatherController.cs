@@ -3,6 +3,13 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
+public enum EmojiNeedCategory{
+	HUNGER,
+	HYGENE,
+	HAPPINESS,
+	HEALTH
+}
+
 public class PanelGatherController : MonoBehaviour {
 	const int MAX_ATTEMP = 10;
 	const int MAX_PLUS_ITEM = 10;
@@ -20,7 +27,7 @@ public class PanelGatherController : MonoBehaviour {
 	public Sprite spriteCoin;
 	public GatherSlot[] gatherSlots;
 
-	AlienNeedCategory alienNeedCategory;
+	 EmojiNeedCategory emojiNeedCategory;
 	int attemp;
 	int[] attempResult;
 	int[] gatherScore  = new int[4]{0,0,0,0};
@@ -28,16 +35,15 @@ public class PanelGatherController : MonoBehaviour {
 	void OnDisable()
 	{
 		for(int i = 0;i<gatherSlots.Length;i++) gatherSlots[i].OnRevealSlot -= OnUseAttemp;
-		
 	}
 
-	public void InitGatherStats(AlienNeedCategory category)
+	public void InitGatherStats( EmojiNeedCategory category)
 	{
 		attemp = MAX_ATTEMP;
 		textAttemp.SetAttemp(MAX_ATTEMP);
 		attempResult = new int[MAX_ATTEMP];
 		gatherScore = new int[4]{0,0,0,0};
-		alienNeedCategory = category;
+		emojiNeedCategory = category;
 
 		for(int i = 0;i<textScore.Length;i++) textScore[i].enabled = false;
 
@@ -52,17 +58,17 @@ public class PanelGatherController : MonoBehaviour {
 
 	void InitCategoryItem()
 	{
-		switch(alienNeedCategory){
-		case AlienNeedCategory.HUNGER:
+		switch(emojiNeedCategory){
+		case  EmojiNeedCategory.HUNGER:
 			SetGatherSlotContents(spriteFeed[0],spriteClean[1]);
 			break;
-		case AlienNeedCategory.HYGENE:
+		case  EmojiNeedCategory.HYGENE:
 			SetGatherSlotContents(spriteClean[0],spritePlay[1]);
 			break;
-		case AlienNeedCategory.HAPPINESS: 
+		case  EmojiNeedCategory.HAPPINESS: 
 			SetGatherSlotContents(spritePlay[0],spriteFeed[1]);
 			break;
-		case AlienNeedCategory.HEALTH:
+		case  EmojiNeedCategory.HEALTH:
 			SetGatherSlotContentHealth();
 			break;
 		default: break;
@@ -159,70 +165,70 @@ public class PanelGatherController : MonoBehaviour {
 
 	void CheckScores(int key)
 	{
-		if(alienNeedCategory == AlienNeedCategory.HUNGER){
+		if(emojiNeedCategory ==  EmojiNeedCategory.HUNGER){
 			if(key == -1){
-				gatherScore[(int)AlienNeedCategory.HYGENE]--;
+				gatherScore[(int) EmojiNeedCategory.HYGENE]--;
 				PlayerData.Instance.cleanNegCount++;
 				EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.CleanNegIconCount);
 				SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_NEGATIVE);
 			}
 			else if(key == 1){
-				gatherScore[(int)AlienNeedCategory.HUNGER]++;
+				gatherScore[(int) EmojiNeedCategory.HUNGER]++;
 				PlayerData.Instance.feedPosCount++;
 				EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.FeedPosIconCount);
 				SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_POSITIVE);
 			}
 
-		}else if(alienNeedCategory == AlienNeedCategory.HYGENE){
+		}else if(emojiNeedCategory ==  EmojiNeedCategory.HYGENE){
 			if(key == -1){ 
-				gatherScore[(int)AlienNeedCategory.HAPPINESS]--;
+				gatherScore[(int) EmojiNeedCategory.HAPPINESS]--;
 				PlayerData.Instance.playNegCount++;
 				EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.PlayNegIconCount);
 				SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_NEGATIVE);
 
 			}
 			else if(key == 1){ 
-				gatherScore[(int)AlienNeedCategory.HYGENE]++;
+				gatherScore[(int) EmojiNeedCategory.HYGENE]++;
 				PlayerData.Instance.cleanPosCount++;
 				EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.CleanPosIconCount);
 				SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_POSITIVE);
 			}
 
-		}else if(alienNeedCategory == AlienNeedCategory.HAPPINESS){
+		}else if(emojiNeedCategory ==  EmojiNeedCategory.HAPPINESS){
 			if(key == -1){
-				gatherScore[(int)AlienNeedCategory.HUNGER]--;
+				gatherScore[(int) EmojiNeedCategory.HUNGER]--;
 				PlayerData.Instance.feedNegCount++;
 				EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.FeedNegIconCount);
 				SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_NEGATIVE);
 			}
 			else if(key == 1){
-				gatherScore[(int)AlienNeedCategory.HAPPINESS]++;
+				gatherScore[(int) EmojiNeedCategory.HAPPINESS]++;
 				PlayerData.Instance.playPosCount++;
 				EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.PlayPosIconCount);
 				SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_POSITIVE);
 			}
 
-		}else if(alienNeedCategory == AlienNeedCategory.HEALTH){
+		}else if(emojiNeedCategory ==  EmojiNeedCategory.HEALTH){
 			switch(key){
-			case 1: gatherScore[(int)AlienNeedCategory.HUNGER]--; 
+			case 1: gatherScore[(int) EmojiNeedCategory.HUNGER]--; 
 					PlayerData.Instance.feedNegCount++;
 					EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.FeedNegIconCount);
 					SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_NEGATIVE); 
 					break;
 
-			case 2: gatherScore[(int)AlienNeedCategory.HYGENE]--; 
+			case 2: gatherScore[(int) EmojiNeedCategory.HYGENE]--; 
 					PlayerData.Instance.cleanNegCount++;
 					EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.CleanNegIconCount);
 					SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_NEGATIVE);
 					break;
 
-			case 3: gatherScore[(int)AlienNeedCategory.HAPPINESS]--; 
+			case 3: gatherScore[(int) EmojiNeedCategory.HAPPINESS]--; 
 					PlayerData.Instance.playNegCount++;
 					EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.PlayNegIconCount);
 					SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_NEGATIVE);
 					break;
 
-			case 4: gatherScore[(int)AlienNeedCategory.HEALTH]++;
+			case 4: gatherScore[(int) EmojiNeedCategory.HEALTH]++;
 					PlayerData.Instance.nursePosCount++;
 					EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.NursePosIconCount);
 					SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_POSITIVE);
@@ -258,6 +264,6 @@ public class PanelGatherController : MonoBehaviour {
 				gatherSlots[i].ShowContent(new Color(0.5f,0.5f,0.5f));
 			}
 		}
-		panelResult.ShowResult(alienNeedCategory,attempResult);
+		panelResult.ShowResult(emojiNeedCategory,attempResult);
 	}
 }

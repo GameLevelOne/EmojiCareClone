@@ -18,7 +18,7 @@ public class UICaptureAlien : MonoBehaviour {
 	}
 
 	void InitCaptureAlien(){
-		if(!TutorialManager.Instance.TutorialDone) TutorialManager.Instance.ShowTutorial();
+//		if(!TutorialManager.Instance.TutorialDone) TutorialManager.Instance.ShowTutorial();
 		panelGetAlien.gameObject.SetActive(false);
 		capturePanelController.InitCaptureAlien();
 

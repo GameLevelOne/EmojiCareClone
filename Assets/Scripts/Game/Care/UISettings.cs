@@ -12,7 +12,7 @@ public class UISettings : MonoBehaviour {
 
 	void InitSettings()
 	{
-		int tempSound = PlayerPrefs.GetInt("Settings/Sound",0);
+		int tempSound = PlayerPrefs.GetInt("Settings/Sound",1);
 		imageButtonSound.sprite = sprSound[tempSound];
 	}
 
@@ -22,13 +22,10 @@ public class UISettings : MonoBehaviour {
 		GetComponent<Animator>().SetTrigger("Hide");
 	}
 
-	public void ButtonSoundOnClick ()
+	public void ButtonSoundOnClick()
 	{
-		float tempSound = PlayerPrefs.GetFloat ("Settings/Sound", 0);
-		if (tempSound == 1f) {
-			tempSound = 0f;
-			EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.MuteSound);
-		}
+		float tempSound = PlayerPrefs.GetFloat("Settings/Sound",1);
+		if(tempSound == 1f) tempSound = 0f;
 		else tempSound = 1f;
 		
 		imageButtonSound.sprite = sprSound[(int)tempSound];

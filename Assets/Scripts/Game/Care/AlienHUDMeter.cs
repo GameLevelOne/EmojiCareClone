@@ -2,13 +2,6 @@
 using UnityEngine;
 using System.Collections;
 
-public enum AlienNeedCategory{
-	HUNGER,
-	HYGENE,
-	HAPPINESS,
-	HEALTH
-}
-
 public class AlienHUDMeter : MonoBehaviour {
 	public Image imageAmount;
 	public Text textAmount;
@@ -24,7 +17,7 @@ public class AlienHUDMeter : MonoBehaviour {
 	bool hasInit = false;
 	public float lastValue = 0;
 
-	public void InitHUD(float currentValue, float maxValue){
+	public void InitHUD(int currentValue, int maxValue){
 		if(hasInit == false){
 			lastValue = currentValue;
 			imageAmount.fillAmount = (float)(currentValue/maxValue);
@@ -33,9 +26,8 @@ public class AlienHUDMeter : MonoBehaviour {
 		}
 	}
 
-	public void ModHUD(float currentValue, float maxValue)
+	public void ModHUD(int currentValue, int maxValue)
 	{
-//		print("last value = "+lastValue+", currentValue = "+currentValue);
 		StartCoroutine(CoroutineModHUD(currentValue,maxValue));
 	}
 		
@@ -53,6 +45,7 @@ public class AlienHUDMeter : MonoBehaviour {
 			textAmount.text = Mathf.FloorToInt(tempMod).ToString()+"/"+ Mathf.FloorToInt(maxValue).ToString();
 			yield return new WaitForSeconds(Time.deltaTime);
 		}
+
 		lastValue = currentValue;
 	}
 

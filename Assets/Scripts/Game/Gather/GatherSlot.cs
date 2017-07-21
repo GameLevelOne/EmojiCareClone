@@ -22,7 +22,7 @@ public class GatherSlot : MonoBehaviour {
 		pickBoxAnim = GetComponent<RectTransform>().GetChild(1).GetComponent<Animator>();
 	}
 
-	public void InitSlot(AlienNeedCategory category)
+	public void InitSlot( EmojiNeedCategory category)
 	{
 		contentImage.gameObject.GetComponent<Animator>().SetInteger("State",0);
 		SetEmpty(category);
@@ -50,12 +50,12 @@ public class GatherSlot : MonoBehaviour {
 
 	}
 
-	public void SetEmpty(AlienNeedCategory category)
+	public void SetEmpty( EmojiNeedCategory category)
 	{
 		contentImage.sprite = null;
 		contentImage.enabled = false;
 		isEmpty = true;
-		if(category == AlienNeedCategory.HEALTH){
+		if(category ==  EmojiNeedCategory.HEALTH){
 			key = -1;
 		}else{
 			key = 0;

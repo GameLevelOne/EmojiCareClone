@@ -24,11 +24,11 @@ public class PanelGatherResultController : MonoBehaviour {
 		thisAnim = GetComponent<Animator>();
 	}
 
-	public void ShowResult(AlienNeedCategory category, int[] result)
+	public void ShowResult(EmojiNeedCategory category, int[] result)
 	{
-		Alien playerAlien = PlayerData.Instance.PlayerAlien;
+		Emoji playerEmoji = PlayerData.Instance.PlayerEmoji;
 		coin = 0;
-		if(category == AlienNeedCategory.HEALTH){
+		if(category == EmojiNeedCategory.HEALTH){
 			hunger = hygene = happiness = health = 0;
 
 			for(int i = 0;i<result.Length;i++){
@@ -48,11 +48,10 @@ public class PanelGatherResultController : MonoBehaviour {
 			textHappiness.text = "-"+happiness.ToString();
 			textHealth.text = "+"+health.ToString();
 
-			playerAlien.alienHungerMod -= hunger;
-			playerAlien.alienHygeneMod -= hygene;
-			playerAlien.alienHappinessMod -= happiness;
-			playerAlien.alienHealthMod += health;
-
+			playerEmoji.ModStats(EmojiStats.HUNGER,-hunger);
+			playerEmoji.ModStats(EmojiStats.HYGENE,-hygene);
+			playerEmoji.ModStats(EmojiStats.HAPPINESS,-happiness);
+			playerEmoji.ModStats(EmojiStats.HEALTH,health);
 			content.SetActive(false);
 			contentHealth.SetActive(true);
 		}else{
@@ -69,19 +68,19 @@ public class PanelGatherResultController : MonoBehaviour {
 
 			imagePositive.sprite = spriteCategory[(int)category];
 			switch(category){
-			case AlienNeedCategory.HUNGER: 
-				playerAlien.alienHungerMod += positive;
-				playerAlien.alienHygeneMod -= negative;
+			case EmojiNeedCategory.HUNGER: 
+				playerEmoji.ModStats(EmojiStats.HUNGER,hunger);
+				playerEmoji.ModStats(EmojiStats.HYGENE,-hygene);
 				imageNegative.sprite = spriteCategory[1];
 				break;
-			case AlienNeedCategory.HYGENE: 
-				playerAlien.alienHygeneMod += positive;
-				playerAlien.alienHappinessMod -= negative;
+			case EmojiNeedCategory.HYGENE: 
+				playerEmoji.ModStats(EmojiStats.HYGENE,hygene);
+				playerEmoji.ModStats(EmojiStats.HAPPINESS,-happiness);
 				imageNegative.sprite = spriteCategory[2];
 				break;
-			case AlienNeedCategory.HAPPINESS:
-				playerAlien.alienHappinessMod += positive;
-				playerAlien.alienHungerMod -= negative;
+			case EmojiNeedCategory.HAPPINESS:
+				playerEmoji.ModStats(EmojiStats.HAPPINESS,happiness);
+				playerEmoji.ModStats(EmojiStats.HUNGER,-hunger);
 				imageNegative.sprite = spriteCategory[0];
 				break;
 			default: break;
@@ -93,7 +92,6 @@ public class PanelGatherResultController : MonoBehaviour {
 		PlayerData.Instance.playerCoin += playerGetCoin;
 		textCoin.text = playerGetCoin.ToString();
 
-		playerAlien.AdjustStats();
 		buttonOk.interactable = true;
 		StartCoroutine(DelayShow());
 	}
