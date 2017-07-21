@@ -6,9 +6,9 @@ public class UIGather : MonoBehaviour {
 	public Image imageCategory;
 	public Sprite[] spriteCategory;
 
-	public void InitUIGather(AlienNeedCategory category)
+	public void InitUIGather(EmojiNeedCategory category)
 	{
-		if(!TutorialManager.Instance.TutorialDone) TutorialManager.Instance.ShowTutorial();
+//		if(!TutorialManager.Instance.TutorialDone) TutorialManager.Instance.ShowTutorial();
 		panelGatherController.InitGatherStats(category);
 		imageCategory.sprite = spriteCategory[(int)category];
 	}

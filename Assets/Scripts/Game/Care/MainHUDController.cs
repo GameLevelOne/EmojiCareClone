@@ -8,67 +8,52 @@ public class MainHUDController : MonoBehaviour {
 	public Text textAlienName, textAlienType, textAlienLevel, textAlienGrowth;
 	public Text textCoin;
 
+	Emoji playerEmoji;
+
 	void OnEnable()
 	{
-		if(PlayerData.Instance.playerAlienID != -1) {
-			PlayerData.Instance.PlayerAlien.OnAlienDepleteStats += UpdateStatsMeter;
-			PlayerData.Instance.PlayerAlien.OnAlienGetGrowth += UpdateAlienLevelAndGrowth;
-		}
+		if(PlayerData.Instance.playerAlienID != -1) 
+			PlayerData.Instance.PlayerEmoji.OnEmojiModStats += UpdateStatsMeter;
+		
 	}
 
 	void OnDisable()
 	{
-		if(PlayerData.Instance.playerAlienID != -1) {
-			PlayerData.Instance.PlayerAlien.OnAlienDepleteStats -= UpdateStatsMeter;
-			PlayerData.Instance.PlayerAlien.OnAlienGetGrowth -= UpdateAlienLevelAndGrowth;
-		}
+		if(PlayerData.Instance.playerAlienID != -1) 
+			PlayerData.Instance.PlayerEmoji.OnEmojiModStats -= UpdateStatsMeter;
+		
 	}
 
 	public void Init()
 	{
-		UpdateAlienNameAndType();
-		UpdateAlienLevelAndGrowth();
+		UpdateEmojiNameAndType();
 		textCoin.text = PlayerData.Instance.playerCoin.ToString();
 
-		hungerMeter.InitHUD(PlayerData.Instance.PlayerAlien.alienHungerMod,PlayerData.Instance.PlayerAlien.alienHunger);
-		hygeneMeter.InitHUD(PlayerData.Instance.PlayerAlien.alienHygeneMod, PlayerData.Instance.PlayerAlien.alienHygene);
-		happinessMeter.InitHUD(PlayerData.Instance.PlayerAlien.alienHappinessMod, PlayerData.Instance.PlayerAlien.alienHappiness);
-		healthMeter.InitHUD(PlayerData.Instance.PlayerAlien.alienHealthMod, PlayerData.Instance.PlayerAlien.alienHealth);
+		if(playerEmoji == null || playerEmoji != PlayerData.Instance.PlayerEmoji) 
+			playerEmoji = PlayerData.Instance.PlayerEmoji;
+
+		hungerMeter.InitHUD( playerEmoji.emojiHungerMod, playerEmoji.emojiHunger);
+		hygeneMeter.InitHUD( playerEmoji.emojiHygeneMod,  playerEmoji.emojiHygene);
+		happinessMeter.InitHUD( playerEmoji.emojiHappinessMod,  playerEmoji.emojiHappiness);
+		healthMeter.InitHUD( playerEmoji.emojiHealthMod,  playerEmoji.emojiHealth);
+
 	}
 
-	public void UpdateAlienLevelAndGrowth()
+	public void UpdateEmojiNameAndType()
 	{
-		textAlienLevel.text = "LVL "+ PlayerData.Instance.PlayerAlien.alienLevel.ToString();
-		textAlienGrowth.text = PlayerData.Instance.PlayerAlien.alienGrowthMod.ToString() +"/"+ PlayerData.Instance.PlayerAlien.alienGrowth.ToString();
-		imageGrowth.fillAmount = (float)PlayerData.Instance.PlayerAlien.alienGrowthMod/(float)PlayerData.Instance.PlayerAlien.alienGrowth;
+		textAlienName.text = PlayerData.Instance.PlayerEmoji.emojiName.ToUpper();
 	}
 
 	public void UpdateStatsMeter()
 	{
-		Alien playerAlien = PlayerData.Instance.PlayerAlien;
-		if(playerAlien.alienHungerMod >= 0f){ 
-//			print("hungerMod");
-			hungerMeter.ModHUD(playerAlien.alienHungerMod,playerAlien.alienHunger);
-		}
-		if(playerAlien.alienHygeneMod >= 0f) {
-//			print("hygeneMod");
-			hygeneMeter.ModHUD(playerAlien.alienHygeneMod, playerAlien.alienHygene);
-		}
-		if(playerAlien.alienHappinessMod >= 0f) {
-//			print("happinessMod");
-			happinessMeter.ModHUD(playerAlien.alienHappinessMod, playerAlien.alienHappiness);
-		}
-		if(playerAlien.alienHealthMod >= 0f) {
-//			print("healthMod");
-			healthMeter.ModHUD(playerAlien.alienHealthMod, playerAlien.alienHealth);
-		}
-		playerAlien.AdjustStats();
-	}
+//		Alien playerAlien = PlayerData.Instance.PlayerAlien;
 
-	public void UpdateAlienNameAndType()
-	{
-		textAlienName.text = PlayerData.Instance.PlayerAlien.alienName.ToUpper();
-		textAlienType.text = "TYPE: "+ PlayerData.Instance.PlayerAlien.alienType.ToString().ToUpper();
+		if(playerEmoji != null){
+			if(playerEmoji.emojiHungerMod >= 0f) 		hungerMeter.ModHUD(playerEmoji.emojiHungerMod,		playerEmoji.emojiHunger);
+			if(playerEmoji. emojiHygeneMod >= 0f)		hygeneMeter.ModHUD(playerEmoji.emojiHygeneMod, 		playerEmoji.emojiHygene);
+			if(playerEmoji. emojiHappinessMod >= 0f) happinessMeter.ModHUD(playerEmoji.emojiHappinessMod,   playerEmoji.emojiHappiness);
+			if(playerEmoji. emojiHealthMod >= 0f) 		healthMeter.ModHUD(playerEmoji.emojiHealthMod, 		playerEmoji.emojiHealth);
+		}
 	}
 
 	public void ModCoin(int amount)

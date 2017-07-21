@@ -7,60 +7,19 @@ public class PlayerData : MonoBehaviour {
 		get{return instance;}
 	}
 
-	GameObject playerAlien;
+
 	public RectTransform alienObjectParentTransform;
+	public RectTransform emojiParentTransform;
+	GameObject playerAlien;
+	Emoji playerEmoji;
 
-	[Header("Data")]
-	public Alien[] alienData;
-
-	public bool alienDead = false;
-
-	void Awake()
-	{
-		//singleton
-		if(instance != null && instance != this) { 
-			Destroy(gameObject);
-			return; 
-		}
-		else instance = this;
-		DontDestroyOnLoad(gameObject);
-
-		if(playerAlienID != -1) LoadPlayerAlien();
-	}
-
-	public void LoadPlayerAlien(){
-		PlayerAlien = alienData[playerAlienID];
-		PlayerAlien.OnAlienDies += OnAlienDies;
-		GenerateAlienObject();
-	}
-
-	public void SetPlayerAlien(int index)
-	{
-		playerAlienID = index;
-		PlayerAlien = PlayerData.Instance.alienData[index];
-		PlayerAlien.InitAlienStats();
-		GenerateAlienObject();
-	}
-
-	public Alien PlayerAlien{
-		get{ return playerAlien.GetComponent<Alien>(); }
-		set{ playerAlien = value.gameObject; }
-	}
-
-	void GenerateAlienObject()
-	{
-		if(PlayerAlien.cloneObject == null){
-			PlayerAlien.GenerateAlienAnimationObject(alienObjectParentTransform);
-			AlienStatsController.Instance.InitStatsController();
-		}
-	}
-
-	//Setter Getter -------------------------------------------------------------------------------
+	#region playerdata
 	[HideInInspector] public int AlienClickCount{ get{return 5;} }
-	const string KEYPREF_PLAYERCOIN = "PlayerCoin";
-	const string KEYPREF_PLAYERCOINSPENT = "PlayerCoinSpent";
+	const string Key_Player_Coin = "PlayerCoin";
+	const string Key_Player_EmojiId = "PlayerEmoji/ID";
 	const string KEYPREF_PLAYERALIEN_ID = "PlayerAlien/ID";
 
+	const string Key_Player_CoinSPENT = "PlayerCoinSpent";
 	const string KEYPREF_PLAYERALIEN_FEEDPOSCOUNT = "PlayerAlien/FeedPosCount";
 	const string KEYPREF_PLAYERALIEN_CLEANPOSCOUNT = "PlayerAlien/CleanPosCount";
 	const string KEYPREF_PLAYERALIEN_PLAYPOSCOUNT = "PlayerAlien/PlayPosCount";
@@ -72,63 +31,123 @@ public class PlayerData : MonoBehaviour {
 	const string KEYPREF_PLAYERALIEN_PETTAPCOUNT = "PlayerAlien/PetTapCount";
 
 	public int playerCoin{
-		get{return PlayerPrefs.GetInt(KEYPREF_PLAYERCOIN,1000);}
-		set{PlayerPrefs.SetInt(KEYPREF_PLAYERCOIN,value);}
+		get{return PlayerPrefs.GetInt(Key_Player_Coin,1000);}
+		set{PlayerPrefs.SetInt(Key_Player_Coin,value);}
 	}
-
 	public int playerSpentCoin {
-		get{ return PlayerPrefs.GetInt (KEYPREF_PLAYERCOINSPENT, 0); }
-		set{ PlayerPrefs.SetInt(KEYPREF_PLAYERCOINSPENT,value);}
+		get{ return PlayerPrefs.GetInt (Key_Player_CoinSPENT, 0); }
+		set{ PlayerPrefs.SetInt(Key_Player_CoinSPENT,value);}
 	}
-
 	public int playerAlienID{
 		get{return PlayerPrefs.GetInt(KEYPREF_PLAYERALIEN_ID,-1);}
 		set{PlayerPrefs.SetInt(KEYPREF_PLAYERALIEN_ID,value);}
 	}
-
+	public int playerEmojiID{
+		get{return PlayerPrefs.GetInt(Key_Player_EmojiId,-1);}
+		set{PlayerPrefs.SetInt(Key_Player_EmojiId,value);}
+	}
 	public int petTapCount {
 		get{ return PlayerPrefs.GetInt (KEYPREF_PLAYERALIEN_PETTAPCOUNT, 0); }
 		set{ PlayerPrefs.SetInt(KEYPREF_PLAYERALIEN_PETTAPCOUNT,value);}
 	}
-
 	public int feedPosCount {
 		get{ return PlayerPrefs.GetInt (KEYPREF_PLAYERALIEN_FEEDPOSCOUNT, 0); }
 		set{ PlayerPrefs.SetInt(KEYPREF_PLAYERALIEN_FEEDPOSCOUNT,value);}
 	}
-
 	public int cleanPosCount {
 		get{ return PlayerPrefs.GetInt (KEYPREF_PLAYERALIEN_CLEANPOSCOUNT, 0); }
 		set{ PlayerPrefs.SetInt(KEYPREF_PLAYERALIEN_CLEANPOSCOUNT,value);}
 	}
-
 	public int playPosCount {
 		get{ return PlayerPrefs.GetInt (KEYPREF_PLAYERALIEN_CLEANPOSCOUNT, 0); }
 		set{ PlayerPrefs.SetInt(KEYPREF_PLAYERALIEN_PLAYPOSCOUNT,value);}
 	}
-
 	public int nursePosCount {
 		get{ return PlayerPrefs.GetInt(KEYPREF_PLAYERALIEN_NURSEPOSCOUNT,0);}
 		set{PlayerPrefs.SetInt(KEYPREF_PLAYERALIEN_NURSEPOSCOUNT,value);}
 	}
-
 	public int feedNegCount {
 		get{ return PlayerPrefs.GetInt (KEYPREF_PLAYERALIEN_FEEDNEGCOUNT, 0); }
 		set{ PlayerPrefs.SetInt(KEYPREF_PLAYERALIEN_FEEDNEGCOUNT,value);}
 	}
-
 	public int cleanNegCount {
 		get{ return PlayerPrefs.GetInt (KEYPREF_PLAYERALIEN_CLEANNEGCOUNT, 0); }
 		set{ PlayerPrefs.SetInt(KEYPREF_PLAYERALIEN_CLEANNEGCOUNT,value);}
 	}
-
 	public int playNegCount {
 		get{ return PlayerPrefs.GetInt (KEYPREF_PLAYERALIEN_PLAYNEGCOUNT, 0); }
 		set{ PlayerPrefs.SetInt(KEYPREF_PLAYERALIEN_PLAYNEGCOUNT,value);}
 	}
-
 	public int nurseNegCount {
 		get{ return PlayerPrefs.GetInt (KEYPREF_PLAYERALIEN_NURSENEGCOUNT, 0); }
 		set{ PlayerPrefs.SetInt(KEYPREF_PLAYERALIEN_NURSENEGCOUNT,value);}
+	}
+
+	public Alien PlayerAlien{
+		get{ return playerAlien.GetComponent<Alien>(); }
+		set{ playerAlien = value.gameObject; }
+	}
+	public Emoji PlayerEmoji{
+		get{ return playerEmoji; }
+		set{ playerEmoji = value;}
+	}
+	#endregion
+
+	public Alien[] alienData;
+	public Emoji[] emojiData;
+
+	public bool alienDead = false;
+	[HideInInspector] public bool emojiDead = true;
+
+	void Awake()
+	{
+		//singleton
+		if(instance != null && instance != this) { 
+			Destroy(gameObject);
+			return; 
+		}
+		else instance = this;
+
+//		if(playerAlienID != -1) LoadPlayerAlien();
+		if(playerEmojiID != -1) LoadPlayerEmoji();
+	}
+
+	public void LoadPlayerAlien(){
+		PlayerAlien = alienData[playerAlienID];
+		PlayerAlien.OnAlienDies += OnAlienDies;
+		GenerateAlienObject();
+	}
+
+	public void LoadPlayerEmoji()
+	{
+		playerEmoji = emojiData[playerEmojiID];
+		playerEmoji.OnEmojiDies += OnEmojiDies;
+
+		playerEmoji.parent = emojiParentTransform;
+		playerEmoji.InitEmoji();
+	}
+
+	public void SetPlayerAlien(int index)
+	{
+		playerAlienID = index;
+		PlayerAlien = PlayerData.Instance.alienData[index];
+		PlayerAlien.InitAlienStats();
+		GenerateAlienObject();
+	}
+
+	public void SetPlayerEmoji(int index)
+	{
+		playerEmojiID = index;
+		PlayerEmoji = emojiData[index];
+		playerEmoji.InitEmoji();
+	}
+
+	void GenerateAlienObject()
+	{
+		if(PlayerAlien.cloneObject == null){
+			PlayerAlien.GenerateAlienAnimationObject(alienObjectParentTransform);
+//			AlienStatsController.Instance.InitStatsController();
+		}
 	}
 
 	void OnAlienDies()
@@ -136,17 +155,14 @@ public class PlayerData : MonoBehaviour {
 		alienDead = true;
 		playerAlienID = -1;
 
-		AlienStatsController.Instance.isStartIncreasingGrowth = false;
 		AlienStatsController.Instance.isStatsDepletingStats = false;
 	}
 		
-	public void RestoreAlienStats()
+	void OnEmojiDies()
 	{
-		if(PlayerAlien != null){
-			PlayerAlien.alienHungerMod = PlayerAlien.alienHunger;
-			PlayerAlien.alienHygeneMod = PlayerAlien.alienHygene;
-			PlayerAlien.alienHappinessMod = PlayerAlien.alienHappiness;
-			PlayerAlien.alienHealthMod = PlayerAlien.alienHealth;
-		}
+		emojiDead = true;
+		playerEmojiID = -1;
+
+		//disable stats depletion
 	}
 }

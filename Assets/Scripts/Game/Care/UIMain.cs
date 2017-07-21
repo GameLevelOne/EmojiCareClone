@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UIMain : MonoBehaviour {
 	public MainHUDController mainHUD;
-	public GameObject panelCaptureAlien;
+	public GameObject panelGetEmoji;
 	public GameObject panelSettings;
 	public GameObject textAlienDead;
 
@@ -17,17 +17,17 @@ public class UIMain : MonoBehaviour {
 
 	void InitMain()
 	{
-		if(PlayerData.Instance.playerAlienID == -1){
-			if(!TutorialManager.Instance.TutorialDone) TutorialManager.Instance.ShowTutorial();
+		if(PlayerData.Instance.playerEmojiID == -1){
+//			if(!TutorialManager.Instance.TutorialDone) TutorialManager.Instance.ShowTutorial();
 			mainHUD.gameObject.SetActive(false);
-			panelCaptureAlien.SetActive(true);
-			if(PlayerData.Instance.alienDead) textAlienDead.SetActive(true);
+			panelGetEmoji.SetActive(true);
+			if(PlayerData.Instance.emojiDead) textAlienDead.SetActive(true);
 			else textAlienDead.SetActive(false);
 		}else{
-			if(!TutorialManager.Instance.TutorialDone) TutorialManager.Instance.ShowTutorial();
-			if(!TutorialManager.Instance.TutorialDone && TutorialManager.Instance.TutorialIndex == 6) TutorialManager.Instance.ShowTutorial();
+//			if(!TutorialManager.Instance.TutorialDone) TutorialManager.Instance.ShowTutorial();
+//			if(!TutorialManager.Instance.TutorialDone && TutorialManager.Instance.TutorialIndex == 6) TutorialManager.Instance.ShowTutorial();
 				
-			panelCaptureAlien.SetActive(false);
+			panelGetEmoji.SetActive(false);
 			mainHUD.gameObject.SetActive(true);
 			mainHUD.Init();
 		}
@@ -37,5 +37,11 @@ public class UIMain : MonoBehaviour {
 	{
 		SoundManager.Instance.PlaySFX(eSFX.BUTTON);
 		panelSettings.GetComponent<Animator>().SetTrigger("Show");
+	}
+
+	public void ButtonGetEmojiOnClick()
+	{
+		PlayerData.Instance.SetPlayerEmoji(0);
+		InitMain();
 	}
 }
