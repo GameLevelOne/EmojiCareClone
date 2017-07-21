@@ -35,6 +35,7 @@ public class UIMain : MonoBehaviour {
 
 	public void ButtonSettingsOnClick()
 	{
+		EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.GoToSettings);
 		SoundManager.Instance.PlaySFX(eSFX.BUTTON);
 		panelSettings.GetComponent<Animator>().SetTrigger("Show");
 	}

@@ -133,7 +133,7 @@ public class CollectionManager : MonoBehaviour {
 
 	void UpdatePetDetails(){
 		//replace contents later
-		currSelectedPetDate.text = "First met: "+"temp";
+		currSelectedPetDate.text = "Last sent off: "+"temp";
 		currSelectedPetStatus.text = "Status: "+"alive";
 	}
 

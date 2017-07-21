@@ -36,11 +36,11 @@ public enum UnlockCondition{
 	GoToSettings,
 
 	//8
-	LongPlay,
-	ConsecutiveLogin,
-	Comeback,
+	LongPlay,//total playtime
+	LoginCount,
+	Comeback, 
 	GameIdle,
-	SendOff,
+	SendOff, 
 	Collection1,
 	CollectionAll,
 	MuteSound
