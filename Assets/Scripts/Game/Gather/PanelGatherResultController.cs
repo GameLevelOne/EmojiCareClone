@@ -48,9 +48,9 @@ public class PanelGatherResultController : MonoBehaviour {
 			textHappiness.text = "-"+happiness.ToString();
 			textHealth.text = "+"+health.ToString();
 
-			playerEmoji.ModStats(EmojiStats.HUNGER,-hunger);
-			playerEmoji.ModStats(EmojiStats.HYGENE,-hygene);
-			playerEmoji.ModStats(EmojiStats.HAPPINESS,-happiness);
+			playerEmoji.ModStats(EmojiStats.HUNGER,-1*hunger);
+			playerEmoji.ModStats(EmojiStats.HYGENE,-1*hygene);
+			playerEmoji.ModStats(EmojiStats.HAPPINESS,-1*happiness);
 			playerEmoji.ModStats(EmojiStats.HEALTH,health);
 			content.SetActive(false);
 			contentHealth.SetActive(true);
@@ -65,28 +65,33 @@ public class PanelGatherResultController : MonoBehaviour {
 			}
 			textPositive.text = "+"+positive.ToString();
 			textNegative.text = "-"+negative.ToString();
-
 			imagePositive.sprite = spriteCategory[(int)category];
 			switch(category){
 			case EmojiNeedCategory.HUNGER: 
-				playerEmoji.ModStats(EmojiStats.HUNGER,hunger);
-				playerEmoji.ModStats(EmojiStats.HYGENE,-hygene);
+				playerEmoji.ModStats(EmojiStats.HUNGER,positive);
+				playerEmoji.ModStats(EmojiStats.HYGENE,-negative);
 				imageNegative.sprite = spriteCategory[1];
 				break;
 			case EmojiNeedCategory.HYGENE: 
-				playerEmoji.ModStats(EmojiStats.HYGENE,hygene);
-				playerEmoji.ModStats(EmojiStats.HAPPINESS,-happiness);
+				playerEmoji.ModStats(EmojiStats.HYGENE,positive);
+				playerEmoji.ModStats(EmojiStats.HAPPINESS,-negative);
 				imageNegative.sprite = spriteCategory[2];
 				break;
 			case EmojiNeedCategory.HAPPINESS:
-				playerEmoji.ModStats(EmojiStats.HAPPINESS,happiness);
-				playerEmoji.ModStats(EmojiStats.HUNGER,-hunger);
+				playerEmoji.ModStats(EmojiStats.HAPPINESS,positive);
+				playerEmoji.ModStats(EmojiStats.HUNGER,-negative);
 				imageNegative.sprite = spriteCategory[0];
 				break;
 			default: break;
 			}
 			content.SetActive(true);
 			contentHealth.SetActive(false);
+
+			print("hunger = "+playerEmoji.emojiHungerMod);
+			print("hygene = "+playerEmoji.emojiHygeneMod);
+			print("happiness = "+playerEmoji.emojiHappinessMod);
+			print("health = "+playerEmoji.emojiHealthMod);
+
 		}
 		int playerGetCoin = coin*10;
 		PlayerData.Instance.playerCoin += playerGetCoin;

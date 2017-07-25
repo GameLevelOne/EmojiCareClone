@@ -26,16 +26,18 @@ public class SceneMainManager : MonoBehaviour {
 	/// <summary>show 1 UI Object at a time, fader included</summary>
 	void  ShowSubScene()
 	{
+		fader.OnFadeOutFinished -= ShowSubScene;
 		foreach(GameObject UIObj in uiSubScenes) UIObj.SetActive(false); 
 		uiSubScenes[(int)tempSubScene].SetActive(true);
 		if(tempSubScene == SubScene.UI_MAIN && PlayerData.Instance.playerEmojiID != -1){
+			print("WOIWOIWOI");
 			fader.OnFadeInFinished += UpdateStatsAfterGather;
+			uiSubScenes[(int)tempSubScene].GetComponent<UIMain>().Init();
 		}
 		else if(tempSubScene == SubScene.UI_GATHER){
 			uiSubScenes[(int)SubScene.UI_GATHER].GetComponent<UIGather>().InitUIGather((EmojiNeedCategory)gatherCategory);
 		} 
 
-		fader.OnFadeOutFinished -= ShowSubScene;
 		fader.FadeIn();
 	}
 

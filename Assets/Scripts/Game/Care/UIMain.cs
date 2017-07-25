@@ -6,27 +6,19 @@ public class UIMain : MonoBehaviour {
 	public MainHUDController mainHUD;
 	public GameObject panelGetEmoji;
 	public GameObject panelSettings;
-	public GameObject textAlienDead;
+	public GameObject textEmojiDead;
 
 	[HideInInspector] public GameObject tempAlien;
 
-	void OnEnable()
+	public void Init()
 	{
-		InitMain();
-	}
-
-	void InitMain()
-	{
+		print("INIT MAIN UI");
 		if(PlayerData.Instance.playerEmojiID == -1){
-//			if(!TutorialManager.Instance.TutorialDone) TutorialManager.Instance.ShowTutorial();
 			mainHUD.gameObject.SetActive(false);
 			panelGetEmoji.SetActive(true);
-			if(PlayerData.Instance.emojiDead) textAlienDead.SetActive(true);
-			else textAlienDead.SetActive(false);
+			if(PlayerData.Instance.emojiDead) textEmojiDead.SetActive(true);
+			else textEmojiDead.SetActive(false);
 		}else{
-//			if(!TutorialManager.Instance.TutorialDone) TutorialManager.Instance.ShowTutorial();
-//			if(!TutorialManager.Instance.TutorialDone && TutorialManager.Instance.TutorialIndex == 6) TutorialManager.Instance.ShowTutorial();
-				
 			panelGetEmoji.SetActive(false);
 			mainHUD.gameObject.SetActive(true);
 			mainHUD.Init();
@@ -43,6 +35,6 @@ public class UIMain : MonoBehaviour {
 	public void ButtonGetEmojiOnClick()
 	{
 		PlayerData.Instance.SetPlayerEmoji(0);
-		InitMain();
+		Init();
 	}
 }

@@ -6,9 +6,7 @@ public class PlayerData : MonoBehaviour {
 	public static  PlayerData Instance{
 		get{return instance;}
 	}
-
-
-	public RectTransform alienObjectParentTransform;
+		
 	public RectTransform emojiParentTransform;
 	GameObject playerAlien;
 	Emoji playerEmoji;
@@ -93,14 +91,14 @@ public class PlayerData : MonoBehaviour {
 	}
 	#endregion
 
-	public Alien[] alienData;
 	public Emoji[] emojiData;
 
 	public bool alienDead = false;
-	[HideInInspector] public bool emojiDead = true;
+	[HideInInspector] public bool emojiDead = false;
 
 	void Awake()
 	{
+//		PlayerPrefs.DeleteAll();
 		//singleton
 		if(instance != null && instance != this) { 
 			Destroy(gameObject);
@@ -108,14 +106,7 @@ public class PlayerData : MonoBehaviour {
 		}
 		else instance = this;
 
-//		if(playerAlienID != -1) LoadPlayerAlien();
 		if(playerEmojiID != -1) LoadPlayerEmoji();
-	}
-
-	public void LoadPlayerAlien(){
-		PlayerAlien = alienData[playerAlienID];
-		PlayerAlien.OnAlienDies += OnAlienDies;
-		GenerateAlienObject();
 	}
 
 	public void LoadPlayerEmoji()
@@ -123,39 +114,17 @@ public class PlayerData : MonoBehaviour {
 		playerEmoji = emojiData[playerEmojiID];
 		playerEmoji.OnEmojiDies += OnEmojiDies;
 
-		playerEmoji.parent = emojiParentTransform;
-		playerEmoji.InitEmoji();
-	}
-
-	public void SetPlayerAlien(int index)
-	{
-		playerAlienID = index;
-		PlayerAlien = PlayerData.Instance.alienData[index];
-		PlayerAlien.InitAlienStats();
-		GenerateAlienObject();
+		playerEmoji.InitEmoji(emojiParentTransform);
+		EmojiStatsController.Instance.Init();
 	}
 
 	public void SetPlayerEmoji(int index)
 	{
 		playerEmojiID = index;
 		PlayerEmoji = emojiData[index];
-		playerEmoji.InitEmoji();
-	}
-
-	void GenerateAlienObject()
-	{
-		if(PlayerAlien.cloneObject == null){
-			PlayerAlien.GenerateAlienAnimationObject(alienObjectParentTransform);
-//			AlienStatsController.Instance.InitStatsController();
-		}
-	}
-
-	void OnAlienDies()
-	{
-		alienDead = true;
-		playerAlienID = -1;
-
-		AlienStatsController.Instance.isStatsDepletingStats = false;
+		playerEmoji.InitEmoji(emojiParentTransform);
+		playerEmoji.InitStats();
+		EmojiStatsController.Instance.Init();
 	}
 		
 	void OnEmojiDies()

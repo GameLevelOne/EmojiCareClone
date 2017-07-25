@@ -12,8 +12,7 @@ public enum EmojiStats{
 
 public class Emoji : MonoBehaviour {
 	public EmojiDataSO emojiDataSO;
-	public GameObject emojiPrefab;
-	[HideInInspector] public RectTransform parent;
+	public GameObject emojiPrefab; 
 
 	Animator emojiAnimation;
 	GameObject emojiClone;
@@ -82,18 +81,15 @@ public class Emoji : MonoBehaviour {
 	public event EmojiSentOff OnEmojiSentOff;
 	#endregion
 
-	public void InitEmoji()
+	public void InitEmoji(RectTransform parent)
 	{
-		InstantiateEmojiObject();
-		InitStats();
+		InstantiateEmojiObject(parent);
 	}
 
-	void InstantiateEmojiObject()
+	void InstantiateEmojiObject(RectTransform parent)
 	{
 		if(emojiClone == null){
-			print("AKSJDH");
 			emojiClone = Instantiate(emojiPrefab);
-			print(emojiClone);
 			RectTransform emojiCloneTransform = emojiClone.GetComponent<RectTransform>();
 			emojiCloneTransform.SetParent(parent);
 			emojiCloneTransform.anchoredPosition = Vector2.zero;
@@ -102,10 +98,9 @@ public class Emoji : MonoBehaviour {
 
 			emojiAnimation = emojiClone.GetComponent<Animator>();
 		}
-		EmojiStatsController.Instance.Init();
 	}
 
-	void InitStats()
+	public void InitStats()
 	{
 		emojiHunger = emojiDataSO.emojiHunger;
 		emojiHygene = emojiDataSO.emojiHygene;
@@ -117,6 +112,7 @@ public class Emoji : MonoBehaviour {
 		emojiHappinessMod = emojiDataSO.emojiHappinessMod;
 		emojiHealthMod = emojiDataSO.emojiHealthMod;
 
+		PlayerPrefs.Save();
 	}
 
 	void InitEmojiCollections()
@@ -134,9 +130,14 @@ public class Emoji : MonoBehaviour {
 	public void TickStats(int ticks = 1)
 	{
 		for(int i = 0; i < ticks;i++){
-			if(emojiHungerMod == 0 || emojiHygeneMod == 0 || emojiHappinessMod == 0) 
-				TickHealth(); 
-			   emojiHungerMod--; 	  emojiHygene--; 		 emojiHappiness--;
+			if(emojiHungerMod == 0 || 
+				emojiHygeneMod == 0 || 
+				emojiHappinessMod == 0) 
+				TickHealth();
+			
+			emojiHungerMod--; 	  
+			emojiHygeneMod--; 		 
+			emojiHappinessMod--;
 		}
 
 		AdjustStats();
@@ -146,9 +147,9 @@ public class Emoji : MonoBehaviour {
 	/// <summary>
 	/// ONLY USED in EmojiStatsController.cs If you want to modify stats, use ModStats instead. -DsD
 	/// </summary>
-	public void TickHealth(int ticks = 1)
+	public void TickHealth()
 	{
-		emojiHealthMod -= ticks;
+		emojiHealthMod--;
 
 		if(emojiHealthMod <= 0){
 			if(OnEmojiDies != null) OnEmojiDies();
@@ -165,6 +166,7 @@ public class Emoji : MonoBehaviour {
 			emojiHygeneMod += value;
 			break;
 		case EmojiStats.HAPPINESS: 
+			
 			emojiHappinessMod += value;
 			break;
 		case EmojiStats.HEALTH: 

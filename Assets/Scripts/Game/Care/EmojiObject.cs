@@ -3,7 +3,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class EmojiObject : MonoBehaviour {
-
 	const string Key_Hit = "EmojiHit";
 	int EmojiHit{
 		get{return PlayerPrefs.GetInt(Key_Hit,0);}

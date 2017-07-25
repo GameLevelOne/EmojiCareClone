@@ -31,73 +31,73 @@ public class EmojiUnlockConditions : MonoBehaviour {
 
 	public void CheckUnlock (UnlockCondition condition)
 	{
-		Alien currPet = PlayerData.Instance.PlayerAlien;
+		Emoji playerEmoji = PlayerData.Instance.PlayerEmoji;
 		PlayerData instance = PlayerData.Instance;
-		float petCriticalThreshold = currPet.GetAlienHappyTreshold ();
+		float petCriticalThreshold = 0.25f;
 		bool conditionFulfilled = false;
 
 		if (emojiUnlockValue [0, (int)condition] == false) {
 
 			if (condition == UnlockCondition.CriticalHunger) {
-				if ((float)(currPet.alienHunger / currPet.alienHungerMod) <= petCriticalThreshold) {
+				if ((float)(playerEmoji.emojiHunger / playerEmoji.emojiHungerMod) <= petCriticalThreshold) {
 					conditionFulfilled = true;
 				}	
 
 			} else if (condition == UnlockCondition.CriticalHygiene) {
-				if ((float)(currPet.alienHygene / currPet.alienHygeneMod) <= petCriticalThreshold) {
+				if ((float)(playerEmoji.emojiHygene / playerEmoji.emojiHygeneMod) <= petCriticalThreshold) {
 					conditionFulfilled = true;
 				}
 
 			} else if (condition == UnlockCondition.CriticalHappiness) {
-				if ((float)(currPet.alienHappiness / currPet.alienHappinessMod) <= petCriticalThreshold) {
+				if ((float)(playerEmoji.emojiHappiness / playerEmoji.emojiHappinessMod) <= petCriticalThreshold) {
 					conditionFulfilled = true;
 				}
 
 			} else if (condition == UnlockCondition.CriticalHealth) {
-				if ((float)(currPet.alienHealth / currPet.alienHealthMod) <= petCriticalThreshold) {
+				if ((float)(playerEmoji.emojiHealth / playerEmoji.emojiHealthMod) <= petCriticalThreshold) {
 					conditionFulfilled = true;
 				}
 
 			} else if (condition == UnlockCondition.EmptyHunger) {
-				if ((float)(currPet.alienHunger / currPet.alienHungerMod) <= 0) {
+				if ((float)(playerEmoji.emojiHunger / playerEmoji.emojiHungerMod) <= 0) {
 					conditionFulfilled = true;
 				}
 
 			} else if (condition == UnlockCondition.EmptyHygiene) {
-				if ((float)(currPet.alienHygene / currPet.alienHygeneMod) <= 0) {
+				if ((float)(playerEmoji.emojiHygene / playerEmoji.emojiHygeneMod) <= 0) {
 					conditionFulfilled = true;
 				}
 
 			} else if (condition == UnlockCondition.EmptyHappiness) {
-				if ((float)(currPet.alienHappiness / currPet.alienHappinessMod) <= 0) {
+				if ((float)(playerEmoji.emojiHappiness / playerEmoji.emojiHappinessMod) <= 0) {
 					conditionFulfilled = true;
 				}
 
 			} else if (condition == UnlockCondition.Empty3) {
-				if ((float)(currPet.alienHunger / currPet.alienHungerMod) <= 0 &&
-				   (float)(currPet.alienHygene / currPet.alienHygeneMod) <= 0 &&
-				   (float)(currPet.alienHappiness / currPet.alienHappinessMod) <= 0) {
+				if ((float)(playerEmoji.emojiHunger / playerEmoji.emojiHungerMod) <= 0 &&
+				   (float)(playerEmoji.emojiHygene / playerEmoji.emojiHygeneMod) <= 0 &&
+				   (float)(playerEmoji.emojiHappiness / playerEmoji.emojiHappinessMod) <= 0) {
 					conditionFulfilled = true;
 				}
 
 			} else if (condition == UnlockCondition.FullFed) {
-				if (currPet.alienHunger == currPet.alienHungerMod) {
+				if (playerEmoji.emojiHunger == playerEmoji.emojiHungerMod) {
 					conditionFulfilled = true;
 				}
 
 			} else if (condition == UnlockCondition.FullHygiene) {
-				if (currPet.alienHygene == currPet.alienHygeneMod) {
+				if (playerEmoji.emojiHygene == playerEmoji.emojiHygeneMod) {
 					conditionFulfilled = true;
 				}
 
 			} else if (condition == UnlockCondition.FullHappiness) {
-				if (currPet.alienHappiness == currPet.alienHappinessMod) {
+				if (playerEmoji.emojiHappiness == playerEmoji.emojiHappinessMod) {
 					conditionFulfilled = true;
 				}
 
 			} else if (condition == UnlockCondition.FullAll) {
-				if ((currPet.alienHunger == currPet.alienHungerMod) && (currPet.alienHygene == currPet.alienHygeneMod) && 
-				(currPet.alienHappiness == currPet.alienHappinessMod) && (currPet.alienHealth == currPet.alienHealthMod)) {
+				if ((playerEmoji.emojiHunger == playerEmoji.emojiHungerMod) && (playerEmoji.emojiHygene == playerEmoji.emojiHygeneMod) && 
+				(playerEmoji.emojiHappiness == playerEmoji.emojiHappinessMod) && (playerEmoji.emojiHealth == playerEmoji.emojiHealthMod)) {
 					conditionFulfilled = true;
 				}
 
