@@ -4,6 +4,10 @@ using UnityEngine;
 
 public enum eBGM{
 	MAIN = 0,
+	TITLE,
+	STORK_SENDOFF,
+	STORK_EMOJIDEAD,
+	AMBIENCE_STORK
 }
 
 public enum eSFX{
@@ -18,7 +22,15 @@ public enum eSFX{
 	PROLOGUE_GET_EMOJI,
 	WARNING,
 	COIN_SPAWN,
-	COIN_BUMP
+	COIN_BUMP,
+	TYPING,
+	AMBIENCE_STORK,
+	STORK_COME,
+	STORK_FLYIN,
+	STORK_FLYOUT,
+	STORK_HITDOOR,
+	STORK_KNOCK,
+	STORK_STOPFAIL
 }
 
 public class SoundManager : MonoBehaviour {

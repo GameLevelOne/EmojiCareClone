@@ -11,14 +11,13 @@ public class MainHUDController : MonoBehaviour {
 
 	void OnEnable()
 	{
-		
-		if(PlayerData.Instance.playerEmojiID != -1) {PlayerData.Instance.PlayerEmoji.OnEmojiModStats += UpdateStatsMeter;}
+		if(PlayerData.Instance.playerEmojiID != -1 && PlayerData.Instance.PlayerEmoji != null) {PlayerData.Instance.PlayerEmoji.OnEmojiModStats += UpdateStatsMeter;}
 	}
 
 	void OnDisable()
 	{
 		
-		if(PlayerData.Instance.playerEmojiID != -1) {PlayerData.Instance.PlayerEmoji.OnEmojiModStats -= UpdateStatsMeter;}
+		if(PlayerData.Instance.playerEmojiID != -1 && PlayerData.Instance.PlayerEmoji != null) {PlayerData.Instance.PlayerEmoji.OnEmojiModStats -= UpdateStatsMeter;}
 	}
 
 	public void Init()

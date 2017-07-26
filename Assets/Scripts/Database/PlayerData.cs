@@ -13,8 +13,11 @@ public class PlayerData : MonoBehaviour {
 
 	#region playerdata
 	[HideInInspector] public int AlienClickCount{ get{return 5;} }
+	const string Key_Player_Name = "PlayerName";
 	const string Key_Player_Coin = "PlayerCoin";
 	const string Key_Player_EmojiId = "PlayerEmoji/ID";
+	const string Key_Game_Status = "GameStatus";
+	const string Key_Done_Prologue = "PlayerDonePrologue";
 	const string KEYPREF_PLAYERALIEN_ID = "PlayerAlien/ID";
 
 	const string Key_Player_CoinSPENT = "PlayerCoinSpent";
@@ -27,6 +30,11 @@ public class PlayerData : MonoBehaviour {
 	const string KEYPREF_PLAYERALIEN_PLAYNEGCOUNT = "PlayerAlien/PlayNegCount";
 	const string KEYPREF_PLAYERALIEN_NURSENEGCOUNT = "PlayerAlien/NurseNegCount";
 	const string KEYPREF_PLAYERALIEN_PETTAPCOUNT = "PlayerAlien/PetTapCount";
+
+	public string playerName{
+		get{return PlayerPrefs.GetString(Key_Player_Name);}
+		set{PlayerPrefs.SetString(Key_Player_Name,value);}
+	}
 
 	public int playerCoin{
 		get{return PlayerPrefs.GetInt(Key_Player_Coin,1000);}
@@ -43,6 +51,14 @@ public class PlayerData : MonoBehaviour {
 	public int playerEmojiID{
 		get{return PlayerPrefs.GetInt(Key_Player_EmojiId,-1);}
 		set{PlayerPrefs.SetInt(Key_Player_EmojiId,value);}
+	}
+	public int gameStatus{
+		get{return PlayerPrefs.GetInt(Key_Game_Status,0);}
+		set{PlayerPrefs.SetInt(Key_Game_Status,value);}
+	}
+	public int playerDonePrologue{
+		get{return PlayerPrefs.GetInt(Key_Done_Prologue,0);}
+		set{PlayerPrefs.SetInt(Key_Done_Prologue,value);}
 	}
 	public int petTapCount {
 		get{ return PlayerPrefs.GetInt (KEYPREF_PLAYERALIEN_PETTAPCOUNT, 0); }
@@ -106,25 +122,25 @@ public class PlayerData : MonoBehaviour {
 		}
 		else instance = this;
 
-		if(playerEmojiID != -1) LoadPlayerEmoji();
+//		if(playerEmojiID != -1) LoadPlayerEmoji();
 	}
 
 	public void LoadPlayerEmoji()
 	{
-		playerEmoji = emojiData[playerEmojiID];
-		playerEmoji.OnEmojiDies += OnEmojiDies;
+		if(playerEmoji == null){
+			playerEmoji = emojiData[playerEmojiID];
+			playerEmoji.OnEmojiDies += OnEmojiDies;
 
-		playerEmoji.InitEmoji(emojiParentTransform);
-		EmojiStatsController.Instance.Init();
+			playerEmoji.InitEmoji(emojiParentTransform);
+			EmojiStatsController.Instance.Init();
+		}
 	}
 
 	public void SetPlayerEmoji(int index)
 	{
 		playerEmojiID = index;
-		PlayerEmoji = emojiData[index];
-		playerEmoji.InitEmoji(emojiParentTransform);
+		playerEmoji = emojiData[index];
 		playerEmoji.InitStats();
-		EmojiStatsController.Instance.Init();
 	}
 		
 	void OnEmojiDies()

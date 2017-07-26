@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class PrologueTextBox : MonoBehaviour {
-	public DialogueText dialogueText;
+//	public DialogueText dialogueText;
 
 	public string[] dialogues;
 
@@ -25,7 +25,7 @@ public class PrologueTextBox : MonoBehaviour {
 
 	void InitPrologue()
 	{
-		dialogueText.Show(dialogues[textCount],clickCount);
+//		dialogueText.Show(dialogues[textCount],clickCount);
 	}
 
 	public void DialoguePanelOnClick ()
@@ -38,7 +38,7 @@ public class PrologueTextBox : MonoBehaviour {
 //			textCount++;
 //		}
 
-		dialogueText.Show (dialogues [textCount],clickCount);
+//		dialogueText.Show (dialogues [textCount],clickCount);
 
 		if(textCount >=1)
 			textCount=0;

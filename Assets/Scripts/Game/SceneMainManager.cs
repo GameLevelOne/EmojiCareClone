@@ -14,10 +14,13 @@ public class SceneMainManager : MonoBehaviour {
 	public Fader fader;
 	public CoinSpawner coinSpawner;
 
+	public RectTransform emojiParentTransform;
+
 	SubScene tempSubScene;
 	int gatherCategory = -1;
 
 	void Start(){
+		PlayerData.Instance.emojiParentTransform = emojiParentTransform;
 		SoundManager.Instance.PlayBGM(eBGM.MAIN);
 		tempSubScene = SubScene.UI_MAIN;
 		ShowSubScene();
