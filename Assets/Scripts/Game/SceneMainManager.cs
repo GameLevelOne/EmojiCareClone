@@ -30,7 +30,6 @@ public class SceneMainManager : MonoBehaviour {
 		foreach(GameObject UIObj in uiSubScenes) UIObj.SetActive(false); 
 		uiSubScenes[(int)tempSubScene].SetActive(true);
 		if(tempSubScene == SubScene.UI_MAIN && PlayerData.Instance.playerEmojiID != -1){
-			print("WOIWOIWOI");
 			fader.OnFadeInFinished += UpdateStatsAfterGather;
 			uiSubScenes[(int)tempSubScene].GetComponent<UIMain>().Init();
 		}

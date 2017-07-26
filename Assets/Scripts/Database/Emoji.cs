@@ -129,10 +129,11 @@ public class Emoji : MonoBehaviour {
 	/// </summary>
 	public void TickStats(int ticks = 1)
 	{
+
 		for(int i = 0; i < ticks;i++){
-			if(emojiHungerMod == 0 || 
-				emojiHygeneMod == 0 || 
-				emojiHappinessMod == 0) 
+			if(emojiHungerMod <= 0 || 
+				emojiHygeneMod <= 0 || 
+				emojiHappinessMod <= 0)
 				TickHealth();
 			
 			emojiHungerMod--; 	  
@@ -185,10 +186,10 @@ public class Emoji : MonoBehaviour {
 		if(emojiHappinessMod > emojiHappiness) emojiHappinessMod = emojiHappiness;
 		if(emojiHealthMod > emojiHealth) emojiHealthMod = emojiHealth;
 
-		if(emojiHungerMod < 0) emojiHungerMod = emojiHunger;
-		if(emojiHygeneMod < 0) emojiHygeneMod = emojiHygene;
-		if(emojiHappinessMod < 0) emojiHappinessMod = emojiHappiness;
-		if(emojiHealthMod < 0) emojiHealthMod = emojiHealth;
+		if(emojiHungerMod < 0) emojiHungerMod = 0;
+		if(emojiHygeneMod < 0) emojiHygeneMod = 0;
+		if(emojiHappinessMod < 0) emojiHappinessMod = 0;
+		if(emojiHealthMod < 0) emojiHealthMod = 0;
 	}
 
 	public int GetCollection(int index)

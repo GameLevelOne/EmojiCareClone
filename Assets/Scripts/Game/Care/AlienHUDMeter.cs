@@ -34,7 +34,6 @@ public class AlienHUDMeter : MonoBehaviour {
 		
 	IEnumerator CoroutineModHUD(int currentValue, int maxValue)
 	{
-		print("curr =" +currentValue+", last = "+lastValue);
 		int difference = Mathf.CeilToInt(currentValue-lastValue);
 
 		textMod.Animate(difference);

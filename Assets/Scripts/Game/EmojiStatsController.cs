@@ -102,7 +102,6 @@ public class EmojiStatsController : MonoBehaviour {
 
 	int GetTotalTicks(TimeSpan duration)
 	{
-		print(duration);
 		int daytoMin = duration.Days * 24 * 60;
 		int hourToMin = duration.Hours * 60;
 		int min = duration.Minutes;

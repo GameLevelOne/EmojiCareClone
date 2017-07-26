@@ -12,7 +12,6 @@ public class UIMain : MonoBehaviour {
 
 	public void Init()
 	{
-		print("INIT MAIN UI");
 		if(PlayerData.Instance.playerEmojiID == -1){
 			mainHUD.gameObject.SetActive(false);
 			panelGetEmoji.SetActive(true);
