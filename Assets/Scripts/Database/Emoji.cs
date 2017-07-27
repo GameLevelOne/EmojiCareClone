@@ -11,7 +11,7 @@ public enum EmojiStats{
 }
 
 public class Emoji : MonoBehaviour {
-	public EmojiDataSO emojiDataSO;
+	public EmojiSO emojiSO;
 	public GameObject emojiPrefab; 
 
 	Animator emojiAnimation;
@@ -34,40 +34,36 @@ public class Emoji : MonoBehaviour {
 		set{ PlayerPrefs.SetString(Key_Emoji_Name,value); }
 	}
 	public int emojiHunger{
-		get{ return PlayerPrefs.GetInt(Key_Emoji_Hunger, emojiDataSO.emojiHunger);}
+		get{ return PlayerPrefs.GetInt(Key_Emoji_Hunger, emojiSO.emojiHunger);}
 		set{ PlayerPrefs.SetInt(Key_Emoji_Hunger,value); }
 	}
 	public int emojiHygene{
-		get{ return PlayerPrefs.GetInt(Key_Emoji_Hygene,emojiDataSO.emojiHygene);}
+		get{ return PlayerPrefs.GetInt(Key_Emoji_Hygene,emojiSO.emojiHygene);}
 		set{ PlayerPrefs.SetInt(Key_Emoji_Hygene,value); }
 	}
 	public int emojiHappiness{
-		get{ return PlayerPrefs.GetInt(Key_Emoji_Happiness,emojiDataSO.emojiHappiness);}
+		get{ return PlayerPrefs.GetInt(Key_Emoji_Happiness,emojiSO.emojiHappiness);}
 		set{ PlayerPrefs.SetInt(Key_Emoji_Happiness,value); }
 	}
 	public int emojiHealth{
-		get{ return PlayerPrefs.GetInt(Key_Emoji_Health, emojiDataSO.emojiHealth);}
+		get{ return PlayerPrefs.GetInt(Key_Emoji_Health, emojiSO.emojiHealth);}
 		set{ PlayerPrefs.SetInt(Key_Emoji_Health,value); }
 	}
 	public int emojiHungerMod{
-		get{ return PlayerPrefs.GetInt(Key_Emoji_HungerMod, emojiDataSO.emojiHungerMod);}
+		get{ return PlayerPrefs.GetInt(Key_Emoji_HungerMod, emojiSO.emojiHungerMod);}
 		set{ PlayerPrefs.SetInt(Key_Emoji_HungerMod,value); }
 	}
 	public int emojiHygeneMod{
-		get{ return PlayerPrefs.GetInt(Key_Emoji_HygeneMod, emojiDataSO.emojiHygeneMod);}
+		get{ return PlayerPrefs.GetInt(Key_Emoji_HygeneMod, emojiSO.emojiHygeneMod);}
 		set{ PlayerPrefs.SetInt(Key_Emoji_HygeneMod,value); }
 	}
 	public int emojiHappinessMod{
-		get{ return PlayerPrefs.GetInt(Key_Emoji_HappinessMod, emojiDataSO.emojiHappinessMod);}
+		get{ return PlayerPrefs.GetInt(Key_Emoji_HappinessMod, emojiSO.emojiHappinessMod);}
 		set{ PlayerPrefs.SetInt(Key_Emoji_HappinessMod,value); }
 	}
 	public int emojiHealthMod{
-		get{ return PlayerPrefs.GetInt(Key_Emoji_HealthMod, emojiDataSO.emojiHealthMod);}
+		get{ return PlayerPrefs.GetInt(Key_Emoji_HealthMod, emojiSO.emojiHealthMod);}
 		set{ PlayerPrefs.SetInt(Key_Emoji_HealthMod,value); }
-	}
-
-	Sprite[] emojiSprites{
-		get{ return emojiDataSO.emojiSprites;}
 	}
 
 	#endregion
@@ -102,26 +98,26 @@ public class Emoji : MonoBehaviour {
 
 	public void InitStats()
 	{
-		emojiHunger = emojiDataSO.emojiHunger;
-		emojiHygene = emojiDataSO.emojiHygene;
-		emojiHappiness = emojiDataSO.emojiHappiness;
-		emojiHealth = emojiDataSO.emojiHealth;
+		emojiHunger = emojiSO.emojiHunger;
+		emojiHygene = emojiSO.emojiHygene;
+		emojiHappiness = emojiSO.emojiHappiness;
+		emojiHealth = emojiSO.emojiHealth;
 
-		emojiHungerMod = emojiDataSO.emojiHungerMod;
-		emojiHygeneMod = emojiDataSO.emojiHygeneMod;
-		emojiHappinessMod = emojiDataSO.emojiHappinessMod;
-		emojiHealthMod = emojiDataSO.emojiHealthMod;
+		emojiHungerMod = emojiSO.emojiHungerMod;
+		emojiHygeneMod = emojiSO.emojiHygeneMod;
+		emojiHappinessMod = emojiSO.emojiHappinessMod;
+		emojiHealthMod = emojiSO.emojiHealthMod;
 
 		PlayerPrefs.Save();
 	}
 
 	void InitEmojiCollections()
 	{
-		PlayerPrefs.SetInt(Key_Emoji_Collection+"0",2);
-		for(int i = 1;i<emojiSprites.Length;i++) {
-			string tempKey = Key_Emoji_Collection+i.ToString();
-			PlayerPrefs.SetInt(tempKey,0);
-		}
+//		PlayerPrefs.SetInt(Key_Emoji_Collection+"0",2);
+//		for(int i = 1;i<emojiSprites.Length;i++) {
+//			string tempKey = Key_Emoji_Collection+i.ToString();
+//			PlayerPrefs.SetInt(tempKey,0);
+//		}
 	}
 
 	/// <summary>
