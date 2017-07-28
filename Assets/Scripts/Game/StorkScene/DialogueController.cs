@@ -43,18 +43,18 @@ public class DialogueController : MonoBehaviour {
 	IEnumerator InitStorkArrive()
 	{
 		yield return new WaitForSeconds(1f);
-//		SoundManager.Instance.PlaySFX(eSFX.STORK_FLYIN);
-//		yield return new WaitForSeconds(0.5f);
-//		SoundManager.Instance.PlaySFX(eSFX.STORK_FLYIN);
-//		yield return new WaitForSeconds(0.5f);
-//		SoundManager.Instance.PlaySFX(eSFX.STORK_COME);
-//		yield return new WaitForSeconds(1f);
-//		SoundManager.Instance.PlaySFX(eSFX.STORK_STOPFAIL);
-//		yield return new WaitForSeconds(0.7f);
-//		SoundManager.Instance.PlaySFX(eSFX.STORK_HITDOOR);
-//		yield return new WaitForSeconds(1f);
-//		SoundManager.Instance.PlaySFX(eSFX.STORK_KNOCK);
-//		yield return new WaitForSeconds(0.8f);
+		SoundManager.Instance.PlaySFX(eSFX.STORK_FLYIN);
+		yield return new WaitForSeconds(0.5f);
+		SoundManager.Instance.PlaySFX(eSFX.STORK_FLYIN);
+		yield return new WaitForSeconds(0.5f);
+		SoundManager.Instance.PlaySFX(eSFX.STORK_COME);
+		yield return new WaitForSeconds(1f);
+		SoundManager.Instance.PlaySFX(eSFX.STORK_STOPFAIL);
+		yield return new WaitForSeconds(0.7f);
+		SoundManager.Instance.PlaySFX(eSFX.STORK_HITDOOR);
+		yield return new WaitForSeconds(1f);
+		SoundManager.Instance.PlaySFX(eSFX.STORK_KNOCK);
+		yield return new WaitForSeconds(0.8f);
 		faderStork.SetTrigger("Fade");
 
 		StartCoroutine(InitDialogue());
