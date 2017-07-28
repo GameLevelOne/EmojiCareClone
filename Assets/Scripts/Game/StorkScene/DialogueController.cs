@@ -14,6 +14,7 @@ public class DialogueController : MonoBehaviour {
 	public Animator panelYesNo;
 	public InputField fieldName;
 	public Button buttonSkip;
+	public GameObject ButtonSendOff;
 
 	/// <summary>
 	/// <para>0 = normal</para>
@@ -42,18 +43,18 @@ public class DialogueController : MonoBehaviour {
 	IEnumerator InitStorkArrive()
 	{
 		yield return new WaitForSeconds(1f);
-		SoundManager.Instance.PlaySFX(eSFX.STORK_FLYIN);
-		yield return new WaitForSeconds(0.5f);
-		SoundManager.Instance.PlaySFX(eSFX.STORK_FLYIN);
-		yield return new WaitForSeconds(0.5f);
-		SoundManager.Instance.PlaySFX(eSFX.STORK_COME);
-		yield return new WaitForSeconds(1f);
-		SoundManager.Instance.PlaySFX(eSFX.STORK_STOPFAIL);
-		yield return new WaitForSeconds(0.7f);
-		SoundManager.Instance.PlaySFX(eSFX.STORK_HITDOOR);
-		yield return new WaitForSeconds(1f);
-		SoundManager.Instance.PlaySFX(eSFX.STORK_KNOCK);
-		yield return new WaitForSeconds(0.8f);
+//		SoundManager.Instance.PlaySFX(eSFX.STORK_FLYIN);
+//		yield return new WaitForSeconds(0.5f);
+//		SoundManager.Instance.PlaySFX(eSFX.STORK_FLYIN);
+//		yield return new WaitForSeconds(0.5f);
+//		SoundManager.Instance.PlaySFX(eSFX.STORK_COME);
+//		yield return new WaitForSeconds(1f);
+//		SoundManager.Instance.PlaySFX(eSFX.STORK_STOPFAIL);
+//		yield return new WaitForSeconds(0.7f);
+//		SoundManager.Instance.PlaySFX(eSFX.STORK_HITDOOR);
+//		yield return new WaitForSeconds(1f);
+//		SoundManager.Instance.PlaySFX(eSFX.STORK_KNOCK);
+//		yield return new WaitForSeconds(0.8f);
 		faderStork.SetTrigger("Fade");
 
 		StartCoroutine(InitDialogue());
@@ -76,12 +77,14 @@ public class DialogueController : MonoBehaviour {
 				dialogueTextAnimation.OnNextAction -= ShowNextDialogue;
 				dialogueTextAnimation.OnNextAction += PromptPlayerYesNo;
 			}
+			if(dialogueCounter == 19 || dialogueCounter == 20) ButtonSendOff.SetActive(true);
+			else ButtonSendOff.SetActive(false);
 
 			string temp = prologueDialogue[dialogueCounter];
 			if(dialogueCounter == 2)  temp += (PlayerData.Instance.playerName+",");
 			dialogueTextAnimation.Show(temp); 
 			if(!(dialogueCounter == 25 || dialogueCounter == 29)) dialogueCounter++;
-			if(dialogueCounter == prologueDialogue.Length){
+			if(dialogueCounter >= prologueDialogue.Length){
 				dialogueTextAnimation.OnNextAction -= ShowNextDialogue;
 				dialogueTextAnimation.OnNextAction += DialogueFinished;
 			}
@@ -90,7 +93,7 @@ public class DialogueController : MonoBehaviour {
 			ChangeStorkSprite();
 			dialogueTextAnimation.Show(sendOffDialogue[dialogueCounter]); 
 			dialogueCounter++;
-			if(dialogueCounter == prologueDialogue.Length){
+			if(dialogueCounter >= sendOffDialogue.Length){
 				dialogueTextAnimation.OnNextAction -= ShowNextDialogue;
 				dialogueTextAnimation.OnNextAction += DialogueFinished;
 			}
@@ -99,7 +102,7 @@ public class DialogueController : MonoBehaviour {
 			ChangeStorkSprite();
 			dialogueTextAnimation.Show(emojiDieDialogue[dialogueCounter]);
 			dialogueCounter++; 
-			if(dialogueCounter == prologueDialogue.Length){
+			if(dialogueCounter >= emojiDieDialogue.Length){
 				dialogueTextAnimation.OnNextAction -= ShowNextDialogue;
 				dialogueTextAnimation.OnNextAction += DialogueFinished;
 			}

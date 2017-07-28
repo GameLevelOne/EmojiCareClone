@@ -18,7 +18,7 @@ public class AlienHUDMeter : MonoBehaviour {
 	public int lastValue = 0;
 
 	public void InitHUD(int currentValue, int maxValue){
-		
+
 		if(hasInit == false){
 			lastValue = currentValue;
 			imageAmount.fillAmount = ((float)currentValue/(float)maxValue);

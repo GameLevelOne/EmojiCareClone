@@ -26,6 +26,7 @@ public class UICollection : MonoBehaviour {
 	{
 		Init();
 		thisAnim.SetTrigger("Show");
+		SoundManager.Instance.PlaySFX(eSFX.BUTTON);
 	}
 
 	public void ButtonCloseOnClick()

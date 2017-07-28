@@ -6,6 +6,8 @@ public class DialogueTextAnimation : MonoBehaviour {
 	public delegate void NextAction();
 	public event NextAction OnNextAction;
 
+	public GameObject Arrow;
+
 	float speed = 2f;
 
 	Text thisText;
@@ -27,6 +29,7 @@ public class DialogueTextAnimation : MonoBehaviour {
 	IEnumerator CoroutineAnimateText()
 	{
 		isAnimating = true;
+		Arrow.SetActive(false);
 		string temp = string.Empty;
 		for(int i = 0;i<textContent.Length;i++){
 			temp += textContent[i];
@@ -35,6 +38,7 @@ public class DialogueTextAnimation : MonoBehaviour {
 			yield return new WaitForSeconds(Time.fixedDeltaTime*speed);
 		}
 		thisText.text = textContent;
+		Arrow.SetActive(true);
 		isAnimating = false;
 	}
 
@@ -43,12 +47,10 @@ public class DialogueTextAnimation : MonoBehaviour {
 		if(isAnimating){
 			StopCoroutine("CoroutineAnimateText");
 			isAnimating = false;
-
+			Arrow.SetActive(true);
 			thisText.text = textContent;
 		}else{
 			if(OnNextAction != null) OnNextAction();
 		}
 	}
-
-
 }

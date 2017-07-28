@@ -1,9 +1,11 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class EmojiObject : MonoBehaviour {
+	public Image imageBody;
 	const string Key_Hit = "EmojiHit";
 
 	const int tapCountTarget1 = 100;
@@ -15,6 +17,39 @@ public class EmojiObject : MonoBehaviour {
 		set{PlayerPrefs.SetInt(Key_Hit,value);}
 	}
 
+	void OnEnable()
+	{
+		StartCoroutine("CoroutineChangeRandomEmotion");
+	}
+
+	void OnDisable()
+	{
+		StopAllCoroutines();
+	}
+
+	void OnDestroy()
+	{
+		StopAllCoroutines();
+	}
+
+	IEnumerator CoroutineChangeRandomEmotion()
+	{
+		List<Sprite> emotions = new List<Sprite>();
+		Emoji playerEmoji = PlayerData.Instance.PlayerEmoji;
+		for(int i = 0;i< playerEmoji.collectionSO.Length;i++)
+		{
+			if( playerEmoji.GetCollection(i) > 0){
+				emotions.Add(playerEmoji.collectionSO[i].emotionIcon);
+			}
+		}
+
+		while(true){
+			yield return new WaitForSeconds(Random.Range(5f,10f));
+			int rnd = Random.Range(0,emotions.Count);
+			imageBody.sprite = emotions[rnd];
+		}
+	}
+
 	public void EmojiOnClick()
 	{
 		if(EmojiHit >= 5){
@@ -22,15 +57,12 @@ public class EmojiObject : MonoBehaviour {
 			CoinSpawner.Instance.GenerateCoinObject();
 		}else EmojiHit++;
 
-		PlayerData.Instance.petTapCount++;
+		Emoji playerEmoji = PlayerData.Instance.PlayerEmoji;
 
-		if (PlayerData.Instance.petTapCount == tapCountTarget1) {
-			EmojiUnlockConditions.Instance.CheckUnlock (UnlockCondition.TapCount1);
-		} else if (PlayerData.Instance.petTapCount == tapCountTarget2) {
-			EmojiUnlockConditions.Instance.CheckUnlock (UnlockCondition.TapCount2);
-		} else if (PlayerData.Instance.petTapCount == tapCountTarget3) {
-			EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.TapCount3);
-		}
+		playerEmoji.emojiTapCount++;
+		EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.TapCount1);
+		EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.TapCount2);
+		EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.TapCount3);		
 	}
 
 	public void EmojiGlitchOnClick()

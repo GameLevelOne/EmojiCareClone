@@ -14,7 +14,10 @@ public class SceneTitleManager : MonoBehaviour {
 	void LoadSceneMain()
 	{
 		fader.OnFadeInFinished -= LoadSceneMain;
-		if(PlayerData.Instance.playerDonePrologue == 0) SceneManager.LoadScene("SceneStork");
+		if(PlayerData.Instance.playerDonePrologue == 1){
+			if(PlayerData.Instance.playerEmojiID == -1)
+				SceneManager.LoadScene("SceneStork");
+		}else if(PlayerData.Instance.playerDonePrologue == 0) SceneManager.LoadScene("SceneStork");
 		else SceneManager.LoadScene("SceneMain");
 	}
 

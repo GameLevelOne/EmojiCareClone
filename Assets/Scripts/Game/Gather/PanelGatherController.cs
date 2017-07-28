@@ -217,7 +217,7 @@ public class PanelGatherController : MonoBehaviour {
 					break;
 
 			case 2: gatherScore[(int) EmojiNeedCategory.HYGENE]--; 
-				PlayerData.Instance.PlayerEmoji.emojiCleanNegativeCount++;
+					PlayerData.Instance.PlayerEmoji.emojiCleanNegativeCount++;
 					EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.CleanNegIconCount);
 					SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_NEGATIVE);
 					break;

@@ -14,7 +14,6 @@ public class Emoji : MonoBehaviour {
 	public EmojiSO emojiSO;
 	public GameObject emojiPrefab; 
 
-	Animator emojiAnimation;
 	GameObject emojiClone;
 
 	#region data
@@ -87,39 +86,39 @@ public class Emoji : MonoBehaviour {
 
 	public int emojiFeedPositiveCount{
 		get{return PlayerPrefs.GetInt(Key_Emoji_Feed_Positive_Count,0);}
-		set{PlayerPrefs.SetInt(Key_Emoji_Play_Positive_Count,value);}
+		set{PlayerPrefs.SetInt(Key_Emoji_Feed_Positive_Count,value);}
 	}
 	public int emojiFeedNegativeCount{
 		get{return PlayerPrefs.GetInt(Key_Emoji_Feed_Negative_Count,0);}
-		set{PlayerPrefs.SetInt(Key_Emoji_Play_Positive_Count,value);}
+		set{PlayerPrefs.SetInt(Key_Emoji_Feed_Negative_Count,value);}
 	}
 	public int emojiCleanPositiveCount{
 		get{return PlayerPrefs.GetInt(Key_Emoji_Clean_Positive_Count,0);}
-		set{PlayerPrefs.SetInt(Key_Emoji_Play_Positive_Count,value);}
+		set{PlayerPrefs.SetInt(Key_Emoji_Clean_Positive_Count,value);}
 	}
 	public int emojiCleanNegativeCount{
 		get{return PlayerPrefs.GetInt(Key_Emoji_Clean_Negative_Count,0);}
-		set{PlayerPrefs.SetInt(Key_Emoji_Play_Positive_Count,value);}
+		set{PlayerPrefs.SetInt(Key_Emoji_Clean_Negative_Count,value);}
 	}
 	public int emojiPlayPositiveCount{
 		get{return PlayerPrefs.GetInt(Key_Emoji_Play_Positive_Count,0);}
 		set{PlayerPrefs.SetInt(Key_Emoji_Play_Positive_Count,value);}
 	}
 	public int emojiPlayNegativeCount{
-		get{return PlayerPrefs.GetInt(Key_Emoji_Play_Positive_Count,0);}
-		set{PlayerPrefs.SetInt(Key_Emoji_Play_Positive_Count,value);}
+		get{return PlayerPrefs.GetInt(Key_Emoji_Play_Negative_Count,0);}
+		set{PlayerPrefs.SetInt(Key_Emoji_Play_Negative_Count,value);}
 	}
 	public int emojiNursePositiveCount{
 		get{return PlayerPrefs.GetInt(Key_Emoji_Nurse_Positive_Count,0);}
-		set{PlayerPrefs.SetInt(Key_Emoji_Play_Positive_Count,value);}
+		set{PlayerPrefs.SetInt(Key_Emoji_Nurse_Positive_Count,value);}
 	}
 	public int emojiNurseNegativeCount{
 		get{return PlayerPrefs.GetInt(Key_Emoji_Nurse_Negative_Count,0);}
-		set{PlayerPrefs.SetInt(Key_Emoji_Play_Positive_Count,value);}
+		set{PlayerPrefs.SetInt(Key_Emoji_Nurse_Negative_Count,value);}
 	}
 	public int emojiTapCount{
 		get{return PlayerPrefs.GetInt(Key_Emoji_Tap_Count,0);}
-		set{PlayerPrefs.SetInt(Key_Emoji_Play_Positive_Count,value);}
+		set{PlayerPrefs.SetInt(Key_Emoji_Tap_Count,value);}
 	}
 	#endregion
 
@@ -141,7 +140,6 @@ public class Emoji : MonoBehaviour {
 	{
 		if(emojiClone == null){
 			emojiClone = Instantiate(emojiPrefab,parent);
-			emojiAnimation = emojiClone.GetComponent<Animator>();
 		}
 	}
 
@@ -196,6 +194,14 @@ public class Emoji : MonoBehaviour {
 		}
 
 		AdjustStats();
+		EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.CriticalHealth);
+		EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.CriticalHygiene);
+		EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.CriticalHappiness);
+		EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.CriticalHealth);
+		EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.FullFed);
+		EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.FullHygiene);
+		EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.FullHappiness);
+		EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.FullAll);
 		if(OnEmojiModStats != null) OnEmojiModStats();
 	}
 
@@ -233,6 +239,14 @@ public class Emoji : MonoBehaviour {
 		}
 
 		AdjustStats();
+		EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.CriticalHealth);
+		EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.CriticalHygiene);
+		EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.CriticalHappiness);
+		EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.CriticalHealth);
+		EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.FullFed);
+		EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.FullHygiene);
+		EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.FullHappiness);
+		EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.FullAll);
 		if(OnEmojiModStats != null) OnEmojiModStats();
 	}
 

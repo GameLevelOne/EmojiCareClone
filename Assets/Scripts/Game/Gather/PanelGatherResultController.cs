@@ -87,11 +87,6 @@ public class PanelGatherResultController : MonoBehaviour {
 			content.SetActive(true);
 			contentHealth.SetActive(false);
 
-			print("hunger = "+playerEmoji.emojiHungerMod);
-			print("hygene = "+playerEmoji.emojiHygeneMod);
-			print("happiness = "+playerEmoji.emojiHappinessMod);
-			print("health = "+playerEmoji.emojiHealthMod);
-
 		}
 		int playerGetCoin = coin*10;
 		PlayerData.Instance.playerCoin += playerGetCoin;

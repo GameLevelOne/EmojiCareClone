@@ -6,8 +6,8 @@ public class PanelConfirmGather : MonoBehaviour {
 	public SceneMainManager sceneMainManager;
 	public Text textWarning;
 
-	const string WARNING_NOT_ENOUGH_GOLD = "NOT ENOUGH GOLD (NEED 50G)";
-	const string WARNING_USE_GOLD = "GATHER COSTS 50G";
+	const string WARNING_NOT_ENOUGH_GOLD = "NOT ENOUGH GOLD (NEED 100G)";
+	const string WARNING_USE_GOLD = "GATHER COSTS 100G";
 
 	int category;
 	Animator thisAnim;
@@ -22,7 +22,7 @@ public class PanelConfirmGather : MonoBehaviour {
 	public void ButtonCategoryOnClick(int category)
 	{
 		this.category = category;
-		isEnoughGold = PlayerData.Instance.playerCoin >= 50 ? true : false;
+		isEnoughGold = PlayerData.Instance.playerCoin >= 100 ? true : false;
 		textWarning.text = isEnoughGold ? WARNING_USE_GOLD : WARNING_NOT_ENOUGH_GOLD;
 
 		SoundManager.Instance.PlaySFX(eSFX.BUTTON);
@@ -34,7 +34,7 @@ public class PanelConfirmGather : MonoBehaviour {
 	public void ButtonOkOnClick()
 	{
 		if(isEnoughGold){
-			hudController.ModCoin(-50);
+			hudController.ModCoin(-100);
 			sceneMainManager.ChangeToGatherSubScene(category);
 		}
 

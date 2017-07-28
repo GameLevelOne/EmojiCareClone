@@ -9,6 +9,7 @@ public class PanelEmojiEmotion : MonoBehaviour {
 	public Image[] emotionContents;
 	public GameObject[] emotionHighlights;
 	public GameObject[] emotionNotifications;
+	public MainHUDController mainHUD;
 
 	Emoji playerEmoji;
 
@@ -51,6 +52,7 @@ public class PanelEmojiEmotion : MonoBehaviour {
 		HighlightEmotion(index);
 		panelEmotionDetail.ShowDetail(index);
 		if(playerEmoji.GetCollection(index) == 1) playerEmoji.SetCollection(index,2);
+		mainHUD.CheckforNewEmotion(0);
 	}
 
 	void HighlightEmotion(int index)

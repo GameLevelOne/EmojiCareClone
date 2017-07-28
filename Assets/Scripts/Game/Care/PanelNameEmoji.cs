@@ -20,10 +20,9 @@ public class PanelNameEmoji : MonoBehaviour {
 	}
 
 	public void ButtonOkOnClick(){
-		if(PlayerData.Instance.playerDonePrologue == 0){ 
-			PlayerData.Instance.SetPlayerEmoji(0);
-			PlayerData.Instance.playerDonePrologue = 1;
-		}
+		PlayerData.Instance.SetPlayerEmoji(0);
+		PlayerData.Instance.playerDonePrologue = 1;
+
 		PlayerData.Instance.PlayerEmoji.emojiName = fieldEmojiName.text;
 
 		thisAnim.SetTrigger("Hide");

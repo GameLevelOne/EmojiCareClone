@@ -39,7 +39,7 @@ public class SceneSendOffManager : MonoBehaviour {
 			if(PlayerData.Instance.PlayerEmoji.GetCollection(i) > 0) complete++;
 		}
 
-		return (((float)complete / PlayerData.Instance.PlayerEmoji.collectionSO.Length)*100).ToString();
+		return (((float)complete / PlayerData.Instance.PlayerEmoji.collectionSO.Length)*100).ToString("F2");
 	}
 
 	string CalculateDuration()
@@ -50,6 +50,7 @@ public class SceneSendOffManager : MonoBehaviour {
 	}
 
 	public void ButtonOkOnClick(){
+		SoundManager.Instance.PlaySFX(eSFX.BUTTON);
 		PlayerData.Instance.gameStatus = GameStatus.SEND_OFF;
 		fader.OnFadeOutFinished += GoToSceneStork;
 		fader.FadeOut();

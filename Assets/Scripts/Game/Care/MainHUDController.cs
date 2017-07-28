@@ -7,17 +7,27 @@ public class MainHUDController : MonoBehaviour {
 	public Text textEmojiName;
 	public Text textPlayerCoin;
 	public GameObject notificationIcon;
-
+	public GameObject buttonSendOff;
+	public Button[] OnTutorialButtons;
 	Emoji playerEmoji;
-	void Start()
+
+	void Awake()
 	{
 		PlayerData.Instance.OnEmojiDie += TurnOffHUD;
 	}
 
+	void OnDestroy()
+	{
+		PlayerData.Instance.OnEmojiDie -= TurnOffHUD;
+	}
+
 	void OnEnable()
 	{
+		
 		if(PlayerData.Instance.playerEmojiID != -1 && PlayerData.Instance.PlayerEmoji != null) {
+			
 			PlayerData.Instance.PlayerEmoji.OnEmojiModStats += UpdateStatsMeter;
+			EmojiUnlockConditions.Instance.OnEmotionUnlock += CheckforNewEmotion;
 		}
 	}
 
@@ -25,6 +35,7 @@ public class MainHUDController : MonoBehaviour {
 	{
 		if(PlayerData.Instance.playerEmojiID != -1 && PlayerData.Instance.PlayerEmoji != null) {
 			PlayerData.Instance.PlayerEmoji.OnEmojiModStats -= UpdateStatsMeter;
+			EmojiUnlockConditions.Instance.OnEmotionUnlock -= CheckforNewEmotion;
 		}
 	}
 		
@@ -42,17 +53,35 @@ public class MainHUDController : MonoBehaviour {
 		happinessMeter.InitHUD( playerEmoji.emojiHappinessMod,  playerEmoji.emojiHappiness);
 		healthMeter.InitHUD( playerEmoji.emojiHealthMod,  playerEmoji.emojiHealth);
 
-		CheckforNewEmotion();
+		CheckforNewEmotion(0); //angka nya cm dummy, dipake di delegate event
+		CheckForSendOff();
 	}
 
-	public void CheckforNewEmotion()
+	void CheckForSendOff()
 	{
+		int amount = 0;
+		for(int i = 0;i<playerEmoji.collectionSO.Length;i++){
+			if(playerEmoji.GetCollection(i) > 0){
+				amount++;
+			}
+		}
+		if(((float)amount/(float)playerEmoji.collectionSO.Length) >= 0.5f){
+			buttonSendOff.SetActive(true);
+		}else{
+			buttonSendOff.SetActive(false);
+		}
+	}
+
+	public void CheckforNewEmotion(int index)
+	{
+		print("CHECKED NEW EMOTION");
 		for(int i = 0;i<playerEmoji.collectionSO.Length;i++){
 			if(playerEmoji.GetCollection(i) == 1){
 				notificationIcon.SetActive(true);
-				break;
+				return;
 			}
 		}
+		notificationIcon.SetActive(false);
 	}
 
 	public void UpdateName()

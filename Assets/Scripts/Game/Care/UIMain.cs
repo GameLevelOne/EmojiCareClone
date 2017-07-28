@@ -6,6 +6,7 @@ public class UIMain : MonoBehaviour {
 	public MainHUDController mainHUD;
 	public GameObject panelGetEmoji;
 	public GameObject panelSettings;
+	public GameObject panelConfirmSendOff;
 	public GameObject textEmojiDead;
 
 	[HideInInspector] public GameObject tempAlien;
@@ -29,9 +30,14 @@ public class UIMain : MonoBehaviour {
 
 	public void ButtonSettingsOnClick()
 	{
-		EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.GoToSettings);
 		SoundManager.Instance.PlaySFX(eSFX.BUTTON);
 		panelSettings.GetComponent<Animator>().SetTrigger("Show");
+	}
+
+	public void ButtonSendOffOnClick()
+	{
+		SoundManager.Instance.PlaySFX(eSFX.BUTTON);
+		panelConfirmSendOff.GetComponent<Animator>().SetTrigger("Show");
 	}
 
 	public void ButtonGetEmojiOnClick()
