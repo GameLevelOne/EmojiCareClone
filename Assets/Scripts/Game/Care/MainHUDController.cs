@@ -10,9 +10,6 @@ public class MainHUDController : MonoBehaviour {
 
 	Emoji playerEmoji;
 
-	void Start(){ EmojiUnlockConditions.Instance.OnEmotionUnlock += CheckforNewEmotion; }
-	void OnDestroy(){ EmojiUnlockConditions.Instance.OnEmotionUnlock -= CheckforNewEmotion; }
-
 	void OnEnable()
 	{
 		if(PlayerData.Instance.playerEmojiID != -1 && PlayerData.Instance.PlayerEmoji != null) {
@@ -26,9 +23,7 @@ public class MainHUDController : MonoBehaviour {
 			PlayerData.Instance.PlayerEmoji.OnEmojiModStats -= UpdateStatsMeter;
 		}
 	}
-
-	
-
+		
 	public void Init()
 	{
 		textPlayerCoin.text = PlayerData.Instance.playerCoin.ToString();

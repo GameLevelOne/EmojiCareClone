@@ -25,12 +25,11 @@ public class UICollection : MonoBehaviour {
 	{
 		Init();
 		thisAnim.SetTrigger("Show");
-
 	}
-
 
 	public void ButtonCloseOnClick()
 	{
+		SoundManager.Instance.PlaySFX(eSFX.BUTTONX);
 		thisAnim.SetTrigger("Hide");
 	}
 }

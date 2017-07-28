@@ -46,6 +46,7 @@ public class PanelEmojiEmotion : MonoBehaviour {
 
 	public void ButtonEmotionOnClick(int index)
 	{
+		SoundManager.Instance.PlaySFX(eSFX.BUTTON);
 		if(emotionNotifications[index].activeSelf) emotionNotifications[index].SetActive(false);
 		HighlightEmotion(index);
 		panelEmotionDetail.ShowDetail(index);
