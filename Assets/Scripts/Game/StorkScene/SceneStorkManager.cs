@@ -25,6 +25,7 @@ public class SceneStorkManager : MonoBehaviour {
 	void OnDialogueFinished()
 	{
 		dialogueController.OnDialogueFinish -= OnDialogueFinished;
+		PlayerData.Instance.GameDuration = System.DateTime.Now;
 		panelNameEmoji.Show();
 	}
 

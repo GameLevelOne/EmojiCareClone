@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 
 public class PlayerData : MonoBehaviour {
 	//singleton
@@ -20,11 +21,13 @@ public class PlayerData : MonoBehaviour {
 	const string Key_Player_Coin = "PlayerCoin";
 	const string Key_Player_EmojiId = "PlayerEmoji/ID";
 	const string Key_Game_Status = "GameStatus";
+	const string Key_Duration = "Durationnnn";
 	const string Key_Done_Prologue = "PlayerDonePrologue";
 	const string KEYPREF_PLAYERALIEN_ID = "PlayerAlien/ID";
 
 	const string Key_Player_CoinSPENT = "PlayerCoinSpent";
 	const string KEYPREF_PLAYERALIEN_PETTAPCOUNT = "PlayerAlien/PetTapCount";
+
 
 	public string playerName{
 		get{return PlayerPrefs.GetString(Key_Player_Name);}
@@ -46,6 +49,10 @@ public class PlayerData : MonoBehaviour {
 	public int playerEmojiID{
 		get{return PlayerPrefs.GetInt(Key_Player_EmojiId,-1);}
 		set{PlayerPrefs.SetInt(Key_Player_EmojiId,value);}
+	}
+	public DateTime GameDuration{
+		get{return DateTime.Parse (PlayerPrefs.GetString(Key_Duration));}
+		set{PlayerPrefs.SetString(Key_Duration,value.ToString());}
 	}
 
 	public GameStatus gameStatus{
@@ -75,6 +82,12 @@ public class PlayerData : MonoBehaviour {
 
 	public bool alienDead = false;
 	[HideInInspector] public bool emojiDead = false;
+
+	public void ResetData()
+	{
+		PlayerPrefs.DeleteKey(Key_Duration);
+		
+	}
 
 	void Awake()
 	{
