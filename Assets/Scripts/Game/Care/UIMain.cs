@@ -18,6 +18,7 @@ public class UIMain : MonoBehaviour {
 			if(PlayerData.Instance.emojiDead) textEmojiDead.SetActive(true);
 			else textEmojiDead.SetActive(false);
 		}else{
+			if(!TutorialManager.Instance.TutorialDone) TutorialManager.Instance.ShowTutorial();
 			PlayerData.Instance.LoadPlayerEmoji();
 			panelGetEmoji.SetActive(false);
 			if(PlayerData.Instance.PlayerEmoji.emojiName == string.Empty)

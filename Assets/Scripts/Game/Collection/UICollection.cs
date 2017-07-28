@@ -19,6 +19,7 @@ public class UICollection : MonoBehaviour {
 		panelEmojiDetail.UpdateEmojiDetail();
 		panelEmojiEmotion.Init();
 		panelEmojiEmotionDetail.Init();
+		if(!TutorialManager.Instance.TutorialDone) TutorialManager.Instance.ShowTutorial();
 	}
 
 	public void Show()

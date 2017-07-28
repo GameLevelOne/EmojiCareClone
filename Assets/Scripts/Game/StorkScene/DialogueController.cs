@@ -73,7 +73,6 @@ public class DialogueController : MonoBehaviour {
 		case GameStatus.PROLOGUE:
 			ChangeStorkSprite();
 			if(dialogueCounter == 21 || dialogueCounter == 25 || dialogueCounter == 29){
-				print("PROMPT");
 				dialogueTextAnimation.OnNextAction -= ShowNextDialogue;
 				dialogueTextAnimation.OnNextAction += PromptPlayerYesNo;
 			}

@@ -8,16 +8,16 @@ public class TutorialManager : MonoBehaviour {
 		get{return instance;}
 	}
 
-	const string KEYPREF_TUTORIAL = "Tutorial";
-	const string KEYPREF_TUTORIAL_INDEX = "Tutorial/Index";
+	const string  Key_Tutorial = "Tutorial";
+	const string  Key_Tutorial_Index = "Tutorial/Index";
 
 	public bool TutorialDone{
-		get{return PlayerPrefs.GetInt(KEYPREF_TUTORIAL,0) == 1 ? true : false;}
-		set{PlayerPrefs.SetInt(KEYPREF_TUTORIAL,value == true ? 1 : 0); }
+		get{return PlayerPrefs.GetInt( Key_Tutorial,0) == 1 ? true : false;}
+		set{PlayerPrefs.SetInt( Key_Tutorial,value == true ? 1 : 0); }
 	}
 	public int TutorialIndex{
-		get{return PlayerPrefs.GetInt(KEYPREF_TUTORIAL_INDEX,0);}
-		set{PlayerPrefs.SetInt(KEYPREF_TUTORIAL_INDEX,value);}
+		get{return PlayerPrefs.GetInt( Key_Tutorial_Index,0);}
+		set{PlayerPrefs.SetInt( Key_Tutorial_Index,value);}
 	}
 
 	public GameObject tutorialPanel;
@@ -30,10 +30,12 @@ public class TutorialManager : MonoBehaviour {
 			return; 
 		}
 		else instance = this;
+		print("Tutorial = "+TutorialDone);
 	}
 
 	public void ShowTutorial()
 	{
+		print("TUTORIAL");
 		foreach(GameObject a in tutorialObjects) a.SetActive(false);
 		tutorialPanel.SetActive(true);
 		tutorialObjects[TutorialIndex].SetActive(true);
@@ -44,16 +46,13 @@ public class TutorialManager : MonoBehaviour {
 	{
 		tutorialPanel.SetActive(false);
 		TutorialIndex++;
-		if(TutorialIndex == 2 || TutorialIndex == 4){
-			if(!TutorialDone) ShowTutorial();
-		}
+		if(!TutorialDone &&TutorialIndex == 2) ShowTutorial();
 
 		if(TutorialIndex == tutorialObjects.Count) TutorialDone = true;
 	}
 
 	void OnApplicationQuit()
 	{
-		if(TutorialIndex == 1 || TutorialIndex == 2 || TutorialIndex == 3) TutorialIndex = 0;
-		else if(TutorialIndex == 5 || TutorialIndex == 6) TutorialIndex = 4;
+		if(TutorialIndex <= 2) TutorialIndex = 0;
 	}
 }

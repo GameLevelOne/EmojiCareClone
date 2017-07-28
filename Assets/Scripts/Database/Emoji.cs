@@ -140,13 +140,7 @@ public class Emoji : MonoBehaviour {
 	void InstantiateEmojiObject(RectTransform parent)
 	{
 		if(emojiClone == null){
-			emojiClone = Instantiate(emojiPrefab);
-			RectTransform emojiCloneTransform = emojiClone.GetComponent<RectTransform>();
-			emojiCloneTransform.SetParent(parent);
-			emojiCloneTransform.anchoredPosition = Vector2.zero;
-			emojiCloneTransform.rotation = Quaternion.identity;
-			emojiCloneTransform.localScale = Vector3.one;
-
+			emojiClone = Instantiate(emojiPrefab,parent);
 			emojiAnimation = emojiClone.GetComponent<Animator>();
 		}
 	}

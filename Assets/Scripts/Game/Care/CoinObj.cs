@@ -57,6 +57,7 @@ public class CoinObj : MonoBehaviour {
 
 	IEnumerator CoinAbsorb()
 	{
+		if(!TutorialManager.Instance.TutorialDone && TutorialManager.Instance.TutorialIndex == 1) TutorialManager.Instance.ShowTutorial();
 		rigidBody.gravityScale = 0f;
 		GetComponent<CircleCollider2D>().enabled = false;
 
