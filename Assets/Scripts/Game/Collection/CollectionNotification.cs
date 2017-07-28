@@ -11,11 +11,18 @@ public class CollectionNotification : MonoBehaviour {
 
 	bool notifIsFiring = false;
 
-	public void AddNotification()
+	void Start()
+	{
+		EmojiUnlockConditions.Instance.OnEmotionUnlock += AddNotification;
+	}
+
+	public void AddNotification(int index)
 	{
 		GameObject tempNotifObj = Instantiate(notifObjPrefab,notificationParent);
 		tempNotifObj.GetComponent<NotificationObject>().OnNotificationFired += OnNotificationFired;
 		tempNotifObj.GetComponent<NotificationObject>().OnNotificationEnded += OnNotificationEnded;
+		tempNotifObj.GetComponent<NotificationObject>().imageNewEmotion.sprite = PlayerData.Instance.PlayerEmoji.collectionSO[index].emotionIcon;
+		tempNotifObj.GetComponent<NotificationObject>().textNewEmotion.text = PlayerData.Instance.PlayerEmoji.collectionSO[index].emotionName;
 		notificationObjects.Add(tempNotifObj);
 		FireNotification();
 	}

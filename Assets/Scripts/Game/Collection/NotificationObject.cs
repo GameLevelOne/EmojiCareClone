@@ -7,6 +7,9 @@ public class NotificationObject : MonoBehaviour {
 	public event NotificationEvent OnNotificationFired;
 	public event NotificationEvent OnNotificationEnded;
 
+	public Image imageNewEmotion;
+	public Text textNewEmotion;
+
 	Animator thisAnim;
 	void Awake()
 	{

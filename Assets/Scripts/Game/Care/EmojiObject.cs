@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class EmojiObject : MonoBehaviour {
 	const string Key_Hit = "EmojiHit";
@@ -30,5 +31,18 @@ public class EmojiObject : MonoBehaviour {
 		} else if (PlayerData.Instance.petTapCount == tapCountTarget3) {
 			EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.TapCount3);
 		}
+	}
+
+	public void EmojiGlitchOnClick()
+	{
+		if(PlayerData.Instance.emojiDead == true){
+			GetComponent<Button>().interactable = false;
+			GetComponent<Animator>().SetTrigger("Dead");
+		}
+	}
+
+	public void GoToSceneStork()
+	{
+		SceneManager.LoadScene("SceneStork");
 	}
 }

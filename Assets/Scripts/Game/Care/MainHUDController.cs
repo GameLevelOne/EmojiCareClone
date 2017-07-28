@@ -9,6 +9,10 @@ public class MainHUDController : MonoBehaviour {
 	public GameObject notificationIcon;
 
 	Emoji playerEmoji;
+	void Start()
+	{
+		PlayerData.Instance.OnEmojiDie += TurnOffHUD;
+	}
 
 	void OnEnable()
 	{
@@ -83,5 +87,11 @@ public class MainHUDController : MonoBehaviour {
 			yield return new WaitForSeconds(Time.deltaTime);
 		}
 		textPlayerCoin.text = PlayerData.Instance.playerCoin.ToString();
+	}
+
+	void TurnOffHUD()
+	{
+		PlayerData.Instance.OnEmojiDie -= TurnOffHUD;
+		gameObject.SetActive(false);
 	}
 }

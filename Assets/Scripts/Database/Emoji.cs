@@ -208,6 +208,8 @@ public class Emoji : MonoBehaviour {
 
 		if(emojiHealthMod <= 0){
 			PlayerData.Instance.gameStatus = GameStatus.EMOJI_DIE;
+			emojiClone.GetComponent<Animator>().SetTrigger("Glitch");
+			emojiClone.GetComponent<Button>().onClick.RemoveListener(emojiClone.GetComponent<EmojiObject>().EmojiOnClick);
 			if(OnEmojiDies != null) OnEmojiDies();
 		}
 	}

@@ -7,6 +7,9 @@ public class PlayerData : MonoBehaviour {
 		get{return instance;}
 	}
 		
+	public delegate void EmojiDie();
+	public event EmojiDie OnEmojiDie;
+
 	public RectTransform emojiParentTransform;
 	GameObject playerAlien;
 	Emoji playerEmoji;
@@ -107,10 +110,9 @@ public class PlayerData : MonoBehaviour {
 	{
 		emojiDead = true;
 		playerEmojiID = -1;
-
+		if(OnEmojiDie != null) OnEmojiDie();
 		//disable stats depletion
 		EmojiStatsController.Instance.StopAllCoroutines();
-		gameStatus = GameStatus.EMOJI_DIE;
 		//animate emoji die, on tap: go to scene stork and display emoji dead dialogue
 	}
 }

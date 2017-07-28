@@ -9,7 +9,7 @@ public class EmojiUnlockConditions : MonoBehaviour {
 		get{ return instance;}
 	}
 
-	public delegate void EmotionUnlock();
+	public delegate void EmotionUnlock(int index);
 	public event EmotionUnlock OnEmotionUnlock;
 
 	const int gatherIconTarget = 250;
@@ -156,7 +156,7 @@ public class EmojiUnlockConditions : MonoBehaviour {
 			}
 		}
 
-		if(OnEmotionUnlock != null) OnEmotionUnlock();
+		if(OnEmotionUnlock != null) OnEmotionUnlock((int)condition);
 
 //			if (CountUnlockedEmojis () == emojiUnlockValue.Length / 2) {
 //				emojiUnlockValue [0, (int)UnlockCondition.Collection1] = true;
