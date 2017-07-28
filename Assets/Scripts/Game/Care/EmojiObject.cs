@@ -20,16 +20,26 @@ public class EmojiObject : MonoBehaviour {
 	void OnEnable()
 	{
 		StartCoroutine("CoroutineChangeRandomEmotion");
+		EmojiUnlockConditions.Instance.OnEmotionUnlock += OnNewEmotionUnlocked;
+
 	}
 
 	void OnDisable()
 	{
 		StopAllCoroutines();
+		EmojiUnlockConditions.Instance.OnEmotionUnlock -= OnNewEmotionUnlocked;
 	}
 
 	void OnDestroy()
 	{
 		StopAllCoroutines();
+		EmojiUnlockConditions.Instance.OnEmotionUnlock -= OnNewEmotionUnlocked;
+	}
+
+	void OnNewEmotionUnlocked(int index)
+	{
+		StopAllCoroutines();
+		StartCoroutine("CoroutineChangeRandomEmotion");
 	}
 
 	IEnumerator CoroutineChangeRandomEmotion()
