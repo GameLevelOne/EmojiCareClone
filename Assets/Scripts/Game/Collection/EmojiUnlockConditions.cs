@@ -32,158 +32,153 @@ public class EmojiUnlockConditions : MonoBehaviour {
 	public void CheckUnlock (UnlockCondition condition)
 	{
 		Emoji playerEmoji = PlayerData.Instance.PlayerEmoji;
-		PlayerData instance = PlayerData.Instance;
 		float petCriticalThreshold = 0.25f;
-		bool conditionFulfilled = false;
 
 		if (emojiUnlockValue [0, (int)condition] == false) {
 
 			if (condition == UnlockCondition.CriticalHunger) {
 				if ((float)(playerEmoji.emojiHunger / playerEmoji.emojiHungerMod) <= petCriticalThreshold) {
-					conditionFulfilled = true;
-				}	
-
+					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
+				}
 			} else if (condition == UnlockCondition.CriticalHygiene) {
 				if ((float)(playerEmoji.emojiHygene / playerEmoji.emojiHygeneMod) <= petCriticalThreshold) {
-					conditionFulfilled = true;
+					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
 				}
 
 			} else if (condition == UnlockCondition.CriticalHappiness) {
 				if ((float)(playerEmoji.emojiHappiness / playerEmoji.emojiHappinessMod) <= petCriticalThreshold) {
-					conditionFulfilled = true;
+					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
 				}
 
 			} else if (condition == UnlockCondition.CriticalHealth) {
 				if ((float)(playerEmoji.emojiHealth / playerEmoji.emojiHealthMod) <= petCriticalThreshold) {
-					conditionFulfilled = true;
+					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
 				}
 
 			} else if (condition == UnlockCondition.EmptyHunger) {
 				if ((float)(playerEmoji.emojiHunger / playerEmoji.emojiHungerMod) <= 0) {
-					conditionFulfilled = true;
+					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
 				}
 
 			} else if (condition == UnlockCondition.EmptyHygiene) {
 				if ((float)(playerEmoji.emojiHygene / playerEmoji.emojiHygeneMod) <= 0) {
-					conditionFulfilled = true;
+					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
 				}
 
 			} else if (condition == UnlockCondition.EmptyHappiness) {
 				if ((float)(playerEmoji.emojiHappiness / playerEmoji.emojiHappinessMod) <= 0) {
-					conditionFulfilled = true;
+					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
 				}
 
 			} else if (condition == UnlockCondition.Empty3) {
 				if ((float)(playerEmoji.emojiHunger / playerEmoji.emojiHungerMod) <= 0 &&
 				   (float)(playerEmoji.emojiHygene / playerEmoji.emojiHygeneMod) <= 0 &&
 				   (float)(playerEmoji.emojiHappiness / playerEmoji.emojiHappinessMod) <= 0) {
-					conditionFulfilled = true;
+					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
 				}
 
 			} else if (condition == UnlockCondition.FullFed) {
 				if (playerEmoji.emojiHunger == playerEmoji.emojiHungerMod) {
-					conditionFulfilled = true;
+					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
 				}
 
 			} else if (condition == UnlockCondition.FullHygiene) {
 				if (playerEmoji.emojiHygene == playerEmoji.emojiHygeneMod) {
-					conditionFulfilled = true;
+					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
 				}
 
 			} else if (condition == UnlockCondition.FullHappiness) {
 				if (playerEmoji.emojiHappiness == playerEmoji.emojiHappinessMod) {
-					conditionFulfilled = true;
+					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
 				}
 
 			} else if (condition == UnlockCondition.FullAll) {
 				if ((playerEmoji.emojiHunger == playerEmoji.emojiHungerMod) && (playerEmoji.emojiHygene == playerEmoji.emojiHygeneMod) && 
 				(playerEmoji.emojiHappiness == playerEmoji.emojiHappinessMod) && (playerEmoji.emojiHealth == playerEmoji.emojiHealthMod)) {
-					conditionFulfilled = true;
+					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
 				}
 
 			} else if (condition == UnlockCondition.FeedPosIconCount) {
-				if (instance.feedPosCount == gatherIconTarget) {
-					conditionFulfilled = true;
+				if (playerEmoji.emojiFeedPositiveCount == gatherIconTarget) {
+					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
 				}
 
 			} else if (condition == UnlockCondition.CleanPosIconCount) {
-				if (instance.cleanPosCount == gatherIconTarget) {
-					conditionFulfilled = true;
+				if (playerEmoji.emojiCleanPositiveCount == gatherIconTarget) {
+					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
 				}
 
 			} else if (condition == UnlockCondition.PlayPosIconCount) {
-				if (instance.playPosCount == gatherIconTarget) {
-					conditionFulfilled = true;
+				if (playerEmoji.emojiPlayPositiveCount == gatherIconTarget) {
+					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
 				}
 
 			} else if (condition == UnlockCondition.NursePosIconCount) {
-				if (instance.nursePosCount == gatherIconTarget) {
-					conditionFulfilled = true;
+				if (playerEmoji.emojiNursePositiveCount == gatherIconTarget) {
+					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
 				}
 
 			} else if (condition == UnlockCondition.FeedNegIconCount) {
-				if (instance.feedNegCount == gatherIconTarget) {
-					conditionFulfilled = true;
+				if (playerEmoji.emojiFeedNegativeCount == gatherIconTarget) {
+					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
 				}
 
 			} else if (condition == UnlockCondition.CleanNegIconCount) {
-				if (instance.cleanNegCount == gatherIconTarget) {
-					conditionFulfilled = true;
+				if (playerEmoji.emojiCleanNegativeCount == gatherIconTarget) {
+					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
 				}
 
 			} else if (condition == UnlockCondition.PlayNegIconCount) {
-				if (instance.playNegCount == gatherIconTarget) {
-					conditionFulfilled = true;
+				if (playerEmoji.emojiPlayNegativeCount == gatherIconTarget) {
+					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
 				}
 
 			} else if (condition == UnlockCondition.NurseNegIconCount) {
-				if (instance.nurseNegCount == gatherIconTarget) {
-					conditionFulfilled = true;
+				if (playerEmoji.emojiNurseNegativeCount == gatherIconTarget) {
+					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
 				}
 
 			} else if (condition == UnlockCondition.SpendCoin) {
-				if (instance.playerSpentCoin == spentCoinTarget) {
-					conditionFulfilled = true;
+				if (PlayerData.Instance.playerSpentCoin == spentCoinTarget) {
+					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
 				}
 
 			} else if (condition == UnlockCondition.CoinCount) {
-				if (instance.playerCoin == saveCoinTarget) {
-					conditionFulfilled = true;
+				if (PlayerData.Instance.playerCoin == saveCoinTarget) {
+					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
 				}
 
 			} else if (condition == UnlockCondition.GoToSettings) {
 				if (CountSettings ()) {
-					conditionFulfilled = true;
+					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
 				}
-			}  else {
-				conditionFulfilled = true;
-			} 
-
-			if (CountUnlockedEmojis () == emojiUnlockValue.Length / 2) {
-				emojiUnlockValue [0, (int)UnlockCondition.Collection1] = true;
-				collectionManager.UnlockEmoji ((int)UnlockCondition.Collection1);
-			} else if (CountUnlockedEmojis () == emojiUnlockValue.Length - 1) {
-				emojiUnlockValue [0, (int)UnlockCondition.CollectionAll] = true;
-				collectionManager.UnlockEmoji ((int)UnlockCondition.CollectionAll);
 			}
+
+//			if (CountUnlockedEmojis () == emojiUnlockValue.Length / 2) {
+//				emojiUnlockValue [0, (int)UnlockCondition.Collection1] = true;
+//				collectionManager.UnlockEmoji ((int)UnlockCondition.Collection1);
+//			} else if (CountUnlockedEmojis () == emojiUnlockValue.Length - 1) {
+//				emojiUnlockValue [0, (int)UnlockCondition.CollectionAll] = true;
+//				collectionManager.UnlockEmoji ((int)UnlockCondition.CollectionAll);
+//			}
 		}
 
-		if (conditionFulfilled) {
-			emojiUnlockValue[0,(int)condition] = true;
-			collectionManager.UnlockEmoji((int)condition);
-		}
+//		if (conditionFulfilled) {
+//			emojiUnlockValue[0,(int)condition] = true;
+			//collectionManager.UnlockEmoji((int)condition);
+//		}
 	}
 
-	int CountUnlockedEmojis ()
-	{
-		int count = 0;
-		for (int i = 0; i < emojiUnlockValue.Length; i++) {
-			if (emojiUnlockValue [0,i] == true) {
-				count++;
-			}
-		}
-		return count;
-	}
+//	int CountUnlockedEmojis ()
+//	{
+//		int count = 0;
+//		for (int i = 0; i < emojiUnlockValue.Length; i++) {
+//			if (emojiUnlockValue [0,i] == true) {
+//				count++;
+//			}
+//		}
+//		return count;
+//	}
 
 	const string KEY_LOGINTIME = "LoginTime";
 	const string KEY_LOGINCOUNT = "LoginCount";

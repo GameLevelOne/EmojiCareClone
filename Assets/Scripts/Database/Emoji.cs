@@ -19,20 +19,38 @@ public class Emoji : MonoBehaviour {
 
 	#region data
 	const string Key_Emoji_Name = "PlayerEmoji/Name";
+	const string Key_Emoji_Collection = "PlayerEmoji/Collection/";
+
 	const string Key_Emoji_Hunger = "PlayerEmoji/Hunger";
 	const string Key_Emoji_Hygene = "PlayerEmoji/Hygene";
 	const string Key_Emoji_Happiness = "PlayerEmoji/Happiness";
 	const string Key_Emoji_Health = "PlayerEmoji/Health";
+
 	const string Key_Emoji_HungerMod = "PlayerEmoji/HungerMod";
 	const string Key_Emoji_HygeneMod = "PlayerEmoji/HygeneMod";
 	const string Key_Emoji_HappinessMod = "PlayerEmoji/HappinessMod";
 	const string Key_Emoji_HealthMod = "PlayerEmoji/Healthmod";
-	const string Key_Emoji_Collection = "PlayerEmoji/Collection/";
+
+
+	//collections
+	const string Key_Emoji_Feed_Positive_Count = "PlayerEmoji/FeedPositiveCount";
+	const string Key_Emoji_Feed_Negative_Count = "PlayerEmoji/FeedNegativeCount";
+	const string Key_Emoji_Clean_Positive_Count = "PlayerEmoji/CleanPositiveCount";
+	const string Key_Emoji_Clean_Negative_Count = "PlayerEmoji/CleanNegativeCount";
+	const string Key_Emoji_Play_Positive_Count = "PlayerEmoji/PlayPositiveCount";
+	const string Key_Emoji_Play_Negative_Count = "PlayerEmoji/PlayNegativeCount";
+	const string Key_Emoji_Nurse_Positive_Count = "PlayerEmoji/NursePositiveCount";
+	const string Key_Emoji_Nurse_Negative_Count = "PlayerEmoji/NurseNegativeCount";
+	const string Key_Emoji_Tap_Count = "PlayerEmoji/TapCount";
 
 	public string emojiName{
 		get{ return PlayerPrefs.GetString(Key_Emoji_Name);}
 		set{ PlayerPrefs.SetString(Key_Emoji_Name,value); }
 	}
+	public EmojiCollectionSO[] collectionSO{
+		get{return emojiSO.collectionSO;}
+	}
+
 	public int emojiHunger{
 		get{ return PlayerPrefs.GetInt(Key_Emoji_Hunger, emojiSO.emojiHunger);}
 		set{ PlayerPrefs.SetInt(Key_Emoji_Hunger,value); }
@@ -49,6 +67,7 @@ public class Emoji : MonoBehaviour {
 		get{ return PlayerPrefs.GetInt(Key_Emoji_Health, emojiSO.emojiHealth);}
 		set{ PlayerPrefs.SetInt(Key_Emoji_Health,value); }
 	}
+
 	public int emojiHungerMod{
 		get{ return PlayerPrefs.GetInt(Key_Emoji_HungerMod, emojiSO.emojiHungerMod);}
 		set{ PlayerPrefs.SetInt(Key_Emoji_HungerMod,value); }
@@ -66,6 +85,42 @@ public class Emoji : MonoBehaviour {
 		set{ PlayerPrefs.SetInt(Key_Emoji_HealthMod,value); }
 	}
 
+	public int emojiFeedPositiveCount{
+		get{return PlayerPrefs.GetInt(Key_Emoji_Feed_Positive_Count,0);}
+		set{PlayerPrefs.SetInt(Key_Emoji_Play_Positive_Count,value);}
+	}
+	public int emojiFeedNegativeCount{
+		get{return PlayerPrefs.GetInt(Key_Emoji_Feed_Negative_Count,0);}
+		set{PlayerPrefs.SetInt(Key_Emoji_Play_Positive_Count,value);}
+	}
+	public int emojiCleanPositiveCount{
+		get{return PlayerPrefs.GetInt(Key_Emoji_Clean_Positive_Count,0);}
+		set{PlayerPrefs.SetInt(Key_Emoji_Play_Positive_Count,value);}
+	}
+	public int emojiCleanNegativeCount{
+		get{return PlayerPrefs.GetInt(Key_Emoji_Clean_Negative_Count,0);}
+		set{PlayerPrefs.SetInt(Key_Emoji_Play_Positive_Count,value);}
+	}
+	public int emojiPlayPositiveCount{
+		get{return PlayerPrefs.GetInt(Key_Emoji_Play_Positive_Count,0);}
+		set{PlayerPrefs.SetInt(Key_Emoji_Play_Positive_Count,value);}
+	}
+	public int emojiPlayNegativeCount{
+		get{return PlayerPrefs.GetInt(Key_Emoji_Play_Positive_Count,0);}
+		set{PlayerPrefs.SetInt(Key_Emoji_Play_Positive_Count,value);}
+	}
+	public int emojiNursePositiveCount{
+		get{return PlayerPrefs.GetInt(Key_Emoji_Nurse_Positive_Count,0);}
+		set{PlayerPrefs.SetInt(Key_Emoji_Play_Positive_Count,value);}
+	}
+	public int emojiNurseNegativeCount{
+		get{return PlayerPrefs.GetInt(Key_Emoji_Nurse_Negative_Count,0);}
+		set{PlayerPrefs.SetInt(Key_Emoji_Play_Positive_Count,value);}
+	}
+	public int emojiTapCount{
+		get{return PlayerPrefs.GetInt(Key_Emoji_Tap_Count,0);}
+		set{PlayerPrefs.SetInt(Key_Emoji_Play_Positive_Count,value);}
+	}
 	#endregion
 
 	#region delegate events
@@ -108,16 +163,26 @@ public class Emoji : MonoBehaviour {
 		emojiHappinessMod = emojiSO.emojiHappinessMod;
 		emojiHealthMod = emojiSO.emojiHealthMod;
 
+		emojiPlayPositiveCount = 0;
+		emojiPlayNegativeCount = 0;
+		emojiCleanPositiveCount = 0;
+		emojiCleanNegativeCount = 0;
+		emojiPlayPositiveCount = 0;
+		emojiPlayNegativeCount = 0;
+		emojiNursePositiveCount = 0;
+		emojiNurseNegativeCount = 0;
+		emojiTapCount = 0;
+
 		PlayerPrefs.Save();
 	}
 
-	void InitEmojiCollections()
+	public void InitEmojiCollections()
 	{
-//		PlayerPrefs.SetInt(Key_Emoji_Collection+"0",2);
-//		for(int i = 1;i<emojiSprites.Length;i++) {
-//			string tempKey = Key_Emoji_Collection+i.ToString();
-//			PlayerPrefs.SetInt(tempKey,0);
-//		}
+		PlayerPrefs.SetInt(Key_Emoji_Collection+"0",2);
+		for(int i = 1; i<collectionSO.Length; i++) {
+			string tempKey = Key_Emoji_Collection+i.ToString();
+			PlayerPrefs.SetInt(tempKey,0);
+		}
 	}
 
 	/// <summary>
@@ -125,7 +190,6 @@ public class Emoji : MonoBehaviour {
 	/// </summary>
 	public void TickStats(int ticks = 1)
 	{
-
 		for(int i = 0; i < ticks;i++){
 			if(emojiHungerMod <= 0 || 
 				emojiHygeneMod <= 0 || 
@@ -149,6 +213,7 @@ public class Emoji : MonoBehaviour {
 		emojiHealthMod--;
 
 		if(emojiHealthMod <= 0){
+			PlayerData.Instance.gameStatus = GameStatus.EMOJI_DIE;
 			if(OnEmojiDies != null) OnEmojiDies();
 		}
 	}
@@ -193,6 +258,12 @@ public class Emoji : MonoBehaviour {
 		return PlayerPrefs.GetInt(Key_Emoji_Collection+index.ToString());
 	}
 
+	/// <summary>
+	/// <para>Values:</para>
+	/// <para>0 = locked</para>
+	/// <para>1 = unlocked</para>
+	/// <para>2 = viewed in UI Collection</para>
+	/// </summary>
 	public void SetCollection(int index, int value)
 	{
 		PlayerPrefs.SetInt(Key_Emoji_Collection+index.ToString(),value);
@@ -206,11 +277,21 @@ public class Emoji : MonoBehaviour {
 		PlayerPrefs.DeleteKey(Key_Emoji_Hygene);
 		PlayerPrefs.DeleteKey(Key_Emoji_Happiness);
 		PlayerPrefs.DeleteKey(Key_Emoji_Health);
-
 		PlayerPrefs.DeleteKey(Key_Emoji_HungerMod);
 		PlayerPrefs.DeleteKey(Key_Emoji_HygeneMod);
 		PlayerPrefs.DeleteKey(Key_Emoji_HappinessMod);
 		PlayerPrefs.DeleteKey(Key_Emoji_HealthMod);
+
+		PlayerPrefs.DeleteKey(Key_Emoji_Feed_Positive_Count);
+		PlayerPrefs.DeleteKey(Key_Emoji_Feed_Negative_Count);
+		PlayerPrefs.DeleteKey(Key_Emoji_Clean_Positive_Count);
+		PlayerPrefs.DeleteKey(Key_Emoji_Clean_Negative_Count);
+		PlayerPrefs.DeleteKey(Key_Emoji_Play_Positive_Count);
+		PlayerPrefs.DeleteKey(Key_Emoji_Play_Negative_Count);
+		PlayerPrefs.DeleteKey(Key_Emoji_Nurse_Positive_Count);
+		PlayerPrefs.DeleteKey(Key_Emoji_Nurse_Negative_Count);
+		PlayerPrefs.DeleteKey(Key_Emoji_Tap_Count);
+
 		PlayerPrefs.Save();
 	}
 }

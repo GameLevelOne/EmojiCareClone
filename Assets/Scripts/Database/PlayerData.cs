@@ -21,14 +21,6 @@ public class PlayerData : MonoBehaviour {
 	const string KEYPREF_PLAYERALIEN_ID = "PlayerAlien/ID";
 
 	const string Key_Player_CoinSPENT = "PlayerCoinSpent";
-	const string KEYPREF_PLAYERALIEN_FEEDPOSCOUNT = "PlayerAlien/FeedPosCount";
-	const string KEYPREF_PLAYERALIEN_CLEANPOSCOUNT = "PlayerAlien/CleanPosCount";
-	const string KEYPREF_PLAYERALIEN_PLAYPOSCOUNT = "PlayerAlien/PlayPosCount";
-	const string KEYPREF_PLAYERALIEN_NURSEPOSCOUNT = "PlayerAlien/NursePosCount";
-	const string KEYPREF_PLAYERALIEN_FEEDNEGCOUNT = "PlayerAlien/FeedNegCount";
-	const string KEYPREF_PLAYERALIEN_CLEANNEGCOUNT = "PlayerAlien/CleanNegCount";
-	const string KEYPREF_PLAYERALIEN_PLAYNEGCOUNT = "PlayerAlien/PlayNegCount";
-	const string KEYPREF_PLAYERALIEN_NURSENEGCOUNT = "PlayerAlien/NurseNegCount";
 	const string KEYPREF_PLAYERALIEN_PETTAPCOUNT = "PlayerAlien/PetTapCount";
 
 	public string playerName{
@@ -52,9 +44,10 @@ public class PlayerData : MonoBehaviour {
 		get{return PlayerPrefs.GetInt(Key_Player_EmojiId,-1);}
 		set{PlayerPrefs.SetInt(Key_Player_EmojiId,value);}
 	}
-	public int gameStatus{
-		get{return PlayerPrefs.GetInt(Key_Game_Status,0);}
-		set{PlayerPrefs.SetInt(Key_Game_Status,value);}
+
+	public GameStatus gameStatus{
+		get{return (GameStatus) PlayerPrefs.GetInt(Key_Game_Status,0);}
+		set{PlayerPrefs.SetInt(Key_Game_Status,(int)value);}
 	}
 	public int playerDonePrologue{
 		get{return PlayerPrefs.GetInt(Key_Done_Prologue,0);}
@@ -63,38 +56,6 @@ public class PlayerData : MonoBehaviour {
 	public int petTapCount {
 		get{ return PlayerPrefs.GetInt (KEYPREF_PLAYERALIEN_PETTAPCOUNT, 0); }
 		set{ PlayerPrefs.SetInt(KEYPREF_PLAYERALIEN_PETTAPCOUNT,value);}
-	}
-	public int feedPosCount {
-		get{ return PlayerPrefs.GetInt (KEYPREF_PLAYERALIEN_FEEDPOSCOUNT, 0); }
-		set{ PlayerPrefs.SetInt(KEYPREF_PLAYERALIEN_FEEDPOSCOUNT,value);}
-	}
-	public int cleanPosCount {
-		get{ return PlayerPrefs.GetInt (KEYPREF_PLAYERALIEN_CLEANPOSCOUNT, 0); }
-		set{ PlayerPrefs.SetInt(KEYPREF_PLAYERALIEN_CLEANPOSCOUNT,value);}
-	}
-	public int playPosCount {
-		get{ return PlayerPrefs.GetInt (KEYPREF_PLAYERALIEN_CLEANPOSCOUNT, 0); }
-		set{ PlayerPrefs.SetInt(KEYPREF_PLAYERALIEN_PLAYPOSCOUNT,value);}
-	}
-	public int nursePosCount {
-		get{ return PlayerPrefs.GetInt(KEYPREF_PLAYERALIEN_NURSEPOSCOUNT,0);}
-		set{PlayerPrefs.SetInt(KEYPREF_PLAYERALIEN_NURSEPOSCOUNT,value);}
-	}
-	public int feedNegCount {
-		get{ return PlayerPrefs.GetInt (KEYPREF_PLAYERALIEN_FEEDNEGCOUNT, 0); }
-		set{ PlayerPrefs.SetInt(KEYPREF_PLAYERALIEN_FEEDNEGCOUNT,value);}
-	}
-	public int cleanNegCount {
-		get{ return PlayerPrefs.GetInt (KEYPREF_PLAYERALIEN_CLEANNEGCOUNT, 0); }
-		set{ PlayerPrefs.SetInt(KEYPREF_PLAYERALIEN_CLEANNEGCOUNT,value);}
-	}
-	public int playNegCount {
-		get{ return PlayerPrefs.GetInt (KEYPREF_PLAYERALIEN_PLAYNEGCOUNT, 0); }
-		set{ PlayerPrefs.SetInt(KEYPREF_PLAYERALIEN_PLAYNEGCOUNT,value);}
-	}
-	public int nurseNegCount {
-		get{ return PlayerPrefs.GetInt (KEYPREF_PLAYERALIEN_NURSENEGCOUNT, 0); }
-		set{ PlayerPrefs.SetInt(KEYPREF_PLAYERALIEN_NURSENEGCOUNT,value);}
 	}
 
 	public Alien PlayerAlien{
@@ -141,6 +102,7 @@ public class PlayerData : MonoBehaviour {
 		playerEmojiID = index;
 		playerEmoji = emojiData[index];
 		playerEmoji.InitStats();
+		playerEmoji.InitEmojiCollections();
 	}
 		
 	void OnEmojiDies()
@@ -149,5 +111,7 @@ public class PlayerData : MonoBehaviour {
 		playerEmojiID = -1;
 
 		//disable stats depletion
+		EmojiStatsController.Instance.StopAllCoroutines();
+		//animate emoji die, on tap: go to scene stork and display emoji dead dialogue
 	}
 }

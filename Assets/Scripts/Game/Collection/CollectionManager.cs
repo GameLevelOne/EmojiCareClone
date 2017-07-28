@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class CollectionManager : MonoBehaviour {
-	public EmojiCollectionSO[] emojiDataSO;
+	public EmojiCollectionSO[] emojiCollectionSO;
 	public GameObject boxEmojiPrefab;
 	public GameObject boxPetPrefab;
 	public GameObject emojiPanelPrefab;
@@ -112,9 +112,9 @@ public class CollectionManager : MonoBehaviour {
 
 				obj.GetComponent<Button> ().onClick.AddListener (OnSelectEmoji);
 				obj.GetComponent<CurrentEmojiData> ().SetEmojiIdx (idx);
-				obj.transform.GetChild(1).GetComponent<Image>().sprite = emojiDataSO[idx].emotionIcon;
+				obj.transform.GetChild(1).GetComponent<Image>().sprite = emojiCollectionSO[idx].emotionIcon;
 				emojiObjects [currPet,idx] = obj;
-				SetEmojiColor(obj,emojiDataSO[idx].emojiUnlockStatus);
+				SetEmojiColor(obj,emojiCollectionSO[idx].emojiUnlockStatus);
 				idx++;
 			}
 		}
@@ -160,9 +160,9 @@ public class CollectionManager : MonoBehaviour {
 	}
 
 	void UpdateEmojiDetails(){
-		currSelectedEmojiIcon.sprite = emojiDataSO[currSelectedEmojiIdx].emotionIcon;
-		currSelectedEmojiName.text = emojiDataSO[currSelectedEmojiIdx].emotionName;
-		currSelectedEmojiUnlockCondition.text = emojiDataSO[currSelectedEmojiIdx].emotionUnlockConditionDesc;
+		currSelectedEmojiIcon.sprite = emojiCollectionSO[currSelectedEmojiIdx].emotionIcon;
+		currSelectedEmojiName.text = emojiCollectionSO[currSelectedEmojiIdx].emotionName;
+		currSelectedEmojiUnlockCondition.text = emojiCollectionSO[currSelectedEmojiIdx].emotionUnlockConditionDesc;
 	}
 
 	void UpdateEmojiPanelDisplay ()
@@ -177,6 +177,6 @@ public class CollectionManager : MonoBehaviour {
 	}
 
 	public void UnlockEmoji (int idx){
-		emojiDataSO[idx].emojiUnlockStatus = true;
+		emojiCollectionSO[idx].emojiUnlockStatus = true;
 	}
 }

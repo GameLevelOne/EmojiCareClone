@@ -4,6 +4,7 @@ using UnityEngine;
 
 public enum UnlockCondition{
 	//9
+	AutoComplete,
 	CriticalHunger,
 	CriticalHygiene,
 	CriticalHappiness,
