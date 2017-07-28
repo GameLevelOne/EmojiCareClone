@@ -23,14 +23,23 @@ public class CollectionManager : MonoBehaviour {
 	GameObject[] emojiPanels;
 	GameObject[,] emojiObjects;
 
+	Animator thisAnim;
+
 	int totalPet = 4;
 	int maxEmoji = 36;
 	int currSelectedPetIdx = 0;
 	int currSelectedEmojiIdx= 0;
 	int currTotalEmoji = 0;
 
-	void Start () {
+	void Awake()
+	{
+		thisAnim = GetComponent<Animator>();
+	}
+
+	public void Show()
+	{
 		InitCollection();
+		thisAnim.SetTrigger("Show");
 	}
 
 	void InitCollection ()

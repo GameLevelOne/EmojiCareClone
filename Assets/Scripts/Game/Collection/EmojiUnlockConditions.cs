@@ -4,11 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EmojiUnlockConditions : MonoBehaviour {
-	public CollectionManager collectionManager;
 	private static EmojiUnlockConditions instance;
 	public static EmojiUnlockConditions Instance {
 		get{ return instance;}
 	}
+
+	public delegate void EmotionUnlock();
+	public event EmotionUnlock OnEmotionUnlock;
 
 	const int gatherIconTarget = 250;
 	const int saveCoinTarget = 25000;
@@ -19,7 +21,7 @@ public class EmojiUnlockConditions : MonoBehaviour {
 	const int totalPlaytimeTarget = 30; //in hours
 	const int sendOffTarget = 5;
 
-	bool[,] emojiUnlockValue = new bool[1,40];
+//	bool[,] emojiUnlockValue = new bool[1,40];
 
 	void Awake(){
 		if(instance != null && instance != this) { 
@@ -34,125 +36,127 @@ public class EmojiUnlockConditions : MonoBehaviour {
 		Emoji playerEmoji = PlayerData.Instance.PlayerEmoji;
 		float petCriticalThreshold = 0.25f;
 
-		if (emojiUnlockValue [0, (int)condition] == false) {
+//		if (emojiUnlockValue [0, (int)condition] == false) {
 
-			if (condition == UnlockCondition.CriticalHunger) {
-				if ((float)(playerEmoji.emojiHunger / playerEmoji.emojiHungerMod) <= petCriticalThreshold) {
-					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
-				}
-			} else if (condition == UnlockCondition.CriticalHygiene) {
-				if ((float)(playerEmoji.emojiHygene / playerEmoji.emojiHygeneMod) <= petCriticalThreshold) {
-					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
-				}
-
-			} else if (condition == UnlockCondition.CriticalHappiness) {
-				if ((float)(playerEmoji.emojiHappiness / playerEmoji.emojiHappinessMod) <= petCriticalThreshold) {
-					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
-				}
-
-			} else if (condition == UnlockCondition.CriticalHealth) {
-				if ((float)(playerEmoji.emojiHealth / playerEmoji.emojiHealthMod) <= petCriticalThreshold) {
-					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
-				}
-
-			} else if (condition == UnlockCondition.EmptyHunger) {
-				if ((float)(playerEmoji.emojiHunger / playerEmoji.emojiHungerMod) <= 0) {
-					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
-				}
-
-			} else if (condition == UnlockCondition.EmptyHygiene) {
-				if ((float)(playerEmoji.emojiHygene / playerEmoji.emojiHygeneMod) <= 0) {
-					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
-				}
-
-			} else if (condition == UnlockCondition.EmptyHappiness) {
-				if ((float)(playerEmoji.emojiHappiness / playerEmoji.emojiHappinessMod) <= 0) {
-					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
-				}
-
-			} else if (condition == UnlockCondition.Empty3) {
-				if ((float)(playerEmoji.emojiHunger / playerEmoji.emojiHungerMod) <= 0 &&
-				   (float)(playerEmoji.emojiHygene / playerEmoji.emojiHygeneMod) <= 0 &&
-				   (float)(playerEmoji.emojiHappiness / playerEmoji.emojiHappinessMod) <= 0) {
-					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
-				}
-
-			} else if (condition == UnlockCondition.FullFed) {
-				if (playerEmoji.emojiHunger == playerEmoji.emojiHungerMod) {
-					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
-				}
-
-			} else if (condition == UnlockCondition.FullHygiene) {
-				if (playerEmoji.emojiHygene == playerEmoji.emojiHygeneMod) {
-					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
-				}
-
-			} else if (condition == UnlockCondition.FullHappiness) {
-				if (playerEmoji.emojiHappiness == playerEmoji.emojiHappinessMod) {
-					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
-				}
-
-			} else if (condition == UnlockCondition.FullAll) {
-				if ((playerEmoji.emojiHunger == playerEmoji.emojiHungerMod) && (playerEmoji.emojiHygene == playerEmoji.emojiHygeneMod) && 
-				(playerEmoji.emojiHappiness == playerEmoji.emojiHappinessMod) && (playerEmoji.emojiHealth == playerEmoji.emojiHealthMod)) {
-					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
-				}
-
-			} else if (condition == UnlockCondition.FeedPosIconCount) {
-				if (playerEmoji.emojiFeedPositiveCount == gatherIconTarget) {
-					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
-				}
-
-			} else if (condition == UnlockCondition.CleanPosIconCount) {
-				if (playerEmoji.emojiCleanPositiveCount == gatherIconTarget) {
-					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
-				}
-
-			} else if (condition == UnlockCondition.PlayPosIconCount) {
-				if (playerEmoji.emojiPlayPositiveCount == gatherIconTarget) {
-					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
-				}
-
-			} else if (condition == UnlockCondition.NursePosIconCount) {
-				if (playerEmoji.emojiNursePositiveCount == gatherIconTarget) {
-					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
-				}
-
-			} else if (condition == UnlockCondition.FeedNegIconCount) {
-				if (playerEmoji.emojiFeedNegativeCount == gatherIconTarget) {
-					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
-				}
-
-			} else if (condition == UnlockCondition.CleanNegIconCount) {
-				if (playerEmoji.emojiCleanNegativeCount == gatherIconTarget) {
-					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
-				}
-
-			} else if (condition == UnlockCondition.PlayNegIconCount) {
-				if (playerEmoji.emojiPlayNegativeCount == gatherIconTarget) {
-					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
-				}
-
-			} else if (condition == UnlockCondition.NurseNegIconCount) {
-				if (playerEmoji.emojiNurseNegativeCount == gatherIconTarget) {
-					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
-				}
-
-			} else if (condition == UnlockCondition.SpendCoin) {
-				if (PlayerData.Instance.playerSpentCoin == spentCoinTarget) {
-					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
-				}
-
-			} else if (condition == UnlockCondition.CoinCount) {
-				if (PlayerData.Instance.playerCoin == saveCoinTarget) {
-					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
-				}
-
-			} else if (condition == UnlockCondition.GoToSettings) {
-				if (CountSettings ()) {
-					PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
-				}
+		if (condition == UnlockCondition.CriticalHunger) {
+			if ((float)(playerEmoji.emojiHunger / playerEmoji.emojiHungerMod) <= petCriticalThreshold) {
+				PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
 			}
+		} else if (condition == UnlockCondition.CriticalHygiene) {
+			if ((float)(playerEmoji.emojiHygene / playerEmoji.emojiHygeneMod) <= petCriticalThreshold) {
+				PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
+			}
+
+		} else if (condition == UnlockCondition.CriticalHappiness) {
+			if ((float)(playerEmoji.emojiHappiness / playerEmoji.emojiHappinessMod) <= petCriticalThreshold) {
+				PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
+			}
+
+		} else if (condition == UnlockCondition.CriticalHealth) {
+			if ((float)(playerEmoji.emojiHealth / playerEmoji.emojiHealthMod) <= petCriticalThreshold) {
+				PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
+			}
+
+		} else if (condition == UnlockCondition.EmptyHunger) {
+			if ((float)(playerEmoji.emojiHunger / playerEmoji.emojiHungerMod) <= 0) {
+				PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
+			}
+
+		} else if (condition == UnlockCondition.EmptyHygiene) {
+			if ((float)(playerEmoji.emojiHygene / playerEmoji.emojiHygeneMod) <= 0) {
+				PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
+			}
+
+		} else if (condition == UnlockCondition.EmptyHappiness) {
+			if ((float)(playerEmoji.emojiHappiness / playerEmoji.emojiHappinessMod) <= 0) {
+				PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
+			}
+
+		} else if (condition == UnlockCondition.Empty3) {
+			if ((float)(playerEmoji.emojiHunger / playerEmoji.emojiHungerMod) <= 0 &&
+			   (float)(playerEmoji.emojiHygene / playerEmoji.emojiHygeneMod) <= 0 &&
+			   (float)(playerEmoji.emojiHappiness / playerEmoji.emojiHappinessMod) <= 0) {
+				PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
+			}
+
+		} else if (condition == UnlockCondition.FullFed) {
+			if (playerEmoji.emojiHunger == playerEmoji.emojiHungerMod) {
+				PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
+			}
+
+		} else if (condition == UnlockCondition.FullHygiene) {
+			if (playerEmoji.emojiHygene == playerEmoji.emojiHygeneMod) {
+				PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
+			}
+
+		} else if (condition == UnlockCondition.FullHappiness) {
+			if (playerEmoji.emojiHappiness == playerEmoji.emojiHappinessMod) {
+				PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
+			}
+
+		} else if (condition == UnlockCondition.FullAll) {
+			if ((playerEmoji.emojiHunger == playerEmoji.emojiHungerMod) && (playerEmoji.emojiHygene == playerEmoji.emojiHygeneMod) && 
+			(playerEmoji.emojiHappiness == playerEmoji.emojiHappinessMod) && (playerEmoji.emojiHealth == playerEmoji.emojiHealthMod)) {
+				PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
+			}
+
+		} else if (condition == UnlockCondition.FeedPosIconCount) {
+			if (playerEmoji.emojiFeedPositiveCount == gatherIconTarget) {
+				PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
+			}
+
+		} else if (condition == UnlockCondition.CleanPosIconCount) {
+			if (playerEmoji.emojiCleanPositiveCount == gatherIconTarget) {
+				PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
+			}
+
+		} else if (condition == UnlockCondition.PlayPosIconCount) {
+			if (playerEmoji.emojiPlayPositiveCount == gatherIconTarget) {
+				PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
+			}
+
+		} else if (condition == UnlockCondition.NursePosIconCount) {
+			if (playerEmoji.emojiNursePositiveCount == gatherIconTarget) {
+				PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
+			}
+
+		} else if (condition == UnlockCondition.FeedNegIconCount) {
+			if (playerEmoji.emojiFeedNegativeCount == gatherIconTarget) {
+				PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
+			}
+
+		} else if (condition == UnlockCondition.CleanNegIconCount) {
+			if (playerEmoji.emojiCleanNegativeCount == gatherIconTarget) {
+				PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
+			}
+
+		} else if (condition == UnlockCondition.PlayNegIconCount) {
+			if (playerEmoji.emojiPlayNegativeCount == gatherIconTarget) {
+				PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
+			}
+
+		} else if (condition == UnlockCondition.NurseNegIconCount) {
+			if (playerEmoji.emojiNurseNegativeCount == gatherIconTarget) {
+				PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
+			}
+
+		} else if (condition == UnlockCondition.SpendCoin) {
+			if (PlayerData.Instance.playerSpentCoin == spentCoinTarget) {
+				PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
+			}
+
+		} else if (condition == UnlockCondition.CoinCount) {
+			if (PlayerData.Instance.playerCoin == saveCoinTarget) {
+				PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
+			}
+
+		} else if (condition == UnlockCondition.GoToSettings) {
+			if (CountSettings ()) {
+				PlayerData.Instance.PlayerEmoji.SetCollection((int)condition,1);
+			}
+		}
+
+		if(OnEmotionUnlock != null) OnEmotionUnlock();
 
 //			if (CountUnlockedEmojis () == emojiUnlockValue.Length / 2) {
 //				emojiUnlockValue [0, (int)UnlockCondition.Collection1] = true;
@@ -161,7 +165,7 @@ public class EmojiUnlockConditions : MonoBehaviour {
 //				emojiUnlockValue [0, (int)UnlockCondition.CollectionAll] = true;
 //				collectionManager.UnlockEmoji ((int)UnlockCondition.CollectionAll);
 //			}
-		}
+//		}
 
 //		if (conditionFulfilled) {
 //			emojiUnlockValue[0,(int)condition] = true;

@@ -75,7 +75,6 @@ public class PlayerData : MonoBehaviour {
 
 	void Awake()
 	{
-//		PlayerPrefs.DeleteAll();
 		//singleton
 		if(instance != null && instance != this) { 
 			Destroy(gameObject);
@@ -83,7 +82,6 @@ public class PlayerData : MonoBehaviour {
 		}
 		else instance = this;
 
-//		if(playerEmojiID != -1) LoadPlayerEmoji();
 	}
 
 	public void LoadPlayerEmoji()

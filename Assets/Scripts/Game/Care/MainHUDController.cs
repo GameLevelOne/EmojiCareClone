@@ -6,19 +6,28 @@ public class MainHUDController : MonoBehaviour {
 	public AlienHUDMeter hungerMeter, hygeneMeter, happinessMeter, healthMeter;
 	public Text textEmojiName;
 	public Text textPlayerCoin;
+	public GameObject notificationIcon;
 
 	Emoji playerEmoji;
 
+	void Start(){ EmojiUnlockConditions.Instance.OnEmotionUnlock += CheckforNewEmotion; }
+	void OnDestroy(){ EmojiUnlockConditions.Instance.OnEmotionUnlock -= CheckforNewEmotion; }
+
 	void OnEnable()
 	{
-		if(PlayerData.Instance.playerEmojiID != -1 && PlayerData.Instance.PlayerEmoji != null) {PlayerData.Instance.PlayerEmoji.OnEmojiModStats += UpdateStatsMeter;}
+		if(PlayerData.Instance.playerEmojiID != -1 && PlayerData.Instance.PlayerEmoji != null) {
+			PlayerData.Instance.PlayerEmoji.OnEmojiModStats += UpdateStatsMeter;
+		}
 	}
 
 	void OnDisable()
 	{
-		
-		if(PlayerData.Instance.playerEmojiID != -1 && PlayerData.Instance.PlayerEmoji != null) {PlayerData.Instance.PlayerEmoji.OnEmojiModStats -= UpdateStatsMeter;}
+		if(PlayerData.Instance.playerEmojiID != -1 && PlayerData.Instance.PlayerEmoji != null) {
+			PlayerData.Instance.PlayerEmoji.OnEmojiModStats -= UpdateStatsMeter;
+		}
 	}
+
+	
 
 	public void Init()
 	{
@@ -33,6 +42,18 @@ public class MainHUDController : MonoBehaviour {
 		hygeneMeter.InitHUD( playerEmoji.emojiHygeneMod,  playerEmoji.emojiHygene);
 		happinessMeter.InitHUD( playerEmoji.emojiHappinessMod,  playerEmoji.emojiHappiness);
 		healthMeter.InitHUD( playerEmoji.emojiHealthMod,  playerEmoji.emojiHealth);
+
+		CheckforNewEmotion();
+	}
+
+	public void CheckforNewEmotion()
+	{
+		for(int i = 0;i<playerEmoji.collectionSO.Length;i++){
+			if(playerEmoji.GetCollection(i) == 1){
+				notificationIcon.SetActive(true);
+				break;
+			}
+		}
 	}
 
 	public void UpdateName()
