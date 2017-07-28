@@ -6,7 +6,7 @@ public class SceneTitleManager : MonoBehaviour {
 
 	void Start()
 	{
-		PlayerPrefs.DeleteAll();
+//		PlayerPrefs.DeleteAll();
 		SoundManager.Instance.PlayBGM(eBGM.TITLE);
 		fader.OnFadeOutFinished += LoadSceneMain;
 	}
