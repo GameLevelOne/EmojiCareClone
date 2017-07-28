@@ -15,28 +15,28 @@ public class AlienStatsController : MonoBehaviour {
 	public bool isStatsDepletingStats = false;
 	public bool isStartIncreasingGrowth = false;
 
-//	void Awake()
-//	{
-//		if(instance != null && instance != this) { 
-//			Destroy(gameObject);
-//			return; 
-//		}
-//		else instance = this;
-//		DontDestroyOnLoad(gameObject);
-//	}
-//
-//	public void InitStatsController()
-//	{
-//		if(PlayerData.Instance.playerAlienID == -1){
-//			PlayerPrefs.DeleteKey(KEY_LASTTIMEPLAY);
-//			return;
-//		}else{
-//			if(!hasDoneInit){
-//				CalculateAlienStatsData();
-//				hasDoneInit = true;
-//			}
-//		}
-//	}
+	void Awake()
+	{
+		if(instance != null && instance != this) { 
+			Destroy(gameObject);
+			return; 
+		}
+		else instance = this;
+		DontDestroyOnLoad(gameObject);
+	}
+
+	public void InitStatsController()
+	{
+		if(PlayerData.Instance.playerAlienID == -1){
+			PlayerPrefs.DeleteKey(KEY_LASTTIMEPLAY);
+			return;
+		}else{
+			if(!hasDoneInit){
+				CalculateAlienStatsData();
+				hasDoneInit = true;
+			}
+		}
+	}
 
 	void Start()
 	{

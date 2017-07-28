@@ -110,6 +110,7 @@ public class PlayerData : MonoBehaviour {
 
 		//disable stats depletion
 		EmojiStatsController.Instance.StopAllCoroutines();
+		gameStatus = GameStatus.EMOJI_DIE;
 		//animate emoji die, on tap: go to scene stork and display emoji dead dialogue
 	}
 }

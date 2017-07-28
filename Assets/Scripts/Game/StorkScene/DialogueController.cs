@@ -15,6 +15,12 @@ public class DialogueController : MonoBehaviour {
 	public InputField fieldName;
 	public Button buttonSkip;
 
+	/// <summary>
+	/// <para>0 = normal</para>
+	/// <para>1 = happy</para>
+	/// <para>2 = sad</para>
+	/// <para>3 = baby</para>
+	/// </summary>
 	public Sprite[] storkSprites;
 	public string[] prologueDialogue;
 	public string[] sendOffDialogue;
@@ -55,6 +61,7 @@ public class DialogueController : MonoBehaviour {
 
 	IEnumerator InitDialogue()
 	{
+		yield return new WaitForSeconds(0.5f);
 		textBoxAnim.SetTrigger("Show");
 		yield return new WaitForSeconds(7f/12f);
 		ShowNextDialogue();
@@ -80,13 +87,23 @@ public class DialogueController : MonoBehaviour {
 				dialogueTextAnimation.OnNextAction += DialogueFinished;
 			}
 			break;
-		case GameStatus.SEND_OFF: 
+		case GameStatus.SEND_OFF:
+			ChangeStorkSprite();
 			dialogueTextAnimation.Show(sendOffDialogue[dialogueCounter]); 
 			dialogueCounter++;
+			if(dialogueCounter == prologueDialogue.Length){
+				dialogueTextAnimation.OnNextAction -= ShowNextDialogue;
+				dialogueTextAnimation.OnNextAction += DialogueFinished;
+			}
 			break;
 		case GameStatus.EMOJI_DIE: 
+			ChangeStorkSprite();
 			dialogueTextAnimation.Show(emojiDieDialogue[dialogueCounter]);
 			dialogueCounter++; 
+			if(dialogueCounter == prologueDialogue.Length){
+				dialogueTextAnimation.OnNextAction -= ShowNextDialogue;
+				dialogueTextAnimation.OnNextAction += DialogueFinished;
+			}
 			break;
 		default: break;
 		}
@@ -95,16 +112,34 @@ public class DialogueController : MonoBehaviour {
 
 	void ChangeStorkSprite()
 	{
-		if(dialogueCounter == 8 || dialogueCounter == 30 || dialogueCounter == 31){
-			storkImage.sprite = storkSprites[1];
-		}else if(dialogueCounter == 22 || dialogueCounter == 23 || dialogueCounter == 24 || dialogueCounter == 26 || dialogueCounter == 27 || dialogueCounter == 28 || dialogueCounter == 29){
-			storkImage.sprite = storkSprites[2];
-		}else if(dialogueCounter == 16 || dialogueCounter == 17 || dialogueCounter == 18 || dialogueCounter == 19 || dialogueCounter == 20 || dialogueCounter == 21|| dialogueCounter == 32){
-			storkImage.sprite = storkSprites[3];
-		}else storkImage.sprite = storkSprites[0];
+		if(status == GameStatus.PROLOGUE){
+			if(dialogueCounter == 8 || dialogueCounter == 30 || dialogueCounter == 31){
+				storkImage.sprite = storkSprites[1];
+			}else if(dialogueCounter == 22 || dialogueCounter == 23 || dialogueCounter == 24 || dialogueCounter == 26 || dialogueCounter == 27 || dialogueCounter == 28 || dialogueCounter == 29){
+				storkImage.sprite = storkSprites[2];
+			}else if(dialogueCounter == 16 || dialogueCounter == 17 || dialogueCounter == 18 || dialogueCounter == 19 || dialogueCounter == 20 || dialogueCounter == 21|| dialogueCounter == 32){
+				storkImage.sprite = storkSprites[3];
+			}else storkImage.sprite = storkSprites[0];
+
+		}else if(status == GameStatus.SEND_OFF){
+			if((dialogueCounter >= 0 && dialogueCounter <= 4) || dialogueCounter == 15){
+				storkImage.sprite = storkSprites[1];
+			}else if(dialogueCounter == 11 || dialogueCounter == 12){
+				storkImage.sprite = storkSprites[2];
+			}else storkImage.sprite = storkSprites[0];
+
+		}else if(status == GameStatus.EMOJI_DIE){
+			if(dialogueCounter == 13){
+				storkImage.sprite = storkSprites[1];
+			}else if(dialogueCounter >= 0 && dialogueCounter <= 2){
+				storkImage.sprite = storkSprites[2];
+			} else if(dialogueCounter == 9 || dialogueCounter == 10){
+				storkImage.sprite = storkSprites[3];
+			} else storkImage.sprite = storkSprites[0];
+		}
 	}
 
-	#region prologue
+	#region prologue dialogue methods
 	void PromptPlayerName(){
 		buttonSkip.interactable = false;
 		dialogueTextAnimation.OnNextAction -= PromptPlayerName;
@@ -115,7 +150,6 @@ public class DialogueController : MonoBehaviour {
 		dialogueTextAnimation.OnNextAction -= PromptPlayerYesNo;
 		panelYesNo.SetTrigger("Show");
 	}
-	#endregion
 
 	public void PlayerNameButtonOkOnClick()
 	{
@@ -147,6 +181,7 @@ public class DialogueController : MonoBehaviour {
 		ShowNextDialogue();
 		dialogueTextAnimation.OnNextAction += ShowNextDialogue;
 	}
+	#endregion
 
 	void DialogueFinished()
 	{
