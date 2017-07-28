@@ -1,57 +1,20 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public enum UnlockCondition{
-	//9
-	CriticalHunger,
-	CriticalHygiene,
-	CriticalHappiness,
-	CriticalHealth,
-	EmptyHunger,
-	EmptyHygiene,
-	EmptyHappiness,
-	Empty3,
-	FullFed,
-
-	//10
-	FullHygiene,
-	FullHappiness,
-	FullAll,
-	FeedPosIconCount,
-	CleanPosIconCount,
-	PlayPosIconCount,
-	NursePosIconCount,
-	FeedNegIconCount,
-	CleanNegIconCount,
-	PlayNegIconCount,
-
-	//7
-	NurseNegIconCount,
-	TapCount1,
-	TapCount2,
-	TapCount3,
-	CoinCount,
-	SpendCoin,
-	GoToSettings,
-
-	//8
-	LongPlay,//total playtime
-	LoginCount,
-	Comeback, 
-	GameIdle, //TODO pending
-	SendOff, 
-	Collection1,
-	CollectionAll,
-	MuteSound
-}
-
-[CreateAssetMenu(fileName = "Emoji",menuName = "Cards/Emoji",order = 3)]
+[CreateAssetMenu(fileName = "Emoji_",menuName = "Cards/Emoji",order = 4)]
 public class EmojiSO : ScriptableObject {
+	public int emojiHunger = 50;
+	public int emojiHygene = 50;
+	public int emojiHappiness = 50;
+	public int emojiHealth = 100;
 
-	public string emojiName = "temp";
-	public Sprite emojiIcon;
-	public UnlockCondition emojiUnlockConditionType;
-	public string emojiUnlockConditionDesc = "temp description";
-	public bool emojiUnlockStatus = false;
+	[Header("Mod variable")]
+	public int emojiHungerMod = 25;
+	public int emojiHygeneMod = 25;
+	public int emojiHappinessMod = 25;
+	public int emojiHealthMod = 100;
+
+	[Header("Reference")]
+	public EmojiCollectionSO[] collectionSO;
 }

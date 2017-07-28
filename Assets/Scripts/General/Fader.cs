@@ -26,5 +26,6 @@ public class Fader : MonoBehaviour {
 	{
 		if(fadeState == 0){ if(OnFadeInFinished != null) OnFadeInFinished(); }
 		else if(fadeState == 1) { if(OnFadeOutFinished != null) OnFadeOutFinished(); }
+
 	}
 }

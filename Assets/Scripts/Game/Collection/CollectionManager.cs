@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using UnityEngine.EventSystems;
 
 public class CollectionManager : MonoBehaviour {
-	public EmojiSO[] emojiData;
+	public EmojiCollectionSO[] emojiCollectionSO;
 	public GameObject boxEmojiPrefab;
 	public GameObject boxPetPrefab;
 	public GameObject emojiPanelPrefab;
@@ -23,14 +23,23 @@ public class CollectionManager : MonoBehaviour {
 	GameObject[] emojiPanels;
 	GameObject[,] emojiObjects;
 
+	Animator thisAnim;
+
 	int totalPet = 4;
 	int maxEmoji = 36;
 	int currSelectedPetIdx = 0;
 	int currSelectedEmojiIdx= 0;
 	int currTotalEmoji = 0;
 
-	void Start () {
+	void Awake()
+	{
+		thisAnim = GetComponent<Animator>();
+	}
+
+	public void Show()
+	{
 		InitCollection();
+		thisAnim.SetTrigger("Show");
 	}
 
 	void InitCollection ()
@@ -112,9 +121,9 @@ public class CollectionManager : MonoBehaviour {
 
 				obj.GetComponent<Button> ().onClick.AddListener (OnSelectEmoji);
 				obj.GetComponent<CurrentEmojiData> ().SetEmojiIdx (idx);
-				obj.transform.GetChild(1).GetComponent<Image>().sprite = emojiData[idx].emojiIcon;
+				obj.transform.GetChild(1).GetComponent<Image>().sprite = emojiCollectionSO[idx].emotionIcon;
 				emojiObjects [currPet,idx] = obj;
-				SetEmojiColor(obj,emojiData[idx].emojiUnlockStatus);
+				SetEmojiColor(obj,emojiCollectionSO[idx].emojiUnlockStatus);
 				idx++;
 			}
 		}
@@ -160,9 +169,9 @@ public class CollectionManager : MonoBehaviour {
 	}
 
 	void UpdateEmojiDetails(){
-		currSelectedEmojiIcon.sprite = emojiData[currSelectedEmojiIdx].emojiIcon;
-		currSelectedEmojiName.text = emojiData[currSelectedEmojiIdx].emojiName;
-		currSelectedEmojiUnlockCondition.text = emojiData[currSelectedEmojiIdx].emojiUnlockConditionDesc;
+		currSelectedEmojiIcon.sprite = emojiCollectionSO[currSelectedEmojiIdx].emotionIcon;
+		currSelectedEmojiName.text = emojiCollectionSO[currSelectedEmojiIdx].emotionName;
+		currSelectedEmojiUnlockCondition.text = emojiCollectionSO[currSelectedEmojiIdx].emotionUnlockConditionDesc;
 	}
 
 	void UpdateEmojiPanelDisplay ()
@@ -177,6 +186,6 @@ public class CollectionManager : MonoBehaviour {
 	}
 
 	public void UnlockEmoji (int idx){
-		emojiData[idx].emojiUnlockStatus = true;
+		emojiCollectionSO[idx].emojiUnlockStatus = true;
 	}
 }

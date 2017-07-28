@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using System;
 
 public class PlayerData : MonoBehaviour {
 	//singleton
@@ -6,29 +7,32 @@ public class PlayerData : MonoBehaviour {
 	public static  PlayerData Instance{
 		get{return instance;}
 	}
+		
+	public delegate void EmojiDie();
+	public event EmojiDie OnEmojiDie;
 
-
-	public RectTransform alienObjectParentTransform;
 	public RectTransform emojiParentTransform;
 	GameObject playerAlien;
 	Emoji playerEmoji;
 
 	#region playerdata
 	[HideInInspector] public int AlienClickCount{ get{return 5;} }
+	const string Key_Player_Name = "PlayerName";
 	const string Key_Player_Coin = "PlayerCoin";
 	const string Key_Player_EmojiId = "PlayerEmoji/ID";
+	const string Key_Game_Status = "GameStatus";
+	const string Key_Duration = "Durationnnn";
+	const string Key_Done_Prologue = "PlayerDonePrologue";
 	const string KEYPREF_PLAYERALIEN_ID = "PlayerAlien/ID";
 
 	const string Key_Player_CoinSPENT = "PlayerCoinSpent";
-	const string KEYPREF_PLAYERALIEN_FEEDPOSCOUNT = "PlayerAlien/FeedPosCount";
-	const string KEYPREF_PLAYERALIEN_CLEANPOSCOUNT = "PlayerAlien/CleanPosCount";
-	const string KEYPREF_PLAYERALIEN_PLAYPOSCOUNT = "PlayerAlien/PlayPosCount";
-	const string KEYPREF_PLAYERALIEN_NURSEPOSCOUNT = "PlayerAlien/NursePosCount";
-	const string KEYPREF_PLAYERALIEN_FEEDNEGCOUNT = "PlayerAlien/FeedNegCount";
-	const string KEYPREF_PLAYERALIEN_CLEANNEGCOUNT = "PlayerAlien/CleanNegCount";
-	const string KEYPREF_PLAYERALIEN_PLAYNEGCOUNT = "PlayerAlien/PlayNegCount";
-	const string KEYPREF_PLAYERALIEN_NURSENEGCOUNT = "PlayerAlien/NurseNegCount";
 	const string KEYPREF_PLAYERALIEN_PETTAPCOUNT = "PlayerAlien/PetTapCount";
+
+
+	public string playerName{
+		get{return PlayerPrefs.GetString(Key_Player_Name);}
+		set{PlayerPrefs.SetString(Key_Player_Name,value);}
+	}
 
 	public int playerCoin{
 		get{return PlayerPrefs.GetInt(Key_Player_Coin,1000);}
@@ -46,41 +50,22 @@ public class PlayerData : MonoBehaviour {
 		get{return PlayerPrefs.GetInt(Key_Player_EmojiId,-1);}
 		set{PlayerPrefs.SetInt(Key_Player_EmojiId,value);}
 	}
+	public DateTime GameDuration{
+		get{return DateTime.Parse (PlayerPrefs.GetString(Key_Duration));}
+		set{PlayerPrefs.SetString(Key_Duration,value.ToString());}
+	}
+
+	public GameStatus gameStatus{
+		get{return (GameStatus) PlayerPrefs.GetInt(Key_Game_Status,0);}
+		set{PlayerPrefs.SetInt(Key_Game_Status,(int)value);}
+	}
+	public int playerDonePrologue{
+		get{return PlayerPrefs.GetInt(Key_Done_Prologue,0);}
+		set{PlayerPrefs.SetInt(Key_Done_Prologue,value);}
+	}
 	public int petTapCount {
 		get{ return PlayerPrefs.GetInt (KEYPREF_PLAYERALIEN_PETTAPCOUNT, 0); }
 		set{ PlayerPrefs.SetInt(KEYPREF_PLAYERALIEN_PETTAPCOUNT,value);}
-	}
-	public int feedPosCount {
-		get{ return PlayerPrefs.GetInt (KEYPREF_PLAYERALIEN_FEEDPOSCOUNT, 0); }
-		set{ PlayerPrefs.SetInt(KEYPREF_PLAYERALIEN_FEEDPOSCOUNT,value);}
-	}
-	public int cleanPosCount {
-		get{ return PlayerPrefs.GetInt (KEYPREF_PLAYERALIEN_CLEANPOSCOUNT, 0); }
-		set{ PlayerPrefs.SetInt(KEYPREF_PLAYERALIEN_CLEANPOSCOUNT,value);}
-	}
-	public int playPosCount {
-		get{ return PlayerPrefs.GetInt (KEYPREF_PLAYERALIEN_CLEANPOSCOUNT, 0); }
-		set{ PlayerPrefs.SetInt(KEYPREF_PLAYERALIEN_PLAYPOSCOUNT,value);}
-	}
-	public int nursePosCount {
-		get{ return PlayerPrefs.GetInt(KEYPREF_PLAYERALIEN_NURSEPOSCOUNT,0);}
-		set{PlayerPrefs.SetInt(KEYPREF_PLAYERALIEN_NURSEPOSCOUNT,value);}
-	}
-	public int feedNegCount {
-		get{ return PlayerPrefs.GetInt (KEYPREF_PLAYERALIEN_FEEDNEGCOUNT, 0); }
-		set{ PlayerPrefs.SetInt(KEYPREF_PLAYERALIEN_FEEDNEGCOUNT,value);}
-	}
-	public int cleanNegCount {
-		get{ return PlayerPrefs.GetInt (KEYPREF_PLAYERALIEN_CLEANNEGCOUNT, 0); }
-		set{ PlayerPrefs.SetInt(KEYPREF_PLAYERALIEN_CLEANNEGCOUNT,value);}
-	}
-	public int playNegCount {
-		get{ return PlayerPrefs.GetInt (KEYPREF_PLAYERALIEN_PLAYNEGCOUNT, 0); }
-		set{ PlayerPrefs.SetInt(KEYPREF_PLAYERALIEN_PLAYNEGCOUNT,value);}
-	}
-	public int nurseNegCount {
-		get{ return PlayerPrefs.GetInt (KEYPREF_PLAYERALIEN_NURSENEGCOUNT, 0); }
-		set{ PlayerPrefs.SetInt(KEYPREF_PLAYERALIEN_NURSENEGCOUNT,value);}
 	}
 
 	public Alien PlayerAlien{
@@ -93,11 +78,16 @@ public class PlayerData : MonoBehaviour {
 	}
 	#endregion
 
-	public Alien[] alienData;
 	public Emoji[] emojiData;
 
 	public bool alienDead = false;
-	[HideInInspector] public bool emojiDead = true;
+	[HideInInspector] public bool emojiDead = false;
+
+	public void ResetData()
+	{
+		PlayerPrefs.DeleteKey(Key_Duration);
+		
+	}
 
 	void Awake()
 	{
@@ -108,61 +98,34 @@ public class PlayerData : MonoBehaviour {
 		}
 		else instance = this;
 
-//		if(playerAlienID != -1) LoadPlayerAlien();
-		if(playerEmojiID != -1) LoadPlayerEmoji();
-	}
-
-	public void LoadPlayerAlien(){
-		PlayerAlien = alienData[playerAlienID];
-		PlayerAlien.OnAlienDies += OnAlienDies;
-		GenerateAlienObject();
 	}
 
 	public void LoadPlayerEmoji()
 	{
-		playerEmoji = emojiData[playerEmojiID];
-		playerEmoji.OnEmojiDies += OnEmojiDies;
+		if(playerEmoji == null){
+			playerEmoji = emojiData[playerEmojiID];
+			playerEmoji.OnEmojiDies += OnEmojiDies;
 
-		playerEmoji.parent = emojiParentTransform;
-		playerEmoji.InitEmoji();
-	}
-
-	public void SetPlayerAlien(int index)
-	{
-		playerAlienID = index;
-		PlayerAlien = PlayerData.Instance.alienData[index];
-		PlayerAlien.InitAlienStats();
-		GenerateAlienObject();
+			playerEmoji.InitEmoji(emojiParentTransform);
+			EmojiStatsController.Instance.Init();
+		}
 	}
 
 	public void SetPlayerEmoji(int index)
 	{
 		playerEmojiID = index;
-		PlayerEmoji = emojiData[index];
-		playerEmoji.InitEmoji();
-	}
-
-	void GenerateAlienObject()
-	{
-		if(PlayerAlien.cloneObject == null){
-			PlayerAlien.GenerateAlienAnimationObject(alienObjectParentTransform);
-//			AlienStatsController.Instance.InitStatsController();
-		}
-	}
-
-	void OnAlienDies()
-	{
-		alienDead = true;
-		playerAlienID = -1;
-
-		AlienStatsController.Instance.isStatsDepletingStats = false;
+		playerEmoji = emojiData[index];
+		playerEmoji.InitStats();
+		playerEmoji.InitEmojiCollections();
 	}
 		
 	void OnEmojiDies()
 	{
 		emojiDead = true;
 		playerEmojiID = -1;
-
+		if(OnEmojiDie != null) OnEmojiDie();
 		//disable stats depletion
+		EmojiStatsController.Instance.StopAllCoroutines();
+		//animate emoji die, on tap: go to scene stork and display emoji dead dialogue
 	}
 }

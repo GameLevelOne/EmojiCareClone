@@ -22,12 +22,7 @@ public class CoinSpawner : MonoBehaviour {
 
 	public void GenerateCoinObject()
 	{
-		GameObject coinInstance = Instantiate(coinObject);
-		RectTransform tempTransform = coinInstance.GetComponent<RectTransform>();
-		tempTransform.SetParent(GetComponent<RectTransform>());
-		tempTransform.anchoredPosition = Vector2.zero;
-		tempTransform.localScale = Vector2.one;
-		tempTransform.localRotation = Quaternion.identity;
+		GameObject coinInstance = Instantiate(coinObject,GetComponent<RectTransform>());
 		coinInstance.GetComponent<CoinObj>().OnCoinDestroyed += OnCoinDestroyed;
 		coinObjects.Add(coinInstance);
 		if(coinObjects.Count > 10) coinObjects[0].GetComponent<CoinObj>().OnPointerClick();

@@ -7,7 +7,6 @@ public class Eyeball : MonoBehaviour {
 	void OnEnable() { StartCoroutine(RandomPeek()); }
 	public void OnDisable()
 	{ 
-		print("HA");
 		StopCoroutine(RandomPeek()); 
 		thisAnim.ResetTrigger("Up");
 		thisAnim.ResetTrigger("Down");

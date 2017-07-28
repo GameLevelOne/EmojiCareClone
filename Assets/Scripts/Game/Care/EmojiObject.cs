@@ -1,10 +1,15 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class EmojiObject : MonoBehaviour {
-
 	const string Key_Hit = "EmojiHit";
+
+	const int tapCountTarget1 = 100;
+	const int tapCountTarget2 = 500;
+	const int tapCountTarget3 = 1000;
+
 	int EmojiHit{
 		get{return PlayerPrefs.GetInt(Key_Hit,0);}
 		set{PlayerPrefs.SetInt(Key_Hit,value);}
@@ -15,8 +20,29 @@ public class EmojiObject : MonoBehaviour {
 		if(EmojiHit >= 5){
 			EmojiHit = 0;
 			CoinSpawner.Instance.GenerateCoinObject();
-		}else{
-			EmojiHit++;
+		}else EmojiHit++;
+
+		PlayerData.Instance.petTapCount++;
+
+		if (PlayerData.Instance.petTapCount == tapCountTarget1) {
+			EmojiUnlockConditions.Instance.CheckUnlock (UnlockCondition.TapCount1);
+		} else if (PlayerData.Instance.petTapCount == tapCountTarget2) {
+			EmojiUnlockConditions.Instance.CheckUnlock (UnlockCondition.TapCount2);
+		} else if (PlayerData.Instance.petTapCount == tapCountTarget3) {
+			EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.TapCount3);
 		}
+	}
+
+	public void EmojiGlitchOnClick()
+	{
+		if(PlayerData.Instance.emojiDead == true){
+			GetComponent<Button>().interactable = false;
+			GetComponent<Animator>().SetTrigger("Dead");
+		}
+	}
+
+	public void GoToSceneStork()
+	{
+		SceneManager.LoadScene("SceneStork");
 	}
 }

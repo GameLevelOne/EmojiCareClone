@@ -37,7 +37,7 @@ public class PanelGatherController : MonoBehaviour {
 		for(int i = 0;i<gatherSlots.Length;i++) gatherSlots[i].OnRevealSlot -= OnUseAttemp;
 	}
 
-	public void InitGatherStats( EmojiNeedCategory category)
+	public void InitGatherStats(EmojiNeedCategory category)
 	{
 		attemp = MAX_ATTEMP;
 		textAttemp.SetAttemp(MAX_ATTEMP);
@@ -165,16 +165,16 @@ public class PanelGatherController : MonoBehaviour {
 
 	void CheckScores(int key)
 	{
-		if(emojiNeedCategory ==  EmojiNeedCategory.HUNGER){
+		if(emojiNeedCategory == EmojiNeedCategory.HUNGER){
 			if(key == -1){
 				gatherScore[(int) EmojiNeedCategory.HYGENE]--;
-				PlayerData.Instance.cleanNegCount++;
+				PlayerData.Instance.PlayerEmoji.emojiCleanNegativeCount++;
 				EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.CleanNegIconCount);
 				SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_NEGATIVE);
 			}
 			else if(key == 1){
 				gatherScore[(int) EmojiNeedCategory.HUNGER]++;
-				PlayerData.Instance.feedPosCount++;
+				PlayerData.Instance.PlayerEmoji.emojiFeedPositiveCount++;
 				EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.FeedPosIconCount);
 				SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_POSITIVE);
 			}
@@ -182,14 +182,14 @@ public class PanelGatherController : MonoBehaviour {
 		}else if(emojiNeedCategory ==  EmojiNeedCategory.HYGENE){
 			if(key == -1){ 
 				gatherScore[(int) EmojiNeedCategory.HAPPINESS]--;
-				PlayerData.Instance.playNegCount++;
+				PlayerData.Instance.PlayerEmoji.emojiPlayNegativeCount++;
 				EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.PlayNegIconCount);
 				SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_NEGATIVE);
 
 			}
 			else if(key == 1){ 
 				gatherScore[(int) EmojiNeedCategory.HYGENE]++;
-				PlayerData.Instance.cleanPosCount++;
+				PlayerData.Instance.PlayerEmoji.emojiCleanPositiveCount++;
 				EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.CleanPosIconCount);
 				SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_POSITIVE);
 			}
@@ -197,13 +197,13 @@ public class PanelGatherController : MonoBehaviour {
 		}else if(emojiNeedCategory ==  EmojiNeedCategory.HAPPINESS){
 			if(key == -1){
 				gatherScore[(int) EmojiNeedCategory.HUNGER]--;
-				PlayerData.Instance.feedNegCount++;
+				PlayerData.Instance.PlayerEmoji.emojiFeedNegativeCount++;
 				EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.FeedNegIconCount);
 				SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_NEGATIVE);
 			}
 			else if(key == 1){
 				gatherScore[(int) EmojiNeedCategory.HAPPINESS]++;
-				PlayerData.Instance.playPosCount++;
+				PlayerData.Instance.PlayerEmoji.emojiPlayPositiveCount++;
 				EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.PlayPosIconCount);
 				SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_POSITIVE);
 			}
@@ -211,25 +211,25 @@ public class PanelGatherController : MonoBehaviour {
 		}else if(emojiNeedCategory ==  EmojiNeedCategory.HEALTH){
 			switch(key){
 			case 1: gatherScore[(int) EmojiNeedCategory.HUNGER]--; 
-					PlayerData.Instance.feedNegCount++;
+					PlayerData.Instance.PlayerEmoji.emojiFeedNegativeCount++;
 					EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.FeedNegIconCount);
 					SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_NEGATIVE); 
 					break;
 
 			case 2: gatherScore[(int) EmojiNeedCategory.HYGENE]--; 
-					PlayerData.Instance.cleanNegCount++;
+				PlayerData.Instance.PlayerEmoji.emojiCleanNegativeCount++;
 					EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.CleanNegIconCount);
 					SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_NEGATIVE);
 					break;
 
 			case 3: gatherScore[(int) EmojiNeedCategory.HAPPINESS]--; 
-					PlayerData.Instance.playNegCount++;
+					PlayerData.Instance.PlayerEmoji.emojiPlayNegativeCount++;
 					EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.PlayNegIconCount);
 					SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_NEGATIVE);
 					break;
 
 			case 4: gatherScore[(int) EmojiNeedCategory.HEALTH]++;
-					PlayerData.Instance.nursePosCount++;
+					PlayerData.Instance.PlayerEmoji.emojiNursePositiveCount++;
 					EmojiUnlockConditions.Instance.CheckUnlock(UnlockCondition.NursePosIconCount);
 					SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_POSITIVE);
 					break;

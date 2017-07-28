@@ -15,12 +15,13 @@ public class AlienHUDMeter : MonoBehaviour {
 	bool fadingRed = false;
 
 	bool hasInit = false;
-	public float lastValue = 0;
+	public int lastValue = 0;
 
 	public void InitHUD(int currentValue, int maxValue){
+		
 		if(hasInit == false){
 			lastValue = currentValue;
-			imageAmount.fillAmount = (float)(currentValue/maxValue);
+			imageAmount.fillAmount = ((float)currentValue/(float)maxValue);
 			textAmount.text = Mathf.FloorToInt(currentValue).ToString()+"/"+ Mathf.FloorToInt(maxValue).ToString();
 			hasInit = true;
 		}
@@ -31,7 +32,7 @@ public class AlienHUDMeter : MonoBehaviour {
 		StartCoroutine(CoroutineModHUD(currentValue,maxValue));
 	}
 		
-	IEnumerator CoroutineModHUD(float currentValue, float maxValue)
+	IEnumerator CoroutineModHUD(int currentValue, int maxValue)
 	{
 		int difference = Mathf.CeilToInt(currentValue-lastValue);
 

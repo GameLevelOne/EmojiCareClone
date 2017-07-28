@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class CoinObj : MonoBehaviour {
-	public Vector2 coinDestination = new Vector2(-313f,406f);
+	public Vector2 coinDestination = new Vector2(26f,597);
 	public delegate void CoinDestroyed(GameObject obj);
 	public event CoinDestroyed OnCoinDestroyed;
 
@@ -57,6 +57,7 @@ public class CoinObj : MonoBehaviour {
 
 	IEnumerator CoinAbsorb()
 	{
+		if(!TutorialManager.Instance.TutorialDone && TutorialManager.Instance.TutorialIndex == 1) TutorialManager.Instance.ShowTutorial();
 		rigidBody.gravityScale = 0f;
 		GetComponent<CircleCollider2D>().enabled = false;
 

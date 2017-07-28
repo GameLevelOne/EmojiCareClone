@@ -7,18 +7,19 @@ public class SceneTitleManager : MonoBehaviour {
 	void Start()
 	{
 //		PlayerPrefs.DeleteAll();
-		SoundManager.Instance.PlayBGM(eBGM.MAIN);
+		SoundManager.Instance.PlayBGM(eBGM.TITLE);
 		fader.OnFadeOutFinished += LoadSceneMain;
 	}
 
 	void LoadSceneMain()
 	{
 		fader.OnFadeInFinished -= LoadSceneMain;
-		SceneManager.LoadScene(1);
+		if(PlayerData.Instance.playerDonePrologue == 0) SceneManager.LoadScene("SceneStork");
+		else SceneManager.LoadScene("SceneMain");
 	}
 
 	public void ButtonPlayOnClick(){
-		SoundManager.Instance.PlaySFX(eSFX.GATHER_SLOT_POSITIVE);
+		SoundManager.Instance.PlaySFX(eSFX.GATHER_RESULT);
 		fader.FadeOut();
 	}
 }

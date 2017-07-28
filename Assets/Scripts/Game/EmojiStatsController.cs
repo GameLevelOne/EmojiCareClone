@@ -66,12 +66,9 @@ public class EmojiStatsController : MonoBehaviour {
 		if(PlayerPrefs.HasKey(Key_LastTimePlay)){
 			if(DateTime.Now.CompareTo(lastTimePlay) < 0) return;
 			else if(DateTime.Now.CompareTo(lastTimePlay) > 0){
-				
 				int totalTicks = GetTotalTicks(DateTime.Now - lastTimePlay);
-				for(int i = 0;i<totalTicks;i++){
-					playerEmoji.TickStats();
-					if(PlayerData.Instance.emojiDead) break;
-				}
+				PlayerPrefs.DeleteKey(Key_LastTimePlay);
+				playerEmoji.TickStats(totalTicks);
 			}
 		}
 
@@ -84,12 +81,9 @@ public class EmojiStatsController : MonoBehaviour {
 		if(PlayerPrefs.HasKey(Key_LastTimePaused)){
 			if(DateTime.Now.CompareTo(lastTimePaused) < 0) return;
 			else if(DateTime.Now.CompareTo(lastTimePaused) > 0){
-				
 				int totalTicks = GetTotalTicks(DateTime.Now - lastTimePaused);
-				for(int i = 0;i<totalTicks;i++){
-					playerEmoji.TickStats();
-					if(PlayerData.Instance.emojiDead) break;
-				}
+				PlayerPrefs.DeleteKey(Key_LastTimePaused);
+				playerEmoji.TickStats(totalTicks);
 			}
 		}
 
@@ -111,9 +105,8 @@ public class EmojiStatsController : MonoBehaviour {
 		int daytoMin = duration.Days * 24 * 60;
 		int hourToMin = duration.Hours * 60;
 		int min = duration.Minutes;
-		int secToMin = duration.Seconds / tickDelay;
-
-		return daytoMin + hourToMin+ min + secToMin;
+		int secToMin = Mathf.FloorToInt((float)(duration.Seconds / tickDelay));
+		return daytoMin + hourToMin + min + secToMin;
 	}
 
 	#region plugin methods
@@ -152,11 +145,10 @@ public class EmojiStatsController : MonoBehaviour {
 			FireNotifications();
 			StopAllCoroutines();
 			isTickingStats = false;
-			if(PlayerData.Instance.playerEmojiID != -1) 
-				lastTimePaused = DateTime.Now;
+			if(PlayerData.Instance.playerEmojiID != -1) lastTimePaused = DateTime.Now;
 		}else{
 			CancelNotification();
-			if(PlayerData.Instance.playerEmojiID != -1 && hasDoneInit) 
+			if(PlayerData.Instance.playerEmojiID != -1 && PlayerPrefs.HasKey(Key_LastTimePaused)) 
 				CalculateEmojiStatsAfterPause();
 		}
 	}
@@ -165,8 +157,7 @@ public class EmojiStatsController : MonoBehaviour {
 	{
 		StopAllCoroutines();
 		isTickingStats = false;
-		if(PlayerData.Instance.playerEmojiID != -1) 
-			lastTimePlay = DateTime.Now;
+		if(PlayerData.Instance.playerEmojiID != -1) lastTimePlay = DateTime.Now;
 		PlayerPrefs.Save();
 	}
 }
